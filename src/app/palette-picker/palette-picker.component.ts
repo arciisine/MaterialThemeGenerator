@@ -1,12 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import * as tinycolor from 'tinycolor2';
+import { Subject } from 'rxjs';
 
 type RGBA = tinycolor.ColorFormats.RGBA;
-interface Palette {
+export interface Palette {
   [key: string]: {
+    key: string,
     hex: string,
-    darkContrast: boolean
+    isLight: boolean
   };
+}
+
+export interface AllPalette {
+  primary: Palette;
+  accent: Palette;
+  warn: Palette;
+  lightText: Palette;
+  darkText: Palette;
 }
 
 @Component({
@@ -39,26 +49,58 @@ export class PalettePickerComponent implements OnInit {
   primaryColor: string;
   primaryColorPalette: Palette;
 
-  secondaryColor: string;
-  secondaryColorPalette: Palette;
+  accentColor: string;
+  accentColorPalette: Palette;
+
+  warnColor: string;
+  warnColorPalette: Palette;
+
+  lightTextColor: string;
+  lightTextColorPalette: Palette;
+
+  darkTextColor: string;
+  darkTextColorPalette: Palette;
+
+  backdrop = false;
 
   paletteKeys = [...Object.keys(PalettePickerComponent.MIX_AMOUNTS_PRIMARY), ...Object.keys(PalettePickerComponent.MIX_AMOUNTS_SECONDARY)];
+
+  @Output()
+  updated: Subject<AllPalette> = new Subject();
 
   constructor() { }
 
   ngOnInit() {
-    this.setPrimaryColor('#880000');
-    this.setSecondaryColor('#008800');
+    this.setColor('primary', '#48a42b');
+    this.setColor('accent', '#a81561');
+    this.setColor('warn', '#ff0000');
+    this.setColor('lightText', '#ffffff');
+    this.setColor('darkText', '#111111');
   }
 
-  setPrimaryColor(val: string) {
-    this.primaryColor = val;
-    this.primaryColorPalette = this.computeTheme(val);
+  addBackdrop() {
+    this.backdrop = true;
   }
 
-  setSecondaryColor(val: string) {
-    this.secondaryColor = val;
-    this.secondaryColorPalette = this.computeTheme(val);
+  removeBackdrop() {
+    this.backdrop = false;
+  }
+
+
+  emit() {
+    this.updated.next({
+      primary: this.primaryColorPalette,
+      accent: this.accentColorPalette,
+      warn: this.warnColorPalette,
+      lightText: this.lightTextColorPalette,
+      darkText: this.darkTextColorPalette,
+    });
+  }
+
+  setColor(field: string, val: string) {
+    this[`${field}Color`] = val;
+    this[`${field}ColorPalette`] = this.computeTheme(val);
+    this.emit();
   }
 
   multiply(rgb1: RGBA, rgb2: RGBA) {
@@ -79,15 +121,16 @@ export class PalettePickerComponent implements OnInit {
         return [k, tinycolor.mix(light ? baseLight : baseDark, tinycolor(color), amount)] as [string, tinycolor.Instance];
       });
 
-    const secondary = Object.keys(PalettePickerComponent.MIX_AMOUNTS_SECONDARY)
+    const accent = Object.keys(PalettePickerComponent.MIX_AMOUNTS_SECONDARY)
       .map(k => {
         const [amount, sat, light] = PalettePickerComponent.MIX_AMOUNTS_SECONDARY[k];
         return [k, tinycolor.mix(baseDark, baseTriad, amount)
           .saturate(sat).lighten(light)] as [string, tinycolor.Instance];
       });
 
-    return [...primary, ...secondary].reduce((acc, [k, c]) => {
+    return [...primary, ...accent].reduce((acc, [k, c]) => {
       acc[k] = {
+        key: k,
         hex: c.toHexString(),
         isLight: c.isLight()
       };

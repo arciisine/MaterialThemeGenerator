@@ -1,22 +1,60 @@
+<div class="backdrop" *ngIf="backdrop"></div>
 <div class="primary">
   <h2>
     Primary
-    <input type="text" [colorPicker]="primaryColor" (colorPickerChange)="setPrimaryColor($event)" [value]="primaryColor" [style.background]="primaryColor" [style.color]="primaryColorPalette['500'].isLight ? 'black' : 'white'">
+    <input type="text" [colorPicker]="primaryColor" (colorPickerOpen)="addBackdrop()"
+      (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
+      (colorPickerChange)="setColor('primary',$event)" [value]="primaryColor" [style.background]="primaryColor"
+      [style.color]="primaryColorPalette['500'].isLight ? 'black' : 'white'">
   </h2>
   <ul>
-    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="primaryColorPalette[key].hex" [style.color]="primaryColorPalette[key].isLight ? 'black' : 'white'">
+    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="primaryColorPalette[key].hex"
+      [style.color]="primaryColorPalette[key].isLight ? 'black' : 'white'">
       {{key}}
     </li>
   </ul>
 </div>
-<div class="secondary">
+<div class="accent">
   <h2>
-    Secondary
-    <input type="text" [colorPicker]="secondaryColor" (colorPickerChange)="setSecondaryColor($event)" [value]="secondaryColor" [style.background]="secondaryColor" [style.color]="secondaryColorPalette['500'].isLight ? 'black' : 'white'">
+    Accent
+    <input type="text" [colorPicker]="accentColor" (colorPickerOpen)="addBackdrop()"
+      (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
+      (colorPickerChange)="setColor('accent',$event)" [value]="accentColor" [style.background]="accentColor"
+      [style.color]="accentColorPalette['500'].isLight ? 'black' : 'white'">
   </h2>
   <ul>
-    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="secondaryColorPalette[key].hex" [style.color]="secondaryColorPalette[key].isLight ? 'black' : 'white'">
+    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="accentColorPalette[key].hex"
+      [style.color]="accentColorPalette[key].isLight ? 'black' : 'white'">
       {{key}}
     </li>
   </ul>
+</div>
+<div class="colors">
+  <div class="light">
+    <h2>
+      Light Text
+      <input type="text" [colorPicker]="lightTextColor" (colorPickerOpen)="addBackdrop()"
+        (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
+        (colorPickerChange)="setColor('lightText',$event)" [value]="lightTextColor"
+        [style.background]="lightTextColor" [style.color]="lightTextColorPalette['500'].isLight ? 'black' : 'white'">
+    </h2>
+  </div>
+  <div class="dark">
+    <h2>
+      Dark Text
+      <input type="text" [colorPicker]="darkTextColor" (colorPickerOpen)="addBackdrop()"
+        (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
+        (colorPickerChange)="setColor('darkText',$event)" [value]="darkTextColor"
+        [style.background]="darkTextColor" [style.color]="darkTextColorPalette['500'].isLight ? 'black' : 'white'">
+    </h2>
+  </div>
+  <div class="warn">
+    <h2>
+      Warning
+      <input type="text" [colorPicker]="warnColor" (colorPickerOpen)="addBackdrop()"
+        (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
+        (colorPickerChange)="setColor('warn',$event)" [value]="warnColor" [style.background]="warnColor"
+        [style.color]="warnColorPalette['500'].isLight ? 'black' : 'white'">
+    </h2>
+  </div>
 </div>

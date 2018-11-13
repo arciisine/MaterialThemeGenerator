@@ -1,12 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Form, FormArray, FormGroup } from '@angular/forms';
+import { Component, OnInit, Output } from '@angular/core';
+import { FormBuilder, Form, FormArray, FormGroup, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 export interface FontSelection {
+  target: string;
   family: string;
   variant: 'light' | 'regular' | 'medium';
   size: number;
+  lineHeight?: number;
   capitalized: boolean;
   spacing: number;
+}
+
+export interface AllFontSelection {
+  [key: string]: FontSelection;
 }
 
 @Component({
@@ -16,95 +23,119 @@ export interface FontSelection {
 })
 export class FontPickerComponent implements OnInit {
 
-  fonts: { [key: string]: FontSelection } = {
-    h1: {
+  fonts: AllFontSelection = {
+    display4: {
+      target: 'display-4',
       family: 'Roboto',
       variant: 'light',
-      size: 96,
+      size: 112,
       spacing: -1.5,
       capitalized: false
     },
-    h2: {
+    display3: {
+      target: 'display-3',
       family: 'Roboto',
-      variant: 'light',
-      size: 60,
+      variant: 'regular',
+      size: 56,
       spacing: -.5,
       capitalized: false
     },
-    h3: {
+    display2: {
+      target: 'display-2',
       family: 'Roboto',
       variant: 'regular',
-      size: 48,
+      size: 45,
+      lineHeight: 48,
       spacing: 0,
       capitalized: false
     },
-    h4: {
+    display1: {
+      target: 'display-1',
       family: 'Roboto',
       variant: 'regular',
       size: 34,
+      lineHeight: 40,
       spacing: .25,
       capitalized: false
     },
-    h5: {
+    headline: {
+      target: 'headline',
       family: 'Roboto',
       variant: 'regular',
       size: 24,
+      lineHeight: 32,
       spacing: 0,
       capitalized: false
     },
-    h6: {
+    title: {
+      target: 'title',
       family: 'Roboto',
       variant: 'medium',
       size: 20,
+      lineHeight: 32,
       spacing: 0.15,
       capitalized: false
     },
-    subtitle1: {
+    subheading2: {
+      target: 'subheading-2',
       family: 'Roboto',
       variant: 'regular',
       size: 16,
+      lineHeight: 28,
       spacing: 0.15,
       capitalized: false
     },
-    subtitle2: {
+    subheading1: {
+      target: 'subheading-1',
       family: 'Roboto',
       variant: 'medium',
-      size: 14,
+      size: 15,
+      lineHeight: 24,
       spacing: .1,
       capitalized: false
     },
-    body1: {
+    body2: {
+      target: 'body-1',
       family: 'Roboto',
-      variant: 'regular',
-      size: 16,
-      spacing: .5,
+      variant: 'medium',
+      size: 14,
+      lineHeight: 24,
+      spacing: .25,
       capitalized: false
     },
-    body2: {
+    body1: {
+      target: 'body-2',
       family: 'Roboto',
       variant: 'regular',
       size: 14,
+      lineHeight: 20,
       spacing: .25,
       capitalized: false
     },
     button: {
+      target: 'button',
       family: 'Roboto',
       variant: 'medium',
       size: 14,
+      lineHeight: 14,
       spacing: 1.25,
       capitalized: true
     },
     caption: {
+      target: 'caption',
       family: 'Roboto',
       variant: 'regular',
       size: 12,
+      lineHeight: 20,
       spacing: .4,
       capitalized: false
     },
-    overline: {
+    input: {
+      target: 'input',
       family: 'Roboto',
       variant: 'regular',
-      size: 10,
+      size: undefined,
+      lineHeight: 1.125,
       spacing: 1.5,
       capitalized: true
     }
@@ -116,20 +147,38 @@ export class FontPickerComponent implements OnInit {
 
   items: FormArray;
 
+  all: FormGroup = new FormGroup({
+    family: new FormControl()
+  });
+
+  @Output()
+  updated: Observable<FontSelection[]>;
+
   constructor(fb: FormBuilder) {
     this.items = fb.array(this.keys.map(x =>
       fb.group({
+        target: fb.control(this.fonts[x].target),
         family: fb.control(this.fonts[x].family),
         variant: fb.control(this.fonts[x].variant),
+        lineHeight: fb.control(this.fonts[x].lineHeight),
         size: fb.control(this.fonts[x].size),
         spacing: fb.control(this.fonts[x].spacing),
         capitalized: fb.control(this.fonts[x].capitalized),
       })
     ));
+    this.updated = this.items.valueChanges;
   }
 
   ngOnInit() {
-  }
+    this.all.get('family').valueChanges.subscribe(family => {
+      for (const item of this.items.controls) {
+        item.patchValue({
+          family
+        });
+      }
+    });
 
+    this.items.updateValueAndValidity();
+  }
 }
 

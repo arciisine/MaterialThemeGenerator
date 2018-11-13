@@ -12,6 +12,23 @@ import { ThemePreviewComponent } from './theme-preview/theme-preview.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GoogleFontSelectorComponent } from './google-font-selector/google-font-selector.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  MatMenuModule, MatCardModule, MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule,
+  MatButtonModule, MatCheckboxModule, MatIconModule, MatLineModule, MatListModule, MatTabsModule,
+  MatChipsModule, MatInputModule, MatRadioModule, MatDialogModule, MatSelectModule, MatSliderModule,
+  MatSidenavModule, MatStepperModule, MatToolbarModule, MatTooltipModule, MatSnackBarModule, MatFormFieldModule,
+  MatDatepickerModule, MatOptionModule, MatProgressBarModule, MatSlideToggleModule, MatProgressSpinnerModule,
+  MatButtonToggleModule,
+  MatNativeDateModule,
+  MatTableModule
+} from '@angular/material';
+
+import { LightnessPickerComponent } from './lightness-picker/lightness-picker.component';
+import { PreviewControlsComponent } from './theme-preview/preview-controls/preview-controls.component';
+import { PreviewTypographyComponent } from './theme-preview/preview-typography/preview-typography.component';
+import { PreviewContainersComponent } from './theme-preview/preview-containers/preview-containers.component';
+import { CreditsComponent } from './credits/credits.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +38,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     IconPickerComponent,
     ThemeBuilderComponent,
     ThemePreviewComponent,
-    GoogleFontSelectorComponent
+    GoogleFontSelectorComponent,
+    LightnessPickerComponent,
+    PreviewControlsComponent,
+    PreviewTypographyComponent,
+    PreviewContainersComponent,
+    CreditsComponent
   ],
   imports: [
     HttpClientModule,
@@ -29,7 +51,43 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ColorPickerModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatCardModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatLineModule,
+    MatListModule,
+    MatTabsModule,
+    MatTableModule,
+    MatChipsModule,
+    MatInputModule,
+    MatRadioModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatSliderModule,
+    MatSidenavModule,
+    MatStepperModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatOptionModule,
+    MatProgressBarModule,
+    MatSlideToggleModule,
+    MatProgressSpinnerModule,
+    MatButtonToggleModule
+  ],
+  entryComponents: [
+    CreditsComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

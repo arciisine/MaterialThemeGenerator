@@ -1,1 +1,36 @@
-<input type="text" readonly [formControl]="control" (click)="selectFont()">
+<div class="form" *ngIf="mode === 'form'">
+  <input type="text" readonly [formControl]="form.get('family')" (click)="selectFont()" [style.fontFamily]="form.value.family" [style.fontWeight]="form.value.variant">
+</div>
+
+<button *ngIf="mode === 'button'" mat-raised-button color="primary" class="launch" (click)="selectFont()">{{label}}</button>
+
+<div *ngIf="showSelect" class="selector">
+  <button class="close" mat-button (click)="closeFont()">Close</button>
+  <h2>Pick a Font
+    <mat-form-field>
+      <input type="text" [formControl]="search" matInput name="filter" placeholder="Search..." (input)="filter = $event.target.value" />
+    </mat-form-field>
+  </h2>
+  <div class="content">
+    <mat-tab-group>
+      <mat-tab label="Sans-Serif">
+        <ul>
+          <li *ngFor="let f of getFonts(false)" (click)="pickFont(f)">
+            <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
+            <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
+            <span class="variants">{{f.variants.join(', ')}}</span>
+          </li>
+        </ul>
+      </mat-tab>
+      <mat-tab label="Serif">
+        <ul>
+          <li *ngFor="let f of getFonts(true)" (click)="pickFont(f)">
+            <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
+            <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
+            <span class="variants">{{f.variants.join(', ')}}</span>
+          </li>
+        </ul>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

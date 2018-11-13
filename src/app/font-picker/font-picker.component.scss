@@ -1,6 +1,5 @@
 :host {
   display: block;
-  padding: 10px;
 }
 
 h2 {
@@ -17,9 +16,8 @@ ul {
   li {
     display: grid;
     grid-template-areas:
-      "name font size variant spacing capitalized";
-    grid-template-columns: 70px 1fr 40px 70px 40px 35px;
-    ;
+      "name font size variant spacing";
+    grid-template-columns: 100px 1fr 40px 70px 40px;
     grid-column-gap: 5px;
     margin-bottom: 2px;
     font-size: 10pt;
@@ -28,10 +26,16 @@ ul {
 
     &.header {
       font-weight: bold;
+      height: 30px;
+      line-height: 30px;
 
       >span {
         text-align: center;
         border: none;
+      }
+
+      >span:first-child {
+        text-align: left;
       }
     }
 
@@ -39,24 +43,20 @@ ul {
       grid-area: name;
     }
 
-    .font {
+    .family {
       grid-area: font;
+
+      app-google-font-selector {
+        display: inline-block;
+      }
     }
 
     .size {
       grid-area: size;
     }
 
-    .capitalized {
-      grid-area: capitalized;
-    }
-
-    input.capitalized {
-      width: 30px;
-      height: 30px;
-      display: block;
-      margin: 0 auto;
-      padding: 0;
+    input {
+      background: none;
     }
 
     input.size,

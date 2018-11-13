@@ -1,3 +1,11 @@
 :host {
   display: block;
+  mat-button-toggle-group {
+    font-size: .8rem;
+    line-height: .8rem;
+
+    mat-button-toggle /deep/ .mat-button-toggle-label-content {
+      line-height: 2em;
+    }
+  }
 }

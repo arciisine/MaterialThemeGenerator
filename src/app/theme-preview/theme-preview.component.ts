@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-theme-preview',
@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemePreviewComponent implements OnInit {
 
-  constructor() { }
+  loadingIcons = false;
+
+  constructor(private zone: NgZone) { }
 
   ngOnInit() {
+
+    window.parent.addEventListener('message', (ev: MessageEvent) => {
+      if (ev.data.icons) {
+        this.zone.run(() => {
+          this.loadingIcons = true;
+          setTimeout(() => this.loadingIcons = false, 10);
+        });
+      }
+    });
   }
 
 }

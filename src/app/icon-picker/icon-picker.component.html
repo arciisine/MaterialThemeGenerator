@@ -1,3 +1,8 @@
-<p>
-  icon-picker works!
-</p>
+<h2>Icons
+  <mat-button-toggle-group [formControl]="iconSet">
+    <mat-button-toggle *ngFor="let k of opts" [value]="k" [checked]="iconSet.value === k"
+      matToolTip="Icon support requires some additional configuration until the icons are integrated into icon fonts">
+      {{k}}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</h2>

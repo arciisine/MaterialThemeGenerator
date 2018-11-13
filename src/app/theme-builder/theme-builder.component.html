@@ -1,7 +1,34 @@
-<h1 class="title">Material Theme Builder</h1>
-<div class="tools">
-  <app-palette-picker></app-palette-picker>
-  <app-font-picker></app-font-picker>
-  <app-icon-picker></app-icon-picker>
+<div class="inner">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <mat-icon svgIcon="settings">settings</mat-icon> Material Theme Builder
+      <app-lightness-picker (updated)="updateLightness($event)"></app-lightness-picker>
+      <span class="spacer"></span>
+      <div class="button-group">
+        <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
+        <button mat-raised-button color="accent" (click)="doExport()">Export</button>
+        <button *ngIf="!showingSource" mat-raised-button color="accent" (click)="showSource()">View
+          Source</button>
+        <button *ngIf="showingSource" mat-raised-button color="accent" (click)="hideSource()">View
+          Demo</button>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class="tools">
+    <app-palette-picker (updated)="updatePalette($event)"></app-palette-picker>
+    <mat-divider></mat-divider>
+    <app-icon-picker (updated)="updateIcons($event)"></app-icon-picker>
+    <mat-divider></mat-divider>
+    <app-font-picker (updated)="updateFonts($event)"></app-font-picker>
+  </div>
+  <div class="preview" [class.ready]="isReady">
+    <iframe src="/preview" (load)="onReady()" [hidden]="showingSource"></iframe>
+    <pre [style.display]="showingSource ? 'block': 'none'" class="hljs"><code class="scss" [innerHTML]="sourcePretty"></code></pre>
+  </div>
+  <div class="preview loading ready" *ngIf="!isReady">
+    <span class="message">Loading...</span>
+    <div class="wrapper">
+      <mat-spinner mode="indeterminate"></mat-spinner>
+    </div>
+  </div>
 </div>
-<app-theme-preview></app-theme-preview>

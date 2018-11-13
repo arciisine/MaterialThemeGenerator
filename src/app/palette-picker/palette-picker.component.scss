@@ -1,16 +1,54 @@
 :host {
   display: grid;
   grid-column-gap: 10px;
-  grid-template-areas: "left right";
-  padding: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "primary accent"
+    ". .";
+}
+
+.backdrop {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,.01);
+}
+
+.colors {
+  margin-top: .3em;
+  grid-area: 2 / 1 / auto / span 2;
+  display: grid;
+  grid-column-gap: 5px;
+  grid-template-areas:
+    "lightText darkText warn";
+
+  h2 {
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .primary {
-  grid-area: left;
+  grid-area: primary;
 }
 
-.secondary {
-  grid-area: right
+.accent {
+  grid-area: accent;
+}
+
+.warn {
+  grid-area: warn;
+}
+
+.lightText {
+  grid-area: lightText;
+}
+
+.darkText {
+  grid-area: darkText;
 }
 
 h2 {
@@ -21,11 +59,16 @@ h2 {
     display: inline-block;
     width: 6em;
     height: 1.5em;
-    border: 1px solid #666;
+    border: 1px solid rgba(200,200,200,.5);
+    border-radius: 5px;
     padding: .25em;
     vertical-align: middle;
     text-align: center;
     line-height: 1.5em;
+
+    :focus {
+      outline: none;
+    }
   }
 }
 
@@ -34,9 +77,11 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  margin-top: .5em;
 
   li {
-    padding: .4em;
+    padding: .2em;
+    font-size: 9pt;
     text-align: center;
   }
 }

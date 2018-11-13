@@ -8,9 +8,9 @@ describe('FontPickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FontPickerComponent ]
+      declarations: [FontPickerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

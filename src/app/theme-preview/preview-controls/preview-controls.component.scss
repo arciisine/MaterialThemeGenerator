@@ -1,0 +1,20 @@
+mat-form-field,
+label {
+  display: block;
+}
+
+label+h2 {
+  margin-top: 1em;
+}
+
+mat-progress-bar {
+  margin: .5em 0;
+}
+
+h2 mat-radio-group {
+  font-size: 1rem;
+
+  mat-radio-button {
+    margin-right: 1em;
+  }
+}

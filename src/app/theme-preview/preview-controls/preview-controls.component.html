@@ -1,0 +1,72 @@
+<form [formGroup]="addressForm" novalidate>
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>Order Form</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h2>Quantity</h2>
+      <label>Amount <mat-slider formControlName="quantity" [min]="1" [max]="20"></mat-slider></label>
+      <label>Large? <mat-checkbox formControlName="large"></mat-checkbox></label>
+      <label>Options:
+        <mat-chip-list>
+          <mat-chip>Expansion Pack</mat-chip>
+          <mat-chip>Extra Credits</mat-chip>
+          <mat-chip>Secret Key</mat-chip>
+        </mat-chip-list>
+      </label>
+
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+
+      <h2>Ship To</h2>
+      <mat-form-field>
+        <input matInput placeholder="Name" formControlName="name">
+        <mat-error *ngIf="addressForm.get('name').hasError('required')">
+          Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Address" formControlName="address"></textarea>
+        <mat-error *ngIf="addressForm.get('address').hasError('required')">
+          Address is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="City" formControlName="city">
+        <mat-error *ngIf="addressForm.get('city').hasError('required')">
+          City is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="State" formControlName="state">
+          <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+            {{ state.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="addressForm.get('state').hasError('required')">
+          State is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput #postalCode maxlength="5" placeholder="Postal Code" type="number" formControlName="postalCode">
+        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+      </mat-form-field>
+      <h2>Shipping Method
+        <mat-radio-group formControlName="shipping">
+          <mat-radio-button value="free">Free Shipping</mat-radio-button>
+          <mat-radio-button value="priority">Priority Shipping</mat-radio-button>
+          <mat-radio-button value="nextday">Next Day Shipping</mat-radio-button>
+        </mat-radio-group>
+      </h2>
+      <h2>Tracking? <mat-slide-toggle formControlName="tracking"></mat-slide-toggle>
+      </h2>
+      <mat-form-field>
+        <input matInput formControlName="arrival" [matDatepicker]="picker" placeholder="Desired Arrival Date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
