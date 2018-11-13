@@ -1,0 +1,23 @@
+<h2>Fonts</h2>
+<form>
+  <ul>
+    <li class="header">
+      <span class="name">&nbsp;</span>
+      <span class="family">Font</span>
+      <span class="size">Size</span>
+      <span class="variant">Variant</span>
+      <span class="spacing">Kern</span>
+      <span class="allcaps">CAP?</span>
+    </li>
+    <li *ngFor="let f of keys; let i = index" [formGroup]="items.at(i)">
+      <span class="name">{{f}}</span>
+      <app-google-font-selector class="font" [control]="items.at(i).get('family')"></app-google-font-selector>
+      <input class="size" type="number" formControlName="size">
+      <select class="variant" formControlName="variant">
+        <option *ngFor="let v of variants">{{v}}</option>
+      </select>
+      <input class="spacing" type="number" formControlName="spacing">
+      <input class="capitalized" type="checkbox" formControlName="capitalized">
+    </li>
+  </ul>
+</form>

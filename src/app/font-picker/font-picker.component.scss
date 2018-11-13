@@ -1,0 +1,94 @@
+:host {
+  display: block;
+  padding: 10px;
+}
+
+h2 {
+  margin: 0;
+  line-height: 1.5em;
+}
+
+ul {
+  list-style-position: inside;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: grid;
+    grid-template-areas:
+      "name font size variant spacing capitalized";
+    grid-template-columns: 70px 1fr 40px 70px 40px 35px;
+    ;
+    grid-column-gap: 5px;
+    margin-bottom: 2px;
+    font-size: 10pt;
+    vertical-align: middle;
+    line-height: 30px;
+
+    &.header {
+      font-weight: bold;
+
+      >span {
+        text-align: center;
+        border: none;
+      }
+    }
+
+    .name {
+      grid-area: name;
+    }
+
+    .font {
+      grid-area: font;
+    }
+
+    .size {
+      grid-area: size;
+    }
+
+    .capitalized {
+      grid-area: capitalized;
+    }
+
+    input.capitalized {
+      width: 30px;
+      height: 30px;
+      display: block;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    input.size,
+    input.spacing {
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      width: 40px;
+      height: 30px;
+      text-align: center;
+      border: none;
+      border-bottom: 1px solid #ccc;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0;
+        /* <-- Apparently some margin are still there even though it's hidden */
+      }
+    }
+
+    .variant {
+      grid-area: variant;
+      height: 30px;
+      background: none;
+      border: none;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .spacing {
+      grid-area: spacing;
+    }
+  }
+}

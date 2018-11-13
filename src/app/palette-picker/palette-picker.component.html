@@ -1,0 +1,22 @@
+<div class="primary">
+  <h2>
+    Primary
+    <input type="text" [colorPicker]="primaryColor" (colorPickerChange)="setPrimaryColor($event)" [value]="primaryColor" [style.background]="primaryColor" [style.color]="primaryColorPalette['500'].isLight ? 'black' : 'white'">
+  </h2>
+  <ul>
+    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="primaryColorPalette[key].hex" [style.color]="primaryColorPalette[key].isLight ? 'black' : 'white'">
+      {{key}}
+    </li>
+  </ul>
+</div>
+<div class="secondary">
+  <h2>
+    Secondary
+    <input type="text" [colorPicker]="secondaryColor" (colorPickerChange)="setSecondaryColor($event)" [value]="secondaryColor" [style.background]="secondaryColor" [style.color]="secondaryColorPalette['500'].isLight ? 'black' : 'white'">
+  </h2>
+  <ul>
+    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="secondaryColorPalette[key].hex" [style.color]="secondaryColorPalette[key].isLight ? 'black' : 'white'">
+      {{key}}
+    </li>
+  </ul>
+</div>

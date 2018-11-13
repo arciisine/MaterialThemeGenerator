@@ -1,0 +1,32 @@
+:host {
+  display: grid;
+  grid-template-areas:
+    "title title"
+    "tools preview";
+
+  grid-template-rows: 64px 1fr;
+  grid-template-columns: 500px 1fr;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+h1 {
+  grid-area: title;
+  background-color: #363;
+  margin: 0;
+  line-height: 2em;
+  color: white;
+  padding-left: 10px;
+}
+
+.tools {
+  grid-area: tools;
+  height: calc(100vh - 64px);
+  width: 100%;
+  overflow-y: scroll;
+}
+
+app-theme-preview {
+  grid-area: preview;
+}

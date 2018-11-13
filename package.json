@@ -20,8 +20,13 @@
     "@angular/platform-browser": "~7.0.0",
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
+    "@types/tinycolor2": "^1.4.1",
+    "@types/webfontloader": "^1.6.29",
     "core-js": "^2.5.4",
+    "ngx-color-picker": "^7.0.1",
     "rxjs": "~6.3.3",
+    "tinycolor2": "^1.4.1",
+    "webfontloader": "^1.6.28",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
