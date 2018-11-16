@@ -104,3 +104,22 @@ mat-toolbar {
     }
   }
 }
+
+/deep/ a.help {
+  margin-right: .5em;  
+  color: inherit;
+  text-decoration: none;
+  .mat-badge-content {
+    font-size: 8pt;
+    opacity: .3;
+    color: black;
+    font-weight: bold;
+  }
+}
+
+.theme-alternate /deep/ a.help {
+  .mat-badge-content {
+    opacity: .8;
+    color: white;
+  }  
+}

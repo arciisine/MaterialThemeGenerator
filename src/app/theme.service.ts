@@ -80,22 +80,13 @@ export class ThemeService {
   }
 
   fontRule(x: FontSelection) {
-    return `mat-typography-level(${(x.size ?
-      [
-        `${x.size}px`,
-        `${x.lineHeight || x.size}${parseInt(`${x.lineHeight || x.size}`, 10) <= 5 ? '' : 'px'}`,
-        `${x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400')}`,
-        `'${x.family}'`,
-        `${x.size ? x.spacing / x.size : 0}em`,
-      ] :
-      [
-        `inherits`,
-        `${x.lineHeight || x.size}${parseInt(`${x.lineHeight || x.size}`, 10) <= 5 ? '' : 'px'}`,
-        `${x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400')}`,
-        `'${x.family}'`,
-      ]
-    ).join(', ')})`;
+    const weight = x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400');
+
+    return !!x.size ?
+      `mat-typography-level(${x.size}px, ${x.lineHeight}px, ${weight}, '${x.family}', ${x.spacing / x.size}em)` :
+      `mat-typography-level(inherits, ${x.lineHeight}, ${weight}, '${x.family}', 1.5px)`;
   }
+
   getTemplate(theme: Theme) {
     // tslint:disable:no-trailing-whitespace
     // tslint:disable:max-line-length
@@ -108,7 +99,8 @@ export class ThemeService {
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
-@import url('https://fonts.googleapis.com/css?family=${Array.from(new Set((theme.fonts || []).map(x => x.family))).map(x => `${x}:300,400,500`).join(',')}');    
+${Array.from(new Set((theme.fonts || []).map(x => x.family.replace(/ /g, '+'))))
+        .map(x => `@import url('https://fonts.googleapis.com/css?family=${x}:300,400,500');`).join('\n')}
 
 $fontConfig: (
   ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x)}`).join(',\n  ')}

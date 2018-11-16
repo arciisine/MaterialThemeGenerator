@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FontService } from './font.service';
+import { FontService } from '../font.service';
 import { FontMeta } from '../font-picker/types';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-google-font-selector',
@@ -9,20 +10,6 @@ import { FontMeta } from '../font-picker/types';
   styleUrls: ['./google-font-selector.component.scss']
 })
 export class GoogleFontSelectorComponent implements OnInit {
-
-  key = 'AIzaSyCkI5cv-DtPe2YeRTW1WqFNtF_Dko-YHH8';
-
-  @Input()
-  form: FormGroup;
-
-  @Input()
-  mode = 'form';
-
-  @Input()
-  label?: string;
-
-  @Input()
-  showSelect = false;
 
   filter = '';
 
@@ -34,7 +21,7 @@ export class GoogleFontSelectorComponent implements OnInit {
 
   search = new FormControl();
 
-  constructor(private fontService: FontService) { }
+  constructor(private fontService: FontService, @Inject(MAT_DIALOG_DATA) public form: FormGroup, private ref: MatDialogRef<any, any>) { }
 
   ngOnInit() {
     this.form.get('family').valueChanges.subscribe(v => {
@@ -49,18 +36,11 @@ export class GoogleFontSelectorComponent implements OnInit {
     return this.fontService.getFonts(category, this.filter);
   }
 
-  closeFont() {
-    this.showSelect = false;
-  }
-
-  selectFont() {
-    this.showSelect = true;
-  }
-
   pickFont(f: FontMeta) {
-    this.showSelect = false;
     this.form.patchValue({
       family: f.family
     });
+    this.form.updateValueAndValidity();
+    this.ref.close();
   }
 }

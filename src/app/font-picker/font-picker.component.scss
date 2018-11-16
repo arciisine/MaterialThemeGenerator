@@ -2,9 +2,54 @@
   display: block;
 }
 
-h2 {
-  margin: 0;
-  line-height: 1.5em;
+/deep/ .mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+mat-sidenav-container {
+  position: static;
+  mat-sidenav {
+    position: absolute;
+  }
+  mat-sidenav {
+    min-width: 300px;
+    .options {
+      padding: 2em;
+    }    
+    mat-form-field {
+      display: block;
+      label {
+        display: inline-block;
+      }      
+    }
+    .font-family {
+      display: grid;
+      grid-template-columns: 1fr 30px;
+      mat-icon {
+        align-self: center;
+        padding: .5em;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.header {
+  margin-top: .3em;
+  display: grid;
+  padding: 0 .5em;
+  grid-template-columns: 100px 1fr 70px 100px 40px;
+  grid-column-gap: 5px;
+  &>* {
+    align-self: baseline;
+    display: block;
+  }
+  h2 {
+    margin-bottom: 0;
+  }
+  a {
+    cursor: pointer;
+  }
 }
 
 ul {
@@ -14,81 +59,34 @@ ul {
   padding: 0;
 
   li {
-    display: grid;
-    grid-template-areas:
-      "name font size variant spacing";
-    grid-template-columns: 100px 1fr 40px 70px 40px;
-    grid-column-gap: 5px;
-    margin-bottom: 2px;
     font-size: 10pt;
+    line-height: 28px;
     vertical-align: middle;
-    line-height: 30px;
+    display: grid;
+    grid-template-columns: 100px 1fr 70px 100px 40px;
+    grid-column-gap: 5px;
+    padding: 0 .5em;
+    &:nth-child(odd) {
+      background-color: #eee;
+    }
 
-    &.header {
-      font-weight: bold;
-      height: 30px;
-      line-height: 30px;
+    transition: all .3s ease-in-out;
 
-      >span {
-        text-align: center;
-        border: none;
-      }
-
-      >span:first-child {
-        text-align: left;
-      }
+    &:hover {
+      cursor: pointer;
+      background: #ddd;
     }
 
     .name {
-      grid-area: name;
-    }
-
-    .family {
-      grid-area: font;
-
-      app-google-font-selector {
-        display: inline-block;
-      }
-    }
-
-    .size {
-      grid-area: size;
-    }
-
-    input {
-      background: none;
-    }
-
-    input.size,
-    input.spacing {
       display: block;
-      box-sizing: border-box;
-      margin: 0;
-      width: 40px;
-      height: 30px;
-      text-align: center;
-      border: none;
-      border-bottom: 1px solid #ccc;
-
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        /* display: none; <- Crashes Chrome on hover */
-        -webkit-appearance: none;
-        margin: 0;
-        /* <-- Apparently some margin are still there even though it's hidden */
-      }
     }
 
-    .variant {
-      grid-area: variant;
-      height: 30px;
-      background: none;
-      border: none;
-      border-bottom: 1px solid #ccc;
+    &>span {
+      display: block;
     }
 
     .spacing {
-      grid-area: spacing;
+      text-align: right;
     }
   }
 }

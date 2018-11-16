@@ -10,7 +10,7 @@ import { distinctUntilChanged, distinct } from 'rxjs/operators';
 })
 export class LightnessPickerComponent implements OnInit {
 
-  lightness = new FormControl(true);
+  lightness = new FormControl(false);
 
   constructor(private service: ThemeService) { }
 
@@ -22,5 +22,7 @@ export class LightnessPickerComponent implements OnInit {
       this.lightness.setValue(x);
       this.lightness.updateValueAndValidity();
     });
+
+    this.lightness.updateValueAndValidity();
   }
 }

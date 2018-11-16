@@ -1,31 +1,70 @@
-<form>
-  <ul>
-    <li class="header">
-      <span class="name">
-        <h2>
-          <a class="help" href="https://material.io/design/typography/the-type-system.html#" target="_blank"
-            matBadge="?" matBadgeSize="small">
-            Fonts
-          </a>
-        </h2>
-      </span>
-      <span class="family">Family
-        <app-google-font-selector [form]="all" mode="button" label="Set All"></app-google-font-selector>
-      </span>
-      <span class="size">Size</span>
-      <span class="variant">Variant</span>
-      <span class="spacing">Kern</span>
-      <!-- <span class="allcaps">CAP?</span> -->
-    </li>
-    <li *ngFor="let f of keys; let i = index" [formGroup]="items.at(i)">
-      <span class="name">{{items.at(i).value.target}}</span>
-      <app-google-font-selector class="font" [form]="items.at(i)"></app-google-font-selector>
-      <input class="size" type="number" formControlName="size">
-      <select class="variant" formControlName="variant">
-        <option *ngFor="let v of variants" [value]="v">{{v}}</option>
-      </select>
-      <input class="spacing" type="number" formControlName="spacing">
-      <!-- <input class="capitalized" type="checkbox" formControlName="capitalized"> -->
-    </li>
-  </ul>
-</form>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-toolbar color="accent">Font Selection</mat-toolbar>
+    <div *ngIf="!!editing" class="options">
+      <form [formGroup]="editing">
+        <div class="font-family">
+          <mat-form-field>
+            <input matInput type="text" [formControl]="search" [matAutocomplete]="auto"
+              #familyInput [style.fontFamily]="editing.value.family" [style.fontWeight]="editing.value.variant">
+          </mat-form-field>
+          <mat-icon svgIcon="search" (click)="selectFont()"></mat-icon>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="pickFont(option)" *ngFor="let option of (searchItems | async)"
+              [value]="option.family">{{option.family}}</mat-option>
+          </mat-autocomplete>
+        </div>
+
+        <mat-form-field>
+          <label>Variant</label>
+          <mat-select class="variant" formControlName="variant">
+            <mat-option *ngFor="let v of variants" [value]="v">{{v}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <label>Size</label>
+          <input matInput class="size" type="number" formControlName="size">
+        </mat-form-field>
+        <mat-form-field>
+          <label>Line Height</label>
+          <input matInput class="spacing" type="number" formControlName="lineHeight">
+        </mat-form-field>
+        <mat-form-field>
+          <label>Spacing</label>
+          <input matInput class="spacing" type="number" formControlName="spacing">
+        </mat-form-field>
+        <!--input class="capitalized" type="checkbox" formControlName="capitalized" -->
+        <button mat-raised-button color="primary" (click)="sidenav.toggle()">Close</button>
+      </form>
+    </div>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="header">
+      <h2>
+        <a class="help" href="https://material.angular.io/guide/typography" target="_blank"
+          matBadge="?" matBadgeSize="small">
+          Fonts
+        </a>
+      </h2>
+      <span class="family"><a (click)="editAll(); sidenav.toggle()">Family</a></span>
+      <span class="variant"><a (click)="editAll(); sidenav.toggle()">Variant</a></span>
+      <span class="size"><a (click)="editAll(); sidenav.toggle()">Size</a></span>
+      <span class="spacing"><a (click)="editAll(); sidenav.toggle()">Kern</a></span>
+    </div>
+    <ul>
+      <li *ngFor="let k of keys; let i = index" (click)="edit(i); sidenav.toggle()">
+        <span class="name">{{fonts[k].target}}</span>
+        <span class="family" [style.fontFamily]="fonts[k].family">{{fonts[k].family}}</span>
+        <span class="variant" [style.fontWeight]="fonts[k].variant === 'light' ? 300 : (fonts[k].variant === 'medium' ? 500 : 400)">{{fonts[k].variant}}</span>
+        <span class="size">{{fonts[k].size}}{{fonts[k].size ? 'px'
+          :'auto'}}/{{fonts[k].lineHeight}}{{fonts[k].lineHeight &lt; 2 ? 'em': 'px'}}
+        </span>
+        <span class="spacing">
+          {{fonts[k].spacing}}px
+        </span>
+      </li>
+    </ul>
+  </mat-sidenav-content>
+</mat-sidenav-container>

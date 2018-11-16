@@ -21,7 +21,8 @@ import {
   MatDatepickerModule, MatOptionModule, MatProgressBarModule, MatSlideToggleModule, MatProgressSpinnerModule,
   MatButtonToggleModule,
   MatNativeDateModule,
-  MatTableModule
+  MatTableModule,
+  MatExpansionModule
 } from '@angular/material';
 
 import { LightnessPickerComponent } from './lightness-picker/lightness-picker.component';
@@ -86,10 +87,12 @@ import { IconNotifyComponent } from './icon-picker/icon-notify/icon-notify.compo
     MatProgressBarModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatExpansionModule
   ],
   entryComponents: [
     CreditsComponent,
+    GoogleFontSelectorComponent,
     IconNotifyComponent
   ],
   providers: [],

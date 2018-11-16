@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
-
-let data: any;
-try {
-  data = require('./data.json');
-} catch (e) { }
+import { catchError } from 'rxjs/operators';
 
 export interface FontMeta {
   kind: string;
@@ -49,11 +44,13 @@ export class FontService {
   }
 
   public getAllFonts() {
-    if (data) {
-      return of(data);
-    } else {
-      return this.http.get<{ items: FontMeta[] }>(`https://www.googleapis.com/webfonts/v1/webfonts`, { params: { key: this.key } });
-    }
+    return this.http.get<{ items: FontMeta[] }>(`/assets/font-data.json`, {})
+      .pipe(
+        catchError(() => {
+          return this.http.get<{ items: FontMeta[] }>(`https://www.googleapis.com/webfonts/v1/webfonts`,
+            { params: { key: this.key } });
+        })
+      );
   }
 
   public loadFont(family: string) {
@@ -65,7 +62,7 @@ export class FontService {
     try {
       const link = document.createElement('link');
       link.onerror = x => console.log('Unable to load font:', family);
-      link.href = `https://fonts.googleapis.com/css?family=${family}:300,400,500`;
+      link.href = `https://fonts.googleapis.com/css?family=${family.replace(/ /g, '+')}:400`;
       link.rel = 'stylesheet';
 
       document.head.appendChild(link);

@@ -33,12 +33,12 @@ export class ThemeBuilderComponent implements OnInit {
 
   constructor(private el: ElementRef, private zone: NgZone,
     private snackbar: MatSnackBar, private dialog: MatDialog,
-    private service: ThemeService
+    public service: ThemeService
   ) {
     if (window.location.search) {
       setTimeout(() => {
         this.service.fromExternal(
-          atob(decodeURIComponent(window.location.search.replace(/^[?]/, '')))
+          atob(decodeURIComponent(window.location.search.replace(/^[?]|[=]$/g, '')))
         );
       }, 100);
     }
@@ -130,6 +130,8 @@ export class ThemeBuilderComponent implements OnInit {
         style.type = 'text/css';
         style.textContent = text;
         body.insertBefore(style, body.childNodes.item(0));
+      }).catch(err => {
+        console.error(err);
       });
     });
   }

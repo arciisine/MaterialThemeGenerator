@@ -1,43 +1,34 @@
-<div class="form" *ngIf="mode === 'form'">
-  <input type="text" readonly [formControl]="form.get('family')" (click)="selectFont()"
-    [style.fontFamily]="form.value.family" [style.fontWeight]="form.value.variant">
-</div>
+<mat-toolbar color="primary" mat-dialog-title>
+  <mat-toolbar-row>
+    <span>Select a Font</span>
+    <span class="spacer"></span>
+    <button class="close" mat-button mat-dialog-close>Close</button>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-<button *ngIf="mode === 'button'" mat-raised-button color="primary" class="launch" (click)="selectFont()">{{label}}</button>
-
-<div *ngIf="showSelect" class="selector">
-  <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <span>Select a Font</span>
-      <span class="spacer"></span>
-      <button class="close" mat-button (click)="closeFont()">Close</button>
-    </mat-toolbar-row>
-  </mat-toolbar>
-
-  <div class="content">
-    <mat-form-field>
-      <input type="text" [formControl]="search" matInput name="filter" placeholder="Search..."
-        (input)="filter = $event.target.value" />
-    </mat-form-field>
-    <mat-tab-group>
-      <mat-tab label="Sans-Serif">
-        <ul>
-          <li *ngFor="let f of getFonts('sans-serif')" (click)="pickFont(f)">
-            <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
-            <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
-            <span class="variants">{{f.variants.join(', ')}}</span>
-          </li>
-        </ul>
-      </mat-tab>
-      <mat-tab label="Serif">
-        <ul>
-          <li *ngFor="let f of getFonts('serif')" (click)="pickFont(f)">
-            <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
-            <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
-            <span class="variants">{{f.variants.join(', ')}}</span>
-          </li>
-        </ul>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+<div class="content" mat-dialog-content>
+  <mat-form-field>
+    <input type="text" [formControl]="search" matInput name="filter" placeholder="Search..."
+      (input)="filter = $event.target.value" />
+  </mat-form-field>
+  <mat-tab-group>
+    <mat-tab label="Sans-Serif">
+      <ul>
+        <li *ngFor="let f of getFonts('sans-serif')" (click)="pickFont(f)">
+          <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
+          <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
+          <span class="variants">{{f.variants.join(', ')}}</span>
+        </li>
+      </ul>
+    </mat-tab>
+    <mat-tab label="Serif">
+      <ul>
+        <li *ngFor="let f of getFonts('serif')" (click)="pickFont(f)">
+          <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
+          <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
+          <span class="variants">{{f.variants.join(', ')}}</span>
+        </li>
+      </ul>
+    </mat-tab>
+  </mat-tab-group>
 </div>
