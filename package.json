@@ -30,7 +30,7 @@
     "highlight.js": "^9.13.1",
     "ngx-color-picker": "^7.0.1",
     "rxjs": "~6.3.3",
-    "sass.js": "^0.10.11",
+    "sass.js": "^0.11.0-beta.1",
     "tinycolor2": "^1.4.1",
     "webfontloader": "^1.6.28",
     "zone.js": "~0.8.26"
