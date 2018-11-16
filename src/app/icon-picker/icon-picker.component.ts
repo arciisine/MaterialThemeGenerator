@@ -1,5 +1,8 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { filter } from 'rxjs/operators';
+import { MatDialog } from '@angular/material';
+import { IconNotifyComponent } from './icon-notify/icon-notify.component';
 
 export type IconSelection = 'Filled' | 'Outlined' | 'Rounded' | 'TwoTone' | 'Sharp';
 
@@ -16,9 +19,19 @@ export class IconPickerComponent implements OnInit {
   @Output()
   updated = this.iconSet.valueChanges;
 
-  constructor() { }
+  notified = false;
+
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.updated
+      .pipe(
+        filter(x => this.notified)
+      )
+      .subscribe(x => {
+        this.dialog.open(IconNotifyComponent)
+          .afterClosed()
+          .subscribe(() => this.notified = true);
+      });
   }
-
 }

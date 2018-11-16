@@ -29,6 +29,7 @@ import { PreviewControlsComponent } from './theme-preview/preview-controls/previ
 import { PreviewTypographyComponent } from './theme-preview/preview-typography/preview-typography.component';
 import { PreviewContainersComponent } from './theme-preview/preview-containers/preview-containers.component';
 import { CreditsComponent } from './credits/credits.component';
+import { IconNotifyComponent } from './icon-picker/icon-notify/icon-notify.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CreditsComponent } from './credits/credits.component';
     PreviewControlsComponent,
     PreviewTypographyComponent,
     PreviewContainersComponent,
-    CreditsComponent
+    CreditsComponent,
+    IconNotifyComponent
   ],
   imports: [
     HttpClientModule,
@@ -87,7 +89,8 @@ import { CreditsComponent } from './credits/credits.component';
     MatButtonToggleModule
   ],
   entryComponents: [
-    CreditsComponent
+    CreditsComponent,
+    IconNotifyComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

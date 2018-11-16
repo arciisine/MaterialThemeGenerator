@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+
+let data: any;
+try {
+  data = require('./data.json');
+} catch (e) { }
 
 export interface FontMeta {
   kind: string;
@@ -15,7 +21,7 @@ export interface FontMeta {
 })
 export class FontService {
 
-  key = 'AIzaSyCkI5cv-DtPe2YeRTW1WqFNtF_Dko-YHH8';
+  key = '';
 
   _fonts: FontMeta[] = [];
 
@@ -29,11 +35,10 @@ export class FontService {
     });
   }
 
-  getFonts(filter?: string, serif = false) {
+  getFonts(category: string, filter?: string) {
     const out = (this._fonts || [])
       .filter(x => filter ? x.family.toLowerCase().startsWith(filter.toLowerCase()) : true)
-      .filter(x => x.category === (serif ? 'serif' : 'sans-serif'))
-      .filter(x => x.variants.includes('regular') && x.variants.includes('500'));
+      .filter(x => x.category === category);
 
     if (!this.loaded) {
       for (const item of out) {
@@ -43,8 +48,12 @@ export class FontService {
     return out;
   }
 
-  public getAllFonts(sort: string = 'popularity') {
-    return this.http.get<{ items: FontMeta[] }>(`https://www.googleapis.com/webfonts/v1/webfonts`, { params: { sort, key: this.key } });
+  public getAllFonts() {
+    if (data) {
+      return of(data);
+    } else {
+      return this.http.get<{ items: FontMeta[] }>(`https://www.googleapis.com/webfonts/v1/webfonts`, { params: { key: this.key } });
+    }
   }
 
   public loadFont(family: string) {

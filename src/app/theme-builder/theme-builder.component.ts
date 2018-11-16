@@ -7,18 +7,17 @@ import scss from 'highlight.js/lib/languages/scss';
 import { debounceTime, concat, take } from 'rxjs/operators';
 
 import { AllPalette } from '../palette-picker/palette-picker.component';
-import { AllFontSelection, FontSelection } from '../font-picker/font-picker.component';
+import { FontSelection } from '../font-picker/font-picker.component';
 import { IconSelection } from '../icon-picker/icon-picker.component';
 
 import { theme } from './theming.scss';
-import { MatSnackBar, MatDialogRef, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { CreditsComponent } from '../credits/credits.component';
 
 hljs.registerLanguage('scss', scss);
 hljs.initHighlighting();
 
 declare var Sass;
-
 
 @Component({
   selector: 'app-theme-builder',

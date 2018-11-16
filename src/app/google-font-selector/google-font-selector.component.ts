@@ -29,6 +29,8 @@ export class GoogleFontSelectorComponent implements OnInit {
 
   serif = false;
 
+  tab = 'sans-serif';
+
   sample = 'The quick brown fox jumps over the lazy dog';
 
   search = new FormControl();
@@ -44,8 +46,8 @@ export class GoogleFontSelectorComponent implements OnInit {
     }
   }
 
-  getFonts(serif: boolean) {
-    return this.fontService.getFonts(this.filter, serif);
+  getFonts(category: string) {
+    return this.fontService.getFonts(category, this.filter);
   }
 
   closeFont() {

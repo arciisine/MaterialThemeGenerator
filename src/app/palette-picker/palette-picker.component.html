@@ -1,7 +1,10 @@
 <div class="backdrop" *ngIf="backdrop"></div>
 <div class="primary">
   <h2>
-    Primary
+    <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
+      target="_blank" matBadge="?" matBadgeSize="small">
+      Primary
+    </a>
     <input type="text" [colorPicker]="primaryColor" (colorPickerOpen)="addBackdrop()"
       (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
       (colorPickerChange)="setColor('primary',$event)" [value]="primaryColor" [style.background]="primaryColor"
@@ -16,7 +19,10 @@
 </div>
 <div class="accent">
   <h2>
-    Accent
+    <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
+      target="_blank" matBadge="?" matBadgeSize="small">
+      Accent
+    </a>
     <input type="text" [colorPicker]="accentColor" (colorPickerOpen)="addBackdrop()"
       (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
       (colorPickerChange)="setColor('accent',$event)" [value]="accentColor" [style.background]="accentColor"
@@ -32,7 +38,10 @@
 <div class="colors">
   <div class="light">
     <h2>
-      Light Text
+      <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
+        target="_blank" matBadge="?" matBadgeSize="small">
+        Light Text
+      </a>
       <input type="text" [colorPicker]="lightTextColor" (colorPickerOpen)="addBackdrop()"
         (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
         (colorPickerChange)="setColor('lightText',$event)" [value]="lightTextColor"
@@ -41,7 +50,10 @@
   </div>
   <div class="dark">
     <h2>
-      Dark Text
+      <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
+        target="_blank" matBadge="?" matBadgeSize="small">
+        Dark Text
+      </a>
       <input type="text" [colorPicker]="darkTextColor" (colorPickerOpen)="addBackdrop()"
         (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
         (colorPickerChange)="setColor('darkText',$event)" [value]="darkTextColor"
@@ -50,7 +62,10 @@
   </div>
   <div class="warn">
     <h2>
-      Warning
+      <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
+        target="_blank" matBadge="?" matBadgeSize="small">
+        Warning
+      </a>
       <input type="text" [colorPicker]="warnColor" (colorPickerOpen)="addBackdrop()"
         (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
         (colorPickerChange)="setColor('warn',$event)" [value]="warnColor" [style.background]="warnColor"
