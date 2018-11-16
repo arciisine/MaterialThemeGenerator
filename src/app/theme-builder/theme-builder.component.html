@@ -2,24 +2,24 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       Material Theme Builder
-      <app-lightness-picker (updated)="updateLightness($event)"></app-lightness-picker>
+      <app-lightness-picker></app-lightness-picker>
       <span class="spacer"></span>
       <div class="button-group">
         <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
         <button mat-raised-button color="accent" (click)="doExport()">Export</button>
-        <button *ngIf="!showingSource" mat-raised-button color="accent" (click)="showSource()">View
+        <button *ngIf="!showingSource" mat-raised-button color="accent" (click)="showSource(true)">View
           Source</button>
-        <button *ngIf="showingSource" mat-raised-button color="accent" (click)="hideSource()">View
+        <button *ngIf="showingSource" mat-raised-button color="accent" (click)="showSource(false)">View
           Demo</button>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
   <div class="tools">
-    <app-palette-picker (updated)="updatePalette($event)"></app-palette-picker>
+    <app-palette-picker></app-palette-picker>
     <mat-divider></mat-divider>
-    <app-icon-picker (updated)="updateIcons($event)"></app-icon-picker>
+    <app-icon-picker></app-icon-picker>
     <mat-divider></mat-divider>
-    <app-font-picker (updated)="updateFonts($event)"></app-font-picker>
+    <app-font-picker></app-font-picker>
   </div>
   <div class="preview" [class.ready]="isReady">
     <iframe src="/preview" (load)="onReady()" [hidden]="showingSource"></iframe>

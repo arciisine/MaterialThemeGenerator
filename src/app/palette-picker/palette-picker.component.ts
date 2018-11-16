@@ -1,6 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as tinycolor from 'tinycolor2';
-import { Subject } from 'rxjs';
+import { ThemeService } from '../theme.service';
 
 type RGBA = tinycolor.ColorFormats.RGBA;
 export interface Palette {
@@ -65,10 +65,7 @@ export class PalettePickerComponent implements OnInit {
 
   paletteKeys = [...Object.keys(PalettePickerComponent.MIX_AMOUNTS_PRIMARY), ...Object.keys(PalettePickerComponent.MIX_AMOUNTS_SECONDARY)];
 
-  @Output()
-  updated: Subject<AllPalette> = new Subject();
-
-  constructor() { }
+  constructor(private service: ThemeService) { }
 
   ngOnInit() {
     this.setColor('primary', '#48a42b');
@@ -86,15 +83,14 @@ export class PalettePickerComponent implements OnInit {
     this.backdrop = false;
   }
 
-
   emit() {
-    this.updated.next({
+    this.service.palette = {
       primary: this.primaryColorPalette,
       accent: this.accentColorPalette,
       warn: this.warnColorPalette,
       lightText: this.lightTextColorPalette,
       darkText: this.darkTextColorPalette,
-    });
+    };
   }
 
   setColor(field: string, val: string) {

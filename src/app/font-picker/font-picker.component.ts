@@ -1,6 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { FormBuilder, Form, FormArray, FormGroup, FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
+import { ThemeService } from '../theme.service';
 
 export interface FontSelection {
   target: string;
@@ -151,10 +151,7 @@ export class FontPickerComponent implements OnInit {
     family: new FormControl()
   });
 
-  @Output()
-  updated: Observable<FontSelection[]>;
-
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private service: ThemeService) {
     this.items = fb.array(this.keys.map(x =>
       fb.group({
         target: fb.control(this.fonts[x].target),
@@ -166,10 +163,13 @@ export class FontPickerComponent implements OnInit {
         capitalized: fb.control(this.fonts[x].capitalized),
       })
     ));
-    this.updated = this.items.valueChanges;
   }
 
   ngOnInit() {
+    this.items.valueChanges.subscribe(x => {
+      this.service.fonts = x;
+    });
+
     this.all.get('family').valueChanges.subscribe(family => {
       for (const item of this.items.controls) {
         item.patchValue({

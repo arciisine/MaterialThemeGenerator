@@ -1,8 +1,9 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { IconNotifyComponent } from './icon-notify/icon-notify.component';
+import { ThemeService } from '../theme.service';
 
 export type IconSelection = 'Filled' | 'Outlined' | 'Rounded' | 'TwoTone' | 'Sharp';
 
@@ -16,16 +17,14 @@ export class IconPickerComponent implements OnInit {
   iconSet = new FormControl('Filled');
   opts = ['Filled', 'Outlined', 'Rounded', 'TwoTone', 'Sharp'];
 
-  @Output()
-  updated = this.iconSet.valueChanges;
-
   notified = false;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private service: ThemeService) { }
 
   ngOnInit() {
-    this.updated
+    this.iconSet.valueChanges
       .pipe(
+        tap(x => this.service.icons = x),
         filter(x => !this.notified)
       )
       .subscribe(x => this.showNotice());

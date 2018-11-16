@@ -4,15 +4,14 @@ import { Subject } from 'rxjs';
 import * as hljs from 'highlight.js';
 import scss from 'highlight.js/lib/languages/scss';
 
-import { debounceTime, concat, take } from 'rxjs/operators';
+import { debounceTime, take, switchMap } from 'rxjs/operators';
 
-import { AllPalette } from '../palette-picker/palette-picker.component';
 import { FontSelection } from '../font-picker/font-picker.component';
-import { IconSelection } from '../icon-picker/icon-picker.component';
 
-import { theme } from './theming.scss';
+import { theme as themeScss } from './theming.scss';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { CreditsComponent } from '../credits/credits.component';
+import { ThemeService, Theme } from '../theme.service';
 
 hljs.registerLanguage('scss', scss);
 hljs.initHighlighting();
@@ -27,20 +26,19 @@ declare var Sass;
 export class ThemeBuilderComponent implements OnInit {
 
   form: FormGroup;
-  palette: AllPalette;
-  fonts: FontSelection[];
-  icons: IconSelection = 'Filled';
 
   refresh: Subject<number> = new Subject();
   ready: Subject<boolean> = new Subject();
   isReady: boolean;
-  lightness = true;
   showingSource = false;
   source = '';
   sourcePretty = '';
   first = true;
 
-  constructor(private el: ElementRef, private zone: NgZone, private snackbar: MatSnackBar, private dialog: MatDialog) {
+  constructor(private el: ElementRef, private zone: NgZone,
+    private snackbar: MatSnackBar, private dialog: MatDialog,
+    private service: ThemeService
+  ) {
   }
 
   onReady() {
@@ -48,12 +46,8 @@ export class ThemeBuilderComponent implements OnInit {
     this.ready.next(true);
   }
 
-  showSource() {
-    this.showingSource = true;
-  }
-
-  hideSource() {
-    this.showingSource = false;
+  showSource(yes: boolean) {
+    this.showingSource = yes;
   }
 
   showCredits() {
@@ -78,42 +72,16 @@ export class ThemeBuilderComponent implements OnInit {
     this.ready
       .pipe(
         take(1),
-        concat(this.refresh),
+        switchMap(x => this.service.theme),
         debounceTime(100)
       )
-      .subscribe(x => this.refreshPreview());
+      .subscribe(x => this.updateTheme(x));
 
     window.addEventListener('message', (ev) => {
       if (ev.data && ev.data.iconsDone) {
         console.log('Got It!', ev);
       }
     });
-  }
-
-  emit() {
-    this.refresh.next(Math.random());
-  }
-
-  updateLightness(data: boolean) {
-    this.lightness = data;
-    this.emit();
-  }
-
-  updatePalette(data: AllPalette) {
-    this.palette = data;
-    this.emit();
-  }
-
-  updateFonts(data: FontSelection[]) {
-    console.log('Fonts!', data);
-    this.fonts = data;
-    this.emit();
-  }
-
-  updateIcons(data: IconSelection) {
-    this.icons = data;
-
-    this.emit();
   }
 
   fontRule(x: FontSelection) {
@@ -134,7 +102,7 @@ export class ThemeBuilderComponent implements OnInit {
     ).join(', ')})`;
   }
 
-  getTemplate() {
+  getTemplate(theme: Theme) {
     // tslint:disable:no-trailing-whitespace
     // tslint:disable:max-line-length
     const tpl = `/**
@@ -146,20 +114,20 @@ export class ThemeBuilderComponent implements OnInit {
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
-@import url('https://fonts.googleapis.com/css?family=${Array.from(new Set((this.fonts || []).map(x => x.family))).map(x => `${x}:300,400,500`).join(',')}');    
+@import url('https://fonts.googleapis.com/css?family=${Array.from(new Set((theme.fonts || []).map(x => x.family))).map(x => `${x}:300,400,500`).join(',')}');    
 
 $fontConfig: (
-  ${(this.fonts || []).map(x => `${x.target}: ${this.fontRule(x)}`).join(',\n  ')}
+  ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x)}`).join(',\n  ')}
 );
 
-$light-text: ${this.palette.lightText[500].hex};
+$light-text: ${theme.palette.lightText[500].hex};
 $light-primary-text: $light-text;
 $light-accent-text: rgba($light-primary-text, 0.7);
 $light-disabled-text: rgba($light-primary-text, 0.5);
 $light-dividers: rgba($light-primary-text, 0.12);
 $light-focused: rgba($light-primary-text, 0.12);
 
-$dark-text: ${this.palette.darkText[500].hex};
+$dark-text: ${theme.palette.darkText[500].hex};
 $dark-primary-text: rgba($dark-text, 0.87);
 $dark-accent-text: rgba($dark-primary-text, 0.54);
 $dark-disabled-text: rgba($dark-primary-text, 0.38);
@@ -210,21 +178,21 @@ $mat-dark-theme-foreground: (
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $mat-primary: (
-  ${Object.values(this.palette.primary).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
+  ${Object.values(theme.palette.primary).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
   contrast : (
-    ${Object.values(this.palette.primary).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
+    ${Object.values(theme.palette.primary).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
   )
 );
 $mat-accent: (
-  ${Object.values(this.palette.accent).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
+  ${Object.values(theme.palette.accent).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
   contrast : (
-    ${Object.values(this.palette.accent).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
+    ${Object.values(theme.palette.accent).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
   )
 );
 $mat-warn: (
-  ${Object.values(this.palette.warn).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
+  ${Object.values(theme.palette.warn).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
   contrast : (
-    ${Object.values(this.palette.warn).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
+    ${Object.values(theme.palette.warn).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
   )
 );
 
@@ -233,8 +201,8 @@ $themeAccent: mat-palette($mat-accent);
 $themeWarn: mat-palette($mat-warn);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$theme: ${!this.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($themePrimary, $themeAccent, $themeWarn);
-$altTheme: ${!this.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrimary, $themeAccent, $themeWarn);
+$theme: ${!theme.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($themePrimary, $themeAccent, $themeWarn);
+$altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrimary, $themeAccent, $themeWarn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -250,15 +218,15 @@ $altTheme: ${!this.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrima
     return tpl;
   }
 
-  refreshPreview() {
+  updateTheme(theme: Theme) {
 
-    console.log('Refreshing preview', this.palette, this.fonts);
+    console.log('Refreshing preview', theme.palette, theme.fonts);
 
-    if (!this.palette || !this.fonts) {
+    if (!theme.palette || !theme.fonts) {
       return;
     }
 
-    this.source = this.getTemplate();
+    this.source = this.getTemplate(theme);
 
     const iframe = (this.el.nativeElement as HTMLElement).querySelector('iframe');
     const body = iframe.contentDocument.body;
@@ -266,10 +234,10 @@ $altTheme: ${!this.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrima
     this.sourcePretty = hljs.highlightAuto(this.source, ['scss']).value;
 
     this.zone.runOutsideAngular(() => {
-      window.postMessage({ icons: this.icons }, window.location.toString());
+      window.postMessage({ icons: theme.icons }, window.location.toString());
 
       if (this.first) {
-        Sass.writeFile('~@angular/material/theming', theme);
+        Sass.writeFile('~@angular/material/theming', themeScss);
         this.first = false;
       }
 

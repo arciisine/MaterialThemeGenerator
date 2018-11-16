@@ -1,5 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ThemeService } from '../theme.service';
 
 @Component({
   selector: 'app-lightness-picker',
@@ -10,12 +11,11 @@ export class LightnessPickerComponent implements OnInit {
 
   lightness = new FormControl(true);
 
-  @Output()
-  updated = this.lightness.valueChanges;
-
-  constructor() { }
+  constructor(private service: ThemeService) { }
 
   ngOnInit() {
+    this.lightness.valueChanges
+      .subscribe(x => this.service.lightness = x);
   }
 
 }
