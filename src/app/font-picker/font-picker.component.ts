@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ThemeService } from '../theme.service';
+import { distinct } from 'rxjs/operators';
 
 export interface FontSelection {
   target: string;
@@ -166,15 +167,19 @@ export class FontPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.items.valueChanges.subscribe(x => {
-      this.service.fonts = x;
+    this.items.valueChanges
+      .pipe(distinct())
+      .subscribe(x => {
+        this.service.fonts = x;
+      });
+
+    this.service.fontsSet.subscribe(x => {
+      this.items.setValue(x);
     });
 
     this.all.get('family').valueChanges.subscribe(family => {
       for (const item of this.items.controls) {
-        item.patchValue({
-          family
-        });
+        item.patchValue({ family });
       }
     });
 

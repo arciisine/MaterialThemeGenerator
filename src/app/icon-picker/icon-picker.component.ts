@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { filter, tap } from 'rxjs/operators';
+import { filter, tap, distinct } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { IconNotifyComponent } from './icon-notify/icon-notify.component';
 import { ThemeService } from '../theme.service';
@@ -24,10 +24,15 @@ export class IconPickerComponent implements OnInit {
   ngOnInit() {
     this.iconSet.valueChanges
       .pipe(
+        distinct(),
         tap(x => this.service.icons = x),
         filter(x => !this.notified)
       )
       .subscribe(x => this.showNotice());
+
+    this.service.iconsSet.subscribe(x => {
+      this.iconSet.setValue(x);
+    });
   }
 
   showNotice() {

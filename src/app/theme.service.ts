@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AllPalette } from './palette-picker/palette-picker.component';
 import { FontSelection } from './font-picker/font-picker.component';
 import { IconSelection } from './icon-picker/icon-picker.component';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 export interface Theme {
   palette: AllPalette;
@@ -22,6 +22,11 @@ export class ThemeService {
   _lightness = true;
 
   theme = new Subject<Theme>();
+
+  paletteSet = new Subject<AllPalette>();
+  fontsSet = new Subject<FontSelection[]>();
+  iconsSet = new Subject<string>();
+  lightnessSet = new Subject<boolean>();
 
   constructor() { }
 

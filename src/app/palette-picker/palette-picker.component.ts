@@ -73,6 +73,16 @@ export class PalettePickerComponent implements OnInit {
     this.setColor('warn', '#ff0000');
     this.setColor('lightText', '#ffffff');
     this.setColor('darkText', '#111111');
+
+    this.service.paletteSet
+      .subscribe(x => {
+        if (x) {
+          for (const k of Object.keys(x)) {
+            const col = x[k]['500'].hex;
+            this.setColor(k, col, false);
+          }
+        }
+      });
   }
 
   addBackdrop() {
@@ -93,10 +103,12 @@ export class PalettePickerComponent implements OnInit {
     };
   }
 
-  setColor(field: string, val: string) {
+  setColor(field: string, val: string, emit = true) {
     this[`${field}Color`] = val;
     this[`${field}ColorPalette`] = this.computeTheme(val);
-    this.emit();
+    if (emit) {
+      this.emit();
+    }
   }
 
   multiply(rgb1: RGBA, rgb2: RGBA) {
