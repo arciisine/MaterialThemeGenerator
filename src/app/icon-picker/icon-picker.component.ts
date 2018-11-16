@@ -26,12 +26,16 @@ export class IconPickerComponent implements OnInit {
   ngOnInit() {
     this.updated
       .pipe(
-        filter(x => this.notified)
+        filter(x => !this.notified)
       )
-      .subscribe(x => {
-        this.dialog.open(IconNotifyComponent)
-          .afterClosed()
-          .subscribe(() => this.notified = true);
-      });
+      .subscribe(x => this.showNotice());
+  }
+
+  showNotice() {
+    this.dialog.open(IconNotifyComponent, {
+      width: '500px',
+    })
+      .afterClosed()
+      .subscribe(() => this.notified = true);
   }
 }

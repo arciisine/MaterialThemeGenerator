@@ -3,7 +3,26 @@
   <p>
     The icon treatment is not supported yet via icon fonts. Currently the Material icon font only
     supports the
-    filled treatment. This project has produced SVG Icon sets that can be used with the
-    MatIconRegistry.
+    filled treatment. This project has produced <a href="https://github.com/arciisine/MaterialThemeGenerator/tree/master/src/assets"
+      target="_blank">SVG
+      Icon sets</a> that can be used with the <a href="https://material.angular.io/components/icon/api"
+      target="_blank">MatIconRegistry</a>.
   </p>
+  <pre>
+      <code>
+constructor(
+  matIconRegistry: MatIconRegistry,
+  domSanitizer: DomSanitizer
+) &#123;
+  matIconRegistry.addSvgIconSet(
+    domSanitizer.bypassSecurityTrustResourceUrl(
+      `/assets/material-icons-Outlined.svg`
+    )
+  );
+&#125;
+      </code>
+    </pre>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
 </div>

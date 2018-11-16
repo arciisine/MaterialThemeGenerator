@@ -8,4 +8,10 @@
       line-height: 2em;
     }
   }
+  a.notice {
+    font-size: .8rem;
+    text-decoration: underline;
+    padding-left: 1em;
+    cursor: pointer;
+  }
 }
