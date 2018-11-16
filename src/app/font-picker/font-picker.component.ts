@@ -1,21 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ThemeService } from '../theme.service';
-import { distinct } from 'rxjs/operators';
+import { DEFAULT_FONTS, AllFontSelection } from './types';
 
-export interface FontSelection {
-  target: string;
-  family: string;
-  variant: 'light' | 'regular' | 'medium';
-  size: number;
-  lineHeight?: number;
-  capitalized: boolean;
-  spacing: number;
-}
-
-export interface AllFontSelection {
-  [key: string]: FontSelection;
-}
 
 @Component({
   selector: 'app-font-picker',
@@ -24,125 +11,9 @@ export interface AllFontSelection {
 })
 export class FontPickerComponent implements OnInit {
 
-  fonts: AllFontSelection = {
-    display4: {
-      target: 'display-4',
-      family: 'Roboto',
-      variant: 'light',
-      size: 112,
-      spacing: -1.5,
-      capitalized: false
-    },
-    display3: {
-      target: 'display-3',
-      family: 'Roboto',
-      variant: 'regular',
-      size: 56,
-      spacing: -.5,
-      capitalized: false
-    },
-    display2: {
-      target: 'display-2',
-      family: 'Roboto',
-      variant: 'regular',
-      size: 45,
-      lineHeight: 48,
-      spacing: 0,
-      capitalized: false
-    },
-    display1: {
-      target: 'display-1',
-      family: 'Roboto',
-      variant: 'regular',
-      size: 34,
-      lineHeight: 40,
-      spacing: .25,
-      capitalized: false
-    },
-    headline: {
-      target: 'headline',
-      family: 'Roboto',
-      variant: 'regular',
-      size: 24,
-      lineHeight: 32,
-      spacing: 0,
-      capitalized: false
-    },
-    title: {
-      target: 'title',
-      family: 'Roboto',
-      variant: 'medium',
-      size: 20,
-      lineHeight: 32,
-      spacing: 0.15,
-      capitalized: false
-    },
-    subheading2: {
-      target: 'subheading-2',
-      family: 'Roboto',
-      variant: 'regular',
-      size: 16,
-      lineHeight: 28,
-      spacing: 0.15,
-      capitalized: false
-    },
-    subheading1: {
-      target: 'subheading-1',
-      family: 'Roboto',
-      variant: 'medium',
-      size: 15,
-      lineHeight: 24,
-      spacing: .1,
-      capitalized: false
-    },
-    body2: {
-      target: 'body-1',
-      family: 'Roboto',
-      variant: 'medium',
-      size: 14,
-      lineHeight: 24,
-      spacing: .25,
-      capitalized: false
-    },
-    body1: {
-      target: 'body-2',
-      family: 'Roboto',
-      variant: 'regular',
-      size: 14,
-      lineHeight: 20,
-      spacing: .25,
-      capitalized: false
-    },
-    button: {
-      target: 'button',
-      family: 'Roboto',
-      variant: 'medium',
-      size: 14,
-      lineHeight: 14,
-      spacing: 1.25,
-      capitalized: true
-    },
-    caption: {
-      target: 'caption',
-      family: 'Roboto',
-      variant: 'regular',
-      size: 12,
-      lineHeight: 20,
-      spacing: .4,
-      capitalized: false
-    },
-    input: {
-      target: 'input',
-      family: 'Roboto',
-      variant: 'regular',
-      size: undefined,
-      lineHeight: 1.125,
-      spacing: 1.5,
-      capitalized: true
-    }
-  };
+  fonts: AllFontSelection = {};
 
-  keys = Object.keys(this.fonts);
+  keys = Object.keys(DEFAULT_FONTS);
 
   variants = ['regular', 'medium', 'light'];
 
@@ -153,6 +24,10 @@ export class FontPickerComponent implements OnInit {
   });
 
   constructor(fb: FormBuilder, private service: ThemeService) {
+    for (const k of Object.keys(DEFAULT_FONTS)) {
+      this.fonts[k] = { ...DEFAULT_FONTS[k] };
+    }
+
     this.items = fb.array(this.keys.map(x =>
       fb.group({
         target: fb.control(this.fonts[x].target),
@@ -167,14 +42,12 @@ export class FontPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.items.valueChanges
-      .pipe(distinct())
-      .subscribe(x => {
-        this.service.fonts = x;
-      });
+    this.items.valueChanges.subscribe(x => {
+      this.service.fonts = x;
+    });
 
     this.service.fontsSet.subscribe(x => {
-      this.items.setValue(x);
+      this.items.setValue(x.map(f => Object.assign({}, DEFAULT_FONTS[f.target], f)));
     });
 
     this.all.get('family').valueChanges.subscribe(family => {

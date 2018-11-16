@@ -20,6 +20,7 @@ export class LightnessPickerComponent implements OnInit {
 
     this.service.lightnessSet.subscribe(x => {
       this.lightness.setValue(x);
+      this.lightness.updateValueAndValidity();
     });
   }
 }

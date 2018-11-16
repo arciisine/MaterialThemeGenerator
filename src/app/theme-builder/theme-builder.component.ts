@@ -4,11 +4,8 @@ import { Subject } from 'rxjs';
 import * as hljs from 'highlight.js';
 import scss from 'highlight.js/lib/languages/scss';
 
-import { debounceTime, take, switchMap } from 'rxjs/operators';
+import { debounceTime, take, switchMap, publishReplay, shareReplay } from 'rxjs/operators';
 
-import { FontSelection } from '../font-picker/font-picker.component';
-
-import { theme as themeScss } from './theming.scss';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { CreditsComponent } from '../credits/credits.component';
 import { ThemeService, Theme } from '../theme.service';
@@ -16,7 +13,6 @@ import { ThemeService, Theme } from '../theme.service';
 hljs.registerLanguage('scss', scss);
 hljs.initHighlighting();
 
-declare var Sass;
 
 @Component({
   selector: 'app-theme-builder',
@@ -39,10 +35,16 @@ export class ThemeBuilderComponent implements OnInit {
     private snackbar: MatSnackBar, private dialog: MatDialog,
     private service: ThemeService
   ) {
+    if (window.location.search) {
+      setTimeout(() => {
+        this.service.fromExternal(
+          atob(decodeURIComponent(window.location.search.replace(/^[?]/, '')))
+        );
+      }, 100);
+    }
   }
 
   onReady() {
-    this.isReady = true;
     this.ready.next(true);
   }
 
@@ -56,13 +58,26 @@ export class ThemeBuilderComponent implements OnInit {
     });
   }
 
-  doExport() {
+  copy(val: string) {
     const el = document.createElement('textarea');
-    el.value = this.source;
+    el.value = val;
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+  }
+
+  doExport() {
+    this.copy(this.source);
+    this.snackbar.open('Successfully copied to clipboard!', 'dismiss', {
+      duration: 3000
+    });
+  }
+
+  makeLink() {
+    let link = window.location.toString().replace(/[#?].*$/g, '');
+    link = `${link}?${btoa(this.service.toExternal())}`;
+    this.copy(link);
     this.snackbar.open('Successfully copied to clipboard!', 'dismiss', {
       duration: 3000
     });
@@ -75,147 +90,16 @@ export class ThemeBuilderComponent implements OnInit {
         switchMap(x => this.service.theme),
         debounceTime(100)
       )
-      .subscribe(x => this.updateTheme(x));
+      .subscribe(x => {
+        this.updateTheme(x);
+        setTimeout(() => this.isReady = true, 1000);
+      });
 
     window.addEventListener('message', (ev) => {
       if (ev.data && ev.data.iconsDone) {
         console.log('Got It!', ev);
       }
     });
-  }
-
-  fontRule(x: FontSelection) {
-    return `mat-typography-level(${(x.size ?
-      [
-        `${x.size}px`,
-        `${x.lineHeight || x.size}${parseInt(`${x.lineHeight || x.size}`, 10) <= 5 ? '' : 'px'}`,
-        `${x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400')}`,
-        `'${x.family}'`,
-        `${x.size ? x.spacing / x.size : 0}em`,
-      ] :
-      [
-        `inherits`,
-        `${x.lineHeight || x.size}${parseInt(`${x.lineHeight || x.size}`, 10) <= 5 ? '' : 'px'}`,
-        `${x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400')}`,
-        `'${x.family}'`,
-      ]
-    ).join(', ')})`;
-  }
-
-  getTemplate(theme: Theme) {
-    // tslint:disable:no-trailing-whitespace
-    // tslint:disable:max-line-length
-    const tpl = `/**
-* Generated theme by Material Theme Generator
-* https://material-theme-generator.travetto.io
-*/
-
-@import '~@angular/material/theming';
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-
-@import url('https://fonts.googleapis.com/css?family=${Array.from(new Set((theme.fonts || []).map(x => x.family))).map(x => `${x}:300,400,500`).join(',')}');    
-
-$fontConfig: (
-  ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x)}`).join(',\n  ')}
-);
-
-$light-text: ${theme.palette.lightText[500].hex};
-$light-primary-text: $light-text;
-$light-accent-text: rgba($light-primary-text, 0.7);
-$light-disabled-text: rgba($light-primary-text, 0.5);
-$light-dividers: rgba($light-primary-text, 0.12);
-$light-focused: rgba($light-primary-text, 0.12);
-
-$dark-text: ${theme.palette.darkText[500].hex};
-$dark-primary-text: rgba($dark-text, 0.87);
-$dark-accent-text: rgba($dark-primary-text, 0.54);
-$dark-disabled-text: rgba($dark-primary-text, 0.38);
-$dark-dividers: rgba($dark-primary-text, 0.12);
-$dark-focused: rgba($dark-primary-text, 0.12);
-
-$mat-light-theme-foreground: (
-  base:              black,
-  divider:           $dark-dividers,
-  dividers:          $dark-dividers,
-  disabled:          $dark-disabled-text,
-  disabled-button:   rgba($dark-text, 0.26),
-  disabled-text:     $dark-disabled-text,
-  elevation:         black,
-  secondary-text:    $dark-accent-text,
-  hint-text:         $dark-disabled-text,
-  accent-text:       $dark-accent-text,
-  icon:              $dark-accent-text,
-  icons:             $dark-accent-text,
-  text:              $dark-primary-text,
-  slider-min:        $dark-primary-text,
-  slider-off:        rgba($dark-text, 0.26),
-  slider-off-active: $dark-disabled-text,
-);
-
-$mat-dark-theme-foreground: (
-  base:              $light-text,
-  divider:           $light-dividers,
-  dividers:          $light-dividers,
-  disabled:          $light-disabled-text,
-  disabled-button:   rgba($light-text, 0.3),
-  disabled-text:     $light-disabled-text,
-  elevation:         black,
-  hint-text:         $light-disabled-text,
-  secondary-text:    $light-accent-text,
-  accent-text:       $light-accent-text,
-  icon:              $light-text,
-  icons:             $light-text,
-  text:              $light-text,
-  slider-min:        $light-text,
-  slider-off:        rgba($light-text, 0.3),
-  slider-off-active: rgba($light-text, 0.3),
-);
-
-@include mat-core($fontConfig);
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$mat-primary: (
-  ${Object.values(theme.palette.primary).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
-  contrast : (
-    ${Object.values(theme.palette.primary).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
-  )
-);
-$mat-accent: (
-  ${Object.values(theme.palette.accent).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
-  contrast : (
-    ${Object.values(theme.palette.accent).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
-  )
-);
-$mat-warn: (
-  ${Object.values(theme.palette.warn).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
-  contrast : (
-    ${Object.values(theme.palette.warn).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
-  )
-);
-
-$themePrimary: mat-palette($mat-primary);
-$themeAccent: mat-palette($mat-accent);
-$themeWarn: mat-palette($mat-warn);
-
-// Create the theme object (a Sass map containing all of the palettes).
-$theme: ${!theme.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($themePrimary, $themeAccent, $themeWarn);
-$altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrimary, $themeAccent, $themeWarn);
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($theme);
-
-.theme-alternate {
-  @include angular-material-theme($altTheme);
-}
-`;
-    // tslint:enable:no-trailing-whitespace
-    // tslint:enable:max-line-length
-    return tpl;
   }
 
   updateTheme(theme: Theme) {
@@ -226,7 +110,7 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrim
       return;
     }
 
-    this.source = this.getTemplate(theme);
+    this.source = this.service.getTemplate(theme);
 
     const iframe = (this.el.nativeElement as HTMLElement).querySelector('iframe');
     const body = iframe.contentDocument.body;
@@ -235,13 +119,7 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrim
 
     this.zone.runOutsideAngular(() => {
       window.postMessage({ icons: theme.icons }, window.location.toString());
-
-      if (this.first) {
-        Sass.writeFile('~@angular/material/theming', themeScss);
-        this.first = false;
-      }
-
-      Sass.compile(this.source.replace('@include angular-material-theme($altTheme);', ''), v => {
+      this.service.compileScssTheme(this.source).then(text => {
         if (body.childNodes && body.childNodes.item(0) &&
           (body.childNodes.item(0) as HTMLElement).tagName &&
           (body.childNodes.item(0) as HTMLElement).tagName.toLowerCase() === 'style') {
@@ -250,7 +128,7 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrim
 
         const style = iframe.contentDocument.createElement('style');
         style.type = 'text/css';
-        style.textContent = v.text;
+        style.textContent = text;
         body.insertBefore(style, body.childNodes.item(0));
       });
     });

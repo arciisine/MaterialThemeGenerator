@@ -78,8 +78,7 @@ export class PalettePickerComponent implements OnInit {
       .subscribe(x => {
         if (x) {
           for (const k of Object.keys(x)) {
-            const col = x[k]['500'].hex;
-            this.setColor(k, col, false);
+            this.setColor(k, x[k]);
           }
         }
       });
@@ -103,12 +102,10 @@ export class PalettePickerComponent implements OnInit {
     };
   }
 
-  setColor(field: string, val: string, emit = true) {
+  setColor(field: string, val: string) {
     this[`${field}Color`] = val;
     this[`${field}ColorPalette`] = this.computeTheme(val);
-    if (emit) {
-      this.emit();
-    }
+    this.emit();
   }
 
   multiply(rgb1: RGBA, rgb2: RGBA) {

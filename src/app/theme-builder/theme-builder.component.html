@@ -6,7 +6,8 @@
       <span class="spacer"></span>
       <div class="button-group">
         <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
-        <button mat-raised-button color="accent" (click)="doExport()">Export</button>
+        <button mat-raised-button color="accent" (click)="makeLink()">Make a Link</button>
+        <button mat-raised-button color="accent" (click)="doExport()">Copy SCSS</button>
         <button *ngIf="!showingSource" mat-raised-button color="accent" (click)="showSource(true)">View
           Source</button>
         <button *ngIf="showingSource" mat-raised-button color="accent" (click)="showSource(false)">View

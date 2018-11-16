@@ -24,22 +24,21 @@ export class IconPickerComponent implements OnInit {
   ngOnInit() {
     this.iconSet.valueChanges
       .pipe(
-        distinct(),
         tap(x => this.service.icons = x),
-        filter(x => !this.notified)
+        filter(x => x !== 'Filled' && !this.notified)
       )
       .subscribe(x => this.showNotice());
 
     this.service.iconsSet.subscribe(x => {
       this.iconSet.setValue(x);
+      this.iconSet.updateValueAndValidity();
     });
   }
 
   showNotice() {
-    this.dialog.open(IconNotifyComponent, {
-      width: '500px',
-    })
+    this.notified = true;
+    this.dialog.open(IconNotifyComponent, { width: '500px', })
       .afterClosed()
-      .subscribe(() => this.notified = true);
+      .subscribe();
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FontService } from './font.service';
 import { FontMeta } from '../font-picker/types';
-import { FontSelection } from '../font-picker/font-picker.component';
 
 @Component({
   selector: 'app-google-font-selector',
