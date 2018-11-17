@@ -37,7 +37,10 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "node_modules/highlight.js/styles/darkula.css"
+              }
             ]
           },
           "configurations": {
