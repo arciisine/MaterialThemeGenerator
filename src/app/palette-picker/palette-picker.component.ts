@@ -115,6 +115,9 @@ export class PalettePickerComponent implements OnInit {
     return tinycolor('rgb ' + rgb1.r + ' ' + rgb1.g + ' ' + rgb1.b);
   }
 
+  /**
+   *  Algorithm taken from https://github.com/mbitson/mcg/blob/master/scripts/controllers/ColorGeneratorCtrl.js#L237, (MIT)
+   */
   private computeTheme(color: string): Palette {
     const baseLight = tinycolor('#ffffff');
     const baseDark = this.multiply(tinycolor(color).toRgb(), tinycolor(color).toRgb());

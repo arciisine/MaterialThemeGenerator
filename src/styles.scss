@@ -209,6 +209,18 @@ body {
   height: 100vh;
 }
 
-mat-icon[svgicon="close"] {
+mat-icon[svgicon="close"], mat-icon[svgicon="github"] {
   color: white;
+}
+
+mat-dialog-container.mat-dialog-container, 
+mat-dialog-container [mat-dialog-content] {
+  padding: 0;
+  margin: 0;
+}
+
+.mat-simple-snackbar-action {
+  a, button {
+    color: white; 
+  }
 }

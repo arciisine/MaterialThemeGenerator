@@ -1,7 +1,7 @@
 <div class="inner mat-typography mat-app-background">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      Material Theme Generator
+      <img src="/assets/logo.png" height="48"> Material Theme Generator
       <app-lightness-picker></app-lightness-picker>
       <span class="spacer"></span>
       <div class="button-group">
@@ -13,6 +13,10 @@
         <button *ngIf="showingSource" mat-raised-button color="accent" (click)="showSource(false)">View
           Demo</button>
         <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
+        <a href="https://github.com/arciisine/MaterialThemeGenerator" mat-icon-button color="primary"
+          title="GitHub" target="_blank">
+          <mat-icon svgIcon="github"></mat-icon>
+        </a>
 
       </div>
     </mat-toolbar-row>

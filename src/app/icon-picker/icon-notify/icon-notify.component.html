@@ -1,12 +1,22 @@
-<h1 mat-dialog-title>Icon Caveats</h1>
+<mat-toolbar mat-dialog-title color="warn">
+  <mat-toolbar-row>
+    Icon Caveats
+    <span class="spacer"></span>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon svgIcon="close"></mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 <div mat-dialog-content>
   <p>
     The icon treatment is not supported yet via icon fonts. Currently the Material icon font only
-    supports the
-    filled treatment. This project has produced <a href="https://github.com/arciisine/MaterialThemeGenerator/tree/master/src/assets"
-      target="_blank">SVG
-      Icon sets</a> that can be used with the <a href="https://material.angular.io/components/icon/api"
-      target="_blank">MatIconRegistry</a>.
+    supports the filled treatment. This project has produced
+    <a href="https://github.com/arciisine/MaterialThemeGenerator/tree/master/src/assets" target="_blank">SVG
+      Icon sets</a>
+    that can be used with the <a href="https://material.angular.io/components/icon/api" target="_blank">MatIconRegistry</a>.
+
+    These fonts were derived from the <a href="https://github.com/mui-org/material-ui/tree/master/packages/material-ui-icons/src"
+      target="_blank">Material UI</a> project.
   </p>
   <pre>
       <code>
@@ -22,7 +32,4 @@ constructor(
 &#125;
       </code>
     </pre>
-</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
 </div>

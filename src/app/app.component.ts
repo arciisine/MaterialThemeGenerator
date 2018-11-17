@@ -19,6 +19,9 @@ export class AppComponent {
     this.matIconRegistry.addSvgIconSet(
       domSanitizer.bypassSecurityTrustResourceUrl(`/assets/material-icons-${icons}.svg`));
 
+    this.matIconRegistry.addSvgIcon('github',
+      domSanitizer.bypassSecurityTrustResourceUrl('/assets/github.svg'));
+
     if (window.parent !== window) {
       console.log('Watching icons');
 

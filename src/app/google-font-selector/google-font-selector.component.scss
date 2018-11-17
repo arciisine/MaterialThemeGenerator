@@ -4,11 +4,6 @@
   position: relative;
 }
 
-/deep/ .mat-dialog-container, /deep/ .mat-dialog-content {
-  padding: 0;
-  margin: 0;
-}
-
 /deep/ .mat-dialog-content {
   max-height: 85vh;
   max-width: 80vw;
@@ -20,7 +15,9 @@
 
 mat-form-field {
   position: absolute;
-  right: 30px;
+  left: 350px;
+  top: 80px;
+  font-size:  9pt;
   z-index: 100;
 }
 
@@ -49,6 +46,7 @@ ul {
   display: block;
 
   li {
+    vertical-align: top;
     display: inline-block;
     height: 200px;
     width: 250px;

@@ -5,3 +5,16 @@ pre {
   background: #333;  
   color: white;
 }
+
+:host {
+  [mat-dialog-content]  {
+    padding: 1em;
+  }
+}
+
+mat-toolbar-row {
+  .spacer {
+    width: 100%;
+    display: block;
+  }
+}
