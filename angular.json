@@ -25,7 +25,16 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "**/*", "input": "node_modules/sass.js/dist", "output": "/assets" }
+              {
+                "glob": "**/*",
+                "input": "node_modules/sass.js/dist",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/scss.js",
+                "input": "node_modules/highlight.js/lib/languages/",
+                "output": "/assets"
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -34,10 +43,11 @@
           "configurations": {
             "production": {
               "fileReplacements": [
-              {
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }],
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -48,11 +58,12 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
-              {
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              }]
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },

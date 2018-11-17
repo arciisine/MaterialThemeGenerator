@@ -1,17 +1,14 @@
 import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import * as hljs from 'highlight.js';
-import scss from 'highlight.js/lib/languages/scss';
 
-import { debounceTime, take, switchMap, publishReplay, shareReplay } from 'rxjs/operators';
+import { debounceTime, take, switchMap } from 'rxjs/operators';
 
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { CreditsComponent } from '../credits/credits.component';
 import { ThemeService, Theme } from '../theme.service';
 
-hljs.registerLanguage('scss', scss);
-hljs.initHighlighting();
+import { highlight } from './highlight';
 
 
 @Component({
@@ -117,7 +114,7 @@ export class ThemeBuilderComponent implements OnInit {
     const iframe = (this.el.nativeElement as HTMLElement).querySelector('iframe');
     const body = iframe.contentDocument.body;
 
-    this.sourcePretty = hljs.highlightAuto(this.source, ['scss']).value;
+    this.sourcePretty = highlight(this.source);
 
     this.zone.runOutsideAngular(() => {
       window.postMessage({ icons: theme.icons }, window.location.toString());
