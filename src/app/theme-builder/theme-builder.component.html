@@ -1,17 +1,19 @@
 <div class="inner mat-typography mat-app-background">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      Material Theme Builder
+      Material Theme Generator
       <app-lightness-picker></app-lightness-picker>
       <span class="spacer"></span>
       <div class="button-group">
-        <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
-        <button mat-raised-button color="accent" (click)="makeLink()">Make a Link</button>
-        <button mat-raised-button color="accent" (click)="doExport()">Copy SCSS</button>
+        <button mat-raised-button color="accent" (click)="makeLink()">Share via Link</button>
+        <button mat-raised-button color="accent" (click)="exportCSS()">Copy CSS</button>
+        <button mat-raised-button color="accent" (click)="exportSCSS()">Copy Angular SCSS</button>
         <button *ngIf="!showingSource" mat-raised-button color="accent" (click)="showSource(true)">View
-          Source</button>
+          Source SCSS</button>
         <button *ngIf="showingSource" mat-raised-button color="accent" (click)="showSource(false)">View
           Demo</button>
+        <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
+
       </div>
     </mat-toolbar-row>
   </mat-toolbar>

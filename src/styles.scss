@@ -1,5 +1,3 @@
-@import '~highlight.js/styles/monokai-sublime.css';
-
 /**
 * Generated theme by Material Theme Generator
 * https://material-theme-generator.travetto.io
@@ -9,24 +7,23 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
-@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,500');   
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');   
-
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
 $fontConfig: (
-  display-4: mat-typography-level(112px, 112px, 300, 'Raleway', -0.013392857142857142em),
-  display-3: mat-typography-level(56px, 56px, 400, 'Raleway', -0.008928571428571428em),
-  display-2: mat-typography-level(45px, 48px, 400, 'Raleway', 0em),
-  display-1: mat-typography-level(34px, 40px, 400, 'Raleway', 0.007352941176470588em),
-  headline: mat-typography-level(24px, 32px, 400, 'Raleway', 0em),
+  display-4: mat-typography-level(112px, 112px, 300, 'Raleway', -0.0134em),
+  display-3: mat-typography-level(56px, 56px, 400, 'Raleway', -0.0089em),
+  display-2: mat-typography-level(45px, 48px, 400, 'Raleway', 0.0000em),
+  display-1: mat-typography-level(34px, 40px, 400, 'Raleway', 0.0074em),
+  headline: mat-typography-level(24px, 32px, 400, 'Raleway', 0.0000em),
   title: mat-typography-level(20px, 32px, 500, 'Raleway', 0.0075em),
-  subheading-2: mat-typography-level(16px, 28px, 400, 'Raleway', 0.009375em),
-  subheading-1: mat-typography-level(15px, 24px, 500, 'Raleway', 0.006666666666666667em),
-  body-1: mat-typography-level(14px, 24px, 500, 'Raleway', 0.017857142857142856em),
-  body-2: mat-typography-level(14px, 20px, 400, 'Raleway', 0.017857142857142856em),
-  button: mat-typography-level(14px, 14px, 500, 'Raleway', 0.08928571428571429em),
-  caption: mat-typography-level(12px, 20px, 400, 'Raleway', 0.03333333333333333em),
-  input: mat-typography-level(inherits, 1.125, 400, 'Raleway')
+  subheading-2: mat-typography-level(16px, 28px, 400, 'Raleway', 0.0094em),
+  subheading-1: mat-typography-level(15px, 24px, 500, 'Raleway', 0.0067em),
+  body-2: mat-typography-level(14px, 24px, 500, 'Raleway', 0.0179em),
+  body-1: mat-typography-level(14px, 20px, 400, 'Raleway', 0.0179em),
+  button: mat-typography-level(14px, 14px, 500, 'Raleway', 0.0893em),
+  caption: mat-typography-level(12px, 20px, 400, 'Raleway', 0.0333em),
+  input: mat-typography-level(inherits, 1.125, 400, 'Raleway', 1.5px)
 );
 
 $light-text: #ffffff;
@@ -87,20 +84,20 @@ $mat-dark-theme-foreground: (
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $mat-primary: (
-  50: #e9f4e6,
-  100: #c8e4bf,
-  200: #a4d295,
-  300: #7fbf6b,
-  400: #63b24b,
-  500: #48a42b,
-  600: #419c26,
-  700: #389220,
-  800: #30891a,
-  900: #217810,
-  A100: #d3ffbd,
-  A200: #b1ff8a,
-  A400: #8fff57,
-  A700: #7eff3e,
+  50: #e3f5e6,
+  100: #b8e7c1,
+  200: #89d797,
+  300: #59c66d,
+  400: #36ba4e,
+  500: #12ae2f,
+  600: #10a72a,
+  700: #0d9d23,
+  800: #0a941d,
+  900: #058412,
+  A100: #d5ffcd,
+  A200: #aaff9a,
+  A400: #7fff67,
+  A700: #6aff4e,
   contrast : (
     50: $dark-primary-text,
     100: $dark-primary-text,
@@ -119,20 +116,20 @@ $mat-primary: (
   )
 );
 $mat-accent: (
-  50: #f5e3ec,
-  100: #e5b9d0,
-  200: #d48ab0,
-  300: #c25b90,
-  400: #b53879,
-  500: #a81561,
-  600: #a01259,
-  700: #970f4f,
-  800: #8d0c45,
-  900: #7d0633,
-  A100: #ffb2dd,
-  A200: #ff7fc6,
-  A400: #ff4caf,
-  A700: #ff32a4,
+  50: #e3e3e3,
+  100: #b9baba,
+  200: #8b8c8c,
+  300: #5c5e5e,
+  400: #393c3c,
+  500: #161919,
+  600: #131616,
+  700: #101212,
+  800: #0c0e0e,
+  900: #060808,
+  A100: #56ffc0,
+  A200: #23ffad,
+  A400: #00ef92,
+  A700: #00d682,
   contrast : (
     50: $dark-primary-text,
     100: $dark-primary-text,
@@ -147,7 +144,7 @@ $mat-accent: (
     A100: $dark-primary-text,
     A200: $dark-primary-text,
     A400: $dark-primary-text,
-    A700: $light-primary-text
+    A700: $dark-primary-text
   )
 );
 $mat-warn: (
@@ -201,6 +198,8 @@ $altTheme: mat-dark-theme($themePrimary, $themeAccent, $themeWarn);
 }
 
 
+
+
 html,
 body {
   margin: 0;
@@ -208,4 +207,8 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
+}
+
+mat-icon[svgicon="close"] {
+  color: white;
 }

@@ -136,7 +136,7 @@ export const DEFAULT_FONTS: { [key: string]: FontSelection } = {
     variant: 'regular',
     size: undefined,
     lineHeight: 1.125,
-    spacing: 1.5,
+    spacing: 1.25,
     capitalized: true
   }
 };

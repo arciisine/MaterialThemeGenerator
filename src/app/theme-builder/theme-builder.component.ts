@@ -28,6 +28,7 @@ export class ThemeBuilderComponent implements OnInit {
   isReady: boolean;
   showingSource = false;
   source = '';
+  css = '';
   sourcePretty = '';
   first = true;
 
@@ -38,7 +39,7 @@ export class ThemeBuilderComponent implements OnInit {
     if (window.location.search) {
       setTimeout(() => {
         this.service.fromExternal(
-          atob(decodeURIComponent(window.location.search.replace(/^[?]|[=]$/g, '')))
+          atob(decodeURIComponent(window.location.search.replace(/^[?]c=/, '')))
         );
       }, 100);
     }
@@ -58,29 +59,30 @@ export class ThemeBuilderComponent implements OnInit {
     });
   }
 
-  copy(val: string) {
+  copy(title: string, val: string) {
     const el = document.createElement('textarea');
     el.value = val;
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-  }
-
-  doExport() {
-    this.copy(this.source);
-    this.snackbar.open('Successfully copied to clipboard!', 'dismiss', {
+    this.snackbar.open(`Successfully copied ${title} to clipboard!`, 'dismiss', {
       duration: 3000
     });
+  }
+
+  exportCSS() {
+    this.copy('css', this.css);
+  }
+
+  exportSCSS() {
+    this.copy('Angular scss', this.source);
   }
 
   makeLink() {
     let link = window.location.toString().replace(/[#?].*$/g, '');
-    link = `${link}?${btoa(this.service.toExternal())}`;
-    this.copy(link);
-    this.snackbar.open('Successfully copied to clipboard!', 'dismiss', {
-      duration: 3000
-    });
+    link = `${link}?c=${btoa(this.service.toExternal())}`;
+    this.copy('link', link);
   }
 
   ngOnInit() {
@@ -120,6 +122,7 @@ export class ThemeBuilderComponent implements OnInit {
     this.zone.runOutsideAngular(() => {
       window.postMessage({ icons: theme.icons }, window.location.toString());
       this.service.compileScssTheme(this.source).then(text => {
+        this.css = text;
         if (body.childNodes && body.childNodes.item(0) &&
           (body.childNodes.item(0) as HTMLElement).tagName &&
           (body.childNodes.item(0) as HTMLElement).tagName.toLowerCase() === 'style') {

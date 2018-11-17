@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "gh-pages": "/bin/bash -c 'ng build --prod --base-href=https://arciisine.github.io/MaterialThemeGenerator/; cp -r dist/MaterialThemeGenerator/* docs/'"
   },
   "private": true,
   "dependencies": {

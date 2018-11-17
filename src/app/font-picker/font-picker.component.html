@@ -1,6 +1,14 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="over">
-    <mat-toolbar color="accent">Font Selection</mat-toolbar>
+  <mat-sidenav #sidenav mode="over" [autoFocus]="false">
+    <mat-toolbar color="accent">
+      <mat-toolbar-row>
+        Edit Font - <span>{{editing ? editing.get('target').value || 'All' : ''}}</span>
+        <span class="spacer"></span>
+        <a mat-icon-button color="primary" (click)="sidenav.close()">
+          <mat-icon svgIcon="close"></mat-icon>
+        </a>
+      </mat-toolbar-row>
+    </mat-toolbar>
     <div *ngIf="!!editing" class="options">
       <form [formGroup]="editing">
         <div class="font-family">

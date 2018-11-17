@@ -68,8 +68,8 @@ export class PalettePickerComponent implements OnInit {
   constructor(private service: ThemeService) { }
 
   ngOnInit() {
-    this.setColor('primary', '#3333cc');
-    this.setColor('accent', '#008888');
+    this.setColor('primary', '#cc33ca');
+    this.setColor('accent', '#797979');
     this.setColor('warn', '#ff0000');
     this.setColor('lightText', '#ffffff');
     this.setColor('darkText', '#111111');

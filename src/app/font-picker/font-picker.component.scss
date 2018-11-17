@@ -12,10 +12,20 @@ mat-sidenav-container {
     position: absolute;
   }
   mat-sidenav {
-    min-width: 300px;
+    min-width: 400px;
     .options {
       padding: 2em;
     }    
+    mat-toolbar {
+      span {
+        padding: .5em;
+        font-size: .9em;
+        text-decoration: underline;
+      }
+      .spacer {
+        width: 100%;
+      }
+    }
     mat-form-field {
       display: block;
       label {
@@ -60,21 +70,42 @@ ul {
 
   li {
     font-size: 10pt;
-    line-height: 28px;
+    line-height: 32px;
     vertical-align: middle;
     display: grid;
     grid-template-columns: 100px 1fr 70px 100px 40px;
     grid-column-gap: 5px;
     padding: 0 .5em;
+
     &:nth-child(odd) {
-      background-color: #eee;
+      background-color: #ddd;
+    }
+    border: .5px solid #e5e5e5;
+    
+    border-top: 0px;
+    
+    &:first-child {
+      border-top: .5px solid #e5e5e5;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
     }
 
     transition: all .3s ease-in-out;
 
     &:hover {
       cursor: pointer;
-      background: #ddd;
+      background: #eee;
+    }
+
+    .family {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     .name {

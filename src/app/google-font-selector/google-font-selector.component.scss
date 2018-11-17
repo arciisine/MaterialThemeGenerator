@@ -24,6 +24,14 @@ mat-form-field {
   z-index: 100;
 }
 
+mat-toolbar-row {
+  a {
+    color: white;
+    font-size: .7em;
+    padding-left: 1em;
+  }
+}
+
 [mat-dialog-content] /deep/ .mat-tab-body-wrapper {
   width: 80vw;
   height: calc(85vh - 84px - 48px - 10px);

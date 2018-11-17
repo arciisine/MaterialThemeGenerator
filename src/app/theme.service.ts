@@ -83,7 +83,7 @@ export class ThemeService {
     const weight = x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400');
 
     return !!x.size ?
-      `mat-typography-level(${x.size}px, ${x.lineHeight}px, ${weight}, '${x.family}', ${x.spacing / x.size}em)` :
+      `mat-typography-level(${x.size}px, ${x.lineHeight}px, ${weight}, '${x.family}', ${(x.spacing / x.size).toFixed(4)}em)` :
       `mat-typography-level(inherits, ${x.lineHeight}, ${weight}, '${x.family}', 1.5px)`;
   }
 
