@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Palette } from './palette-picker/palette-picker.component';
 import { IconSelection } from './icon-picker/icon-picker.component';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject, ReplaySubject, Observable } from 'rxjs';
 import { FontSelection, DEFAULT_FONTS } from './font-picker/types';
-import { theme as themeScss } from './theme-builder/theming.scss';
 import * as tinycolor from 'tinycolor2';
+import { HttpClient } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
 
 type RGBA = tinycolor.ColorFormats.RGBA;
 export interface MaterialPalette {
@@ -22,7 +23,6 @@ export interface SubPalette {
 }
 
 declare var Sass;
-Sass.writeFile('~@angular/material/theming', themeScss);
 
 export interface Theme {
   palette: Palette;
@@ -67,8 +67,30 @@ export class ThemeService {
   $fonts = new Subject<FontSelection[]>();
   $icons = new Subject<string>();
   $lightness = new Subject<boolean>();
+  $themeScss: Promise<void>;
 
-  constructor() { }
+
+  constructor(private http: HttpClient) {
+    this.$themeScss = this.loadThemingScss();
+  }
+
+  loadThemingScss() {
+    return this.http.get('/assets/_theming.scss', { responseType: 'text' })
+      .pipe(
+        map(x => {
+          return x.split('\n')
+            .map(l => l
+              .replace(/^\s*(\/\/.*)?$/g, '')
+              .replace(/^\s+[*].*$/g, '')
+              .replace(/^\s*[/][*].*$/g, '')
+              .replace(/^\s*[*][/].*$/g, '')
+            )
+            .filter(l => !!l)
+            .join('\n');
+        }),
+        map(txt => Sass.writeFile('~@angular/material/theming', txt))
+      ).toPromise();
+  }
 
   emit() {
     this.theme.next({
@@ -270,7 +292,8 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-pri
     return tpl;
   }
 
-  compileScssTheme(src: string) {
+  async compileScssTheme(src: string) {
+    await this.$themeScss;
     return new Promise<string>((res, rej) =>
       Sass.compile(src.replace('@include angular-material-theme($altTheme);', ''), v => {
         if (v.status === 0) {

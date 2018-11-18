@@ -31,6 +31,11 @@
                 "output": "/assets"
               },
               {
+                "glob": "**/_theming.scss",
+                "input": "node_modules/@angular/material",
+                "output": "/assets"
+              },
+              {
                 "glob": "**/scss.js",
                 "input": "node_modules/highlight.js/lib/languages/",
                 "output": "/assets"
