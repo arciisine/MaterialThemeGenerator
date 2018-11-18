@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MaterialPalette, ThemeService } from 'src/app/theme.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sub-palette-picker',
@@ -16,7 +17,7 @@ export class SubPalettePickerComponent implements OnInit {
 
   backdrop: boolean;
 
-  unlocked = false;
+  unlocked = new FormControl(false);
 
   materialKeys = [...Object.keys(ThemeService.MIX_AMOUNTS_PRIMARY), ...Object.keys(ThemeService.MIX_AMOUNTS_SECONDARY)];
 
@@ -37,12 +38,18 @@ export class SubPalettePickerComponent implements OnInit {
     if (this.form.value.main) {
       this.onMainChange(this.form.value.main);
     }
+
+    this.unlocked.valueChanges.pipe(
+      filter(x => !x)
+    ).subscribe(x => {
+      this.onMainChange(this.form.value.main);
+    });
   }
 
   onMainChange(c: string) {
     this.material = this.service.getPalette(c);
 
-    if (!this.unlocked) {
+    if (!this.unlocked.value) {
       this.form.patchValue({ lighter: this.material['100'] });
       this.form.patchValue({ darker: this.material['800'] });
     }
