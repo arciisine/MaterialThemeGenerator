@@ -197,9 +197,6 @@ $altTheme: mat-dark-theme($themePrimary, $themeAccent, $themeWarn);
   @include angular-material-theme($altTheme);
 }
 
-
-
-
 html,
 body {
   margin: 0;
@@ -207,6 +204,22 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
+}
+
+h2 {
+  a.help {
+    span.mat-badge-content {
+      background:black;
+      opacity: .7;
+      color: white;
+      transition: all .15s ease-in-out;
+    }
+    &:hover {
+      span.mat-badge-content {
+        background: darkgreen;
+      }
+    }
+  }  
 }
 
 mat-icon[svgicon="close"], mat-icon[svgicon="github"] {
