@@ -78,17 +78,23 @@ export class ThemeService {
     return this.http.get('/assets/_theming.scss', { responseType: 'text' })
       .pipe(
         map(x => {
-          return x.split('\n')
+          return x
+            .replace(/\n/gmis, '??')
+            .replace(/\$mat-([^:?]+)\s*:\s*\([? ]*50:[^()]*contrast\s*:\s*\([^)]+\)[ ?]*\);\s*?/g,
+              (all, name) => name === 'grey' ? all : '')
+            .replace(/\/\*.*?\*\//g, '')
+            .split(/[?][?]/g)
             .map(l => l
               .replace(/^\s*(\/\/.*)?$/g, '')
-              .replace(/^\s+[*].*$/g, '')
-              .replace(/^\s*[/][*].*$/g, '')
-              .replace(/^\s*[*][/].*$/g, '')
+              .replace(/^\$mat-blue-gray\s*:\s*\$mat-blue-grey\s*;\s*/g, '')
+              .replace(/^\s*|\s*$/g, '')
+              .replace(/:\s\s+/g, ': ')
             )
             .filter(l => !!l)
             .join('\n');
         }),
-        map(txt => Sass.writeFile('~@angular/material/theming', txt))
+        map(txt =>
+          Sass.writeFile('~@angular/material/theming', txt))
       ).toPromise();
   }
 
