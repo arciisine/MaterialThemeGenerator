@@ -261,6 +261,12 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-pri
 
 @include angular-material-theme($theme);
 
+@include mat-button-theme(map_merge($theme, (
+  primary: map_merge(map-get($theme, 'primary'), (
+    default:  map-get(map-get($theme, 'primary'), 'darker')
+  ))
+)));
+
 .theme-alternate {
   @include angular-material-theme($altTheme);
 }

@@ -44,6 +44,11 @@ mat-sidenav-container {
   }
 }
 
+h2 {
+  margin-bottom: 0;
+}
+
+
 .header {
   margin-top: .3em;
   display: grid;
@@ -53,10 +58,6 @@ mat-sidenav-container {
   &>* {
     align-self: baseline;
     display: block;
-  }
-  h2 {
-    margin-left: -5px;
-    margin-bottom: 0;
   }
   a {
     cursor: pointer;

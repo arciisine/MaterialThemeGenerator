@@ -1,3 +1,10 @@
+<h2>
+  <a class="help" href="https://material.angular.io/guide/typography" target="_blank" matBadge="?"
+    matBadgeSize="small">
+    Fonts
+  </a>
+</h2>
+
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="over" [autoFocus]="false">
     <mat-toolbar color="accent">
@@ -50,12 +57,7 @@
 
   <mat-sidenav-content>
     <div class="header">
-      <h2>
-        <a class="help" href="https://material.angular.io/guide/typography" target="_blank"
-          matBadge="?" matBadgeSize="small">
-          Fonts
-        </a>
-      </h2>
+      <span>Type</span>
       <span class="family"><a (click)="editAll(); sidenav.toggle()">Family</a></span>
       <span class="variant"><a (click)="editAll(); sidenav.toggle()">Variant</a></span>
       <span class="size"><a (click)="editAll(); sidenav.toggle()">Size</a></span>

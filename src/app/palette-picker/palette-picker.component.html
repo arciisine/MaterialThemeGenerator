@@ -1,42 +1,39 @@
+<h2>
+  <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
+    target="_blank" matBadge="?" matBadgeSize="small">Palette</a>
+</h2>
 <div class="palettes">
   <div class="primary">
     <h2>
-      <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
-        target="_blank" matBadge="?" matBadgeSize="small">
-        Primary
-      </a>
+      Primary
     </h2>
     <app-sub-palette-picker [form]="form.get('primary')"></app-sub-palette-picker>
   </div>
   <div class="accent">
     <h2>
-      <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
-        target="_blank" matBadge="?" matBadgeSize="small">
-        Accent
-      </a>
+      Accent
     </h2>
     <app-sub-palette-picker [form]="form.get('accent')"></app-sub-palette-picker>
   </div>
   <div class="warn">
     <h2>
-      <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
-        target="_blank" matBadge="?" matBadgeSize="small">
-        Warning
-      </a>
+      Warning
     </h2>
     <app-sub-palette-picker [form]="form.get('warn')"></app-sub-palette-picker>
   </div>
 </div>
 <mat-divider></mat-divider>
-<div class="colors">
-  <h2>Text</h2>
+<h2>
+  <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
+    target="_blank" matBadge="?" matBadgeSize="small">
+    Text
+  </a>
+</h2>
+<div class="text">
   <div class="light">
     <h2>
       <span class="wrapper">
-        <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
-          target="_blank" matBadge="?" matBadgeSize="small">
-          Light
-        </a>
+        Light
       </span>
       <app-color-picker [control]="form.get('textLight')"></app-color-picker>
     </h2>
@@ -44,10 +41,7 @@
   <div class="dark">
     <h2>
       <span class="wrapper">
-        <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
-          target="_blank" matBadge="?" matBadgeSize="small">
-          Dark
-        </a>
+        Dark
       </span>
       <app-color-picker [control]="form.get('textDark')"></app-color-picker>
     </h2>
