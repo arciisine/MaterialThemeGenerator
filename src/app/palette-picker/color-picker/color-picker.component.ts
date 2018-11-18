@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as tinycolor from 'tinycolor2';
 import { FormControl } from '@angular/forms';
-import { MaterialPalette, ThemeService } from 'src/app/theme.service';
 
 @Component({
   selector: 'app-color-picker',
