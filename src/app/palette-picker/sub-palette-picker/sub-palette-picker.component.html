@@ -1,0 +1,4 @@
+<mat-slide-toggle class="toggle" [(ngModel)]="unlocked">Independent?</mat-slide-toggle>
+<app-color-picker class="main" [control]="form.get('main')"></app-color-picker>
+<app-color-picker class="lighter" [disabled]="!unlocked" [control]="form.get('lighter')" [presets]="presets"></app-color-picker>
+<app-color-picker class="darker" [disabled]="!unlocked" [control]="form.get('darker')" [presets]="presets"></app-color-picker>

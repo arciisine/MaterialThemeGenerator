@@ -1,34 +1,40 @@
-:host {
+.palettes {
   display: grid;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
-    "primary accent"
-    ". .";
-}
-
-.backdrop {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background: rgba(0,0,0,.01);
+    "primary accent warn";
+  margin-bottom: 1em;
 }
 
 .colors {
-  margin-top: .3em;
-  grid-area: 2 / 1 / auto / span 2;
-  display: grid;
-  grid-column-gap: 5px;
-  grid-template-areas:
-    "lightText darkText warn";
 
-  h2 {
-    font-size: 1rem;
+  margin-top: .5em;
+  grid-template-columns: 0fr 1fr 1fr;
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-areas:
+    "title textLight textDark";
+
+  > h2 {
+    grid-area: title;
+  }
+
+  div > h2 {
+    font-size: .9rem;
     padding: 0;
     margin: 0;
+    .wrapper {
+      display: inline-block;
+      width: 30%;
+    }
+    app-color-picker {
+      display: inline-block;
+      border: 1px solid #eee;
+      width: 65%;
+      height: 2em;
+    }
   }
 }
 

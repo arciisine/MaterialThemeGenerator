@@ -13,7 +13,7 @@
       <form [formGroup]="editing">
         <div class="font-family">
           <mat-form-field>
-            <input matInput type="text" [formControl]="search" [matAutocomplete]="auto"
+            <input matInput type="text" [formControl]="search" [matAutocomplete]="auto" placeholder="Family"
               #familyInput [style.fontFamily]="editing.value.family" [style.fontWeight]="editing.value.variant">
           </mat-form-field>
           <mat-icon svgIcon="search" (click)="selectFont()"></mat-icon>

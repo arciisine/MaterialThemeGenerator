@@ -31,6 +31,8 @@ import { PreviewTypographyComponent } from './theme-preview/preview-typography/p
 import { PreviewContainersComponent } from './theme-preview/preview-containers/preview-containers.component';
 import { CreditsComponent } from './credits/credits.component';
 import { IconNotifyComponent } from './icon-picker/icon-notify/icon-notify.component';
+import { SubPalettePickerComponent } from './palette-picker/sub-palette-picker/sub-palette-picker.component';
+import { ColorPickerComponent } from './palette-picker/color-picker/color-picker.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { IconNotifyComponent } from './icon-picker/icon-notify/icon-notify.compo
     PreviewTypographyComponent,
     PreviewContainersComponent,
     CreditsComponent,
-    IconNotifyComponent
+    IconNotifyComponent,
+    SubPalettePickerComponent,
+    ColorPickerComponent
   ],
   imports: [
     HttpClientModule,

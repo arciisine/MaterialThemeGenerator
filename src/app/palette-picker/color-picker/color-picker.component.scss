@@ -1,0 +1,20 @@
+.backdrop {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,.01);
+}
+
+:host, input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  border: 0px;
+}
+
+input {
+  text-align: center;
+}

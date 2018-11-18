@@ -1,0 +1,27 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 90px 60px 0fr;
+  grid-template-areas: 
+    "main main"
+    "lighter darker"
+    "toggle toggle";
+}
+
+.lighter, .darker, .main {
+  border: 1px solid #eee;
+}
+
+.lighter {
+  grid-area: lighter;
+}
+.darker {
+  grid-area: darker;
+}
+.main {
+  grid-area: main;
+}
+.toggle {
+  align-self: end;
+  grid-area: toggle;
+}

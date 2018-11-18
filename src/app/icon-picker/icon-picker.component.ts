@@ -29,7 +29,7 @@ export class IconPickerComponent implements OnInit {
       )
       .subscribe(x => this.showNotice());
 
-    this.service.iconsSet.subscribe(x => {
+    this.service.$icons.subscribe(x => {
       this.iconSet.setValue(x);
       this.iconSet.updateValueAndValidity();
     });

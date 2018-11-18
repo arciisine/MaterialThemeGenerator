@@ -85,7 +85,6 @@ export class FontPickerComponent implements OnInit {
   }
 
   searchAllFonts(q: string) {
-    console.log('Searching', q);
     q = q.toLowerCase();
     return this.fontService.getAllFonts()
       .pipe(
@@ -110,7 +109,11 @@ export class FontPickerComponent implements OnInit {
     });
 
 
-    this.service.fontsSet.subscribe(x => {
+    this.service.$fonts.subscribe(x => {
+      const families = Array.from(new Set(x.map(f => f.family)));
+      for (const f of families) {
+        this.fontService.loadFont(f);
+      }
       this.items.setValue(x.map(f => Object.assign({}, DEFAULT_FONTS[f.target], f)));
     });
 

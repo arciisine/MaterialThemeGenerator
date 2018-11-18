@@ -1,15 +1,31 @@
 import { Injectable } from '@angular/core';
-import { AllPalette } from './palette-picker/palette-picker.component';
+import { Palette } from './palette-picker/palette-picker.component';
 import { IconSelection } from './icon-picker/icon-picker.component';
 import { Subject, ReplaySubject } from 'rxjs';
 import { FontSelection, DEFAULT_FONTS } from './font-picker/types';
 import { theme as themeScss } from './theme-builder/theming.scss';
+import * as tinycolor from 'tinycolor2';
+
+type RGBA = tinycolor.ColorFormats.RGBA;
+export interface MaterialPalette {
+  [key: string]: {
+    key: string,
+    hex: string,
+    isLight: boolean
+  };
+}
+
+export interface SubPalette {
+  main: string;
+  lighter: string;
+  darker: string;
+}
 
 declare var Sass;
 Sass.writeFile('~@angular/material/theming', themeScss);
 
 export interface Theme {
-  palette: AllPalette;
+  palette: Palette;
   fonts: FontSelection[];
   icons: IconSelection;
   lightness: boolean;
@@ -20,17 +36,37 @@ export interface Theme {
 })
 export class ThemeService {
 
-  _palette: AllPalette;
+  static MIX_AMOUNTS_PRIMARY = {
+    50: [true, 12],
+    100: [true, 30],
+    200: [true, 50],
+    300: [true, 70],
+    400: [true, 85],
+    500: [true, 100],
+    600: [false, 87],
+    700: [false, 70],
+    800: [false, 54],
+    900: [false, 25]
+  };
+
+  static MIX_AMOUNTS_SECONDARY = {
+    A100: [15, 80, 65],
+    A200: [15, 80, 55],
+    A400: [15, 100, 45],
+    A700: [15, 100, 40]
+  };
+
+  _palette: Palette;
   _fonts: FontSelection[];
   _icons: IconSelection = 'Filled';
   _lightness = true;
 
   theme = new ReplaySubject<Theme>();
 
-  paletteSet = new Subject<{ [key: string]: string }>();
-  fontsSet = new Subject<FontSelection[]>();
-  iconsSet = new Subject<string>();
-  lightnessSet = new Subject<boolean>();
+  $palette = new Subject<Partial<Palette>>();
+  $fonts = new Subject<FontSelection[]>();
+  $icons = new Subject<string>();
+  $lightness = new Subject<boolean>();
 
   constructor() { }
 
@@ -43,7 +79,7 @@ export class ThemeService {
     });
   }
 
-  set palette(pal: AllPalette) {
+  set palette(pal: Palette) {
     this._palette = pal;
     this.emit();
   }
@@ -79,12 +115,66 @@ export class ThemeService {
     return this._lightness;
   }
 
+  multiply(rgb1: RGBA, rgb2: RGBA) {
+    rgb1.b = Math.floor(rgb1.b * rgb2.b / 255);
+    rgb1.g = Math.floor(rgb1.g * rgb2.g / 255);
+    rgb1.r = Math.floor(rgb1.r * rgb2.r / 255);
+    return tinycolor('rgb ' + rgb1.r + ' ' + rgb1.g + ' ' + rgb1.b);
+  }
+
+  /**
+   *  Algorithm taken from https://github.com/mbitson/mcg/blob/master/scripts/controllers/ColorGeneratorCtrl.js#L237, (MIT)
+   */
+  getPalette(color: string): MaterialPalette {
+    const baseLight = tinycolor('#ffffff');
+    const baseDark = this.multiply(tinycolor(color).toRgb(), tinycolor(color).toRgb());
+    const [, , , baseTriad] = tinycolor(color).tetrad();
+
+    const primary = Object.keys(ThemeService.MIX_AMOUNTS_PRIMARY)
+      .map(k => {
+        const [light, amount] = ThemeService.MIX_AMOUNTS_PRIMARY[k];
+        return [k, tinycolor.mix(light ? baseLight : baseDark, tinycolor(color), amount)] as [string, tinycolor.Instance];
+      });
+
+    const accent = Object.keys(ThemeService.MIX_AMOUNTS_SECONDARY)
+      .map(k => {
+        const [amount, sat, light] = ThemeService.MIX_AMOUNTS_SECONDARY[k];
+        return [k, tinycolor.mix(baseDark, baseTriad, amount)
+          .saturate(sat).lighten(light)] as [string, tinycolor.Instance];
+      });
+
+    return [...primary, ...accent].reduce((acc, [k, c]) => {
+      acc[k] = c.toHexString();
+      return acc;
+    }, {});
+  }
+
   fontRule(x: FontSelection) {
     const weight = x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400');
 
     return !!x.size ?
       `mat-typography-level(${x.size}px, ${x.lineHeight}px, ${weight}, '${x.family}', ${(x.spacing / x.size).toFixed(4)}em)` :
       `mat-typography-level(inherits, ${x.lineHeight}, ${weight}, '${x.family}', 1.5px)`;
+  }
+
+  getTextColor(col: string) {
+    return `$${tinycolor(col).isLight() ? 'dark' : 'light'}-primary-text`;
+  }
+
+  getScssPalette(name: string, p: SubPalette) {
+    return `
+$mat-${name}: (
+  main: ${p.main},
+  lighter: ${p.lighter},
+  darker: ${p.darker},
+  200: ${p.main}, // For slide toggle,
+  contrast : (
+    main: ${this.getTextColor(p.main)},
+    lighter: ${this.getTextColor(p.lighter)},
+    darker: ${this.getTextColor(p.darker)},
+  )
+);
+$theme-${name}: mat-palette($mat-${name}, main, lighter, darker);`;
   }
 
   getTemplate(theme: Theme) {
@@ -106,14 +196,14 @@ $fontConfig: (
   ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x)}`).join(',\n  ')}
 );
 
-$light-text: ${theme.palette.lightText[500].hex};
+$light-text: ${theme.palette.textLight};
 $light-primary-text: $light-text;
 $light-accent-text: rgba($light-primary-text, 0.7);
 $light-disabled-text: rgba($light-primary-text, 0.5);
 $light-dividers: rgba($light-primary-text, 0.12);
 $light-focused: rgba($light-primary-text, 0.12);
 
-$dark-text: ${theme.palette.darkText[500].hex};
+$dark-text: ${theme.palette.textDark};
 $dark-primary-text: rgba($dark-text, 0.87);
 $dark-accent-text: rgba($dark-primary-text, 0.54);
 $dark-disabled-text: rgba($dark-primary-text, 0.38);
@@ -163,36 +253,12 @@ $mat-dark-theme-foreground: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$mat-primary: (
-  ${Object.values(theme.palette.primary).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
-  contrast : (
-    ${Object.values(theme.palette.primary).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
-  )
-);
-$mat-accent: (
-  ${Object.values(theme.palette.accent).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
-  contrast : (
-    ${Object.values(theme.palette.accent).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
-  )
-);
-$mat-warn: (
-  ${Object.values(theme.palette.warn).map(x => `${x.key}: ${x.hex}`).join(',\n  ')},
-  contrast : (
-    ${Object.values(theme.palette.warn).map(x => `${x.key}: $${x.isLight ? 'dark' : 'light'}-primary-text`).join(',\n    ')}
-  )
-);
-
-$themePrimary: mat-palette($mat-primary);
-$themeAccent: mat-palette($mat-accent);
-$themeWarn: mat-palette($mat-warn);
+${['primary', 'accent', 'warn'].map(x => this.getScssPalette(x, theme.palette[x])).join('\n')};
 
 // Create the theme object (a Sass map containing all of the palettes).
-$theme: ${!theme.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($themePrimary, $themeAccent, $themeWarn);
-$altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrimary, $themeAccent, $themeWarn);
+$theme: ${!theme.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($theme-primary, $theme-accent, $theme-warn);
+$altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-primary, $theme-accent, $theme-warn);
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include angular-material-theme($theme);
 
 .theme-alternate {
@@ -220,10 +286,10 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrim
     try {
       const json = JSON.parse(val);
 
-      this.lightnessSet.next(json.lightness);
-      this.iconsSet.next(json.icons);
-      this.paletteSet.next(json.palette);
-      this.fontsSet.next(json.fonts);
+      this.$lightness.next(json.lightness);
+      this.$icons.next(json.icons);
+      this.$palette.next(json.palette);
+      this.$fonts.next(json.fonts);
     } catch (e) {
       console.error('Unable to read', val, e);
     }
@@ -231,13 +297,7 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($themePrim
 
   toExternal() {
     const data = {
-      palette: {
-        primary: this.palette.primary['500'].hex,
-        accent: this.palette.accent['500'].hex,
-        warn: this.palette.warn['500'].hex,
-        lightText: this.palette.lightText['500'].hex,
-        darkText: this.palette.darkText['500'].hex,
-      },
+      palette: this.palette,
       fonts: this.fonts.map(x => {
         const keys = Object.keys(x).filter(k => k === 'target' || x[k] !== DEFAULT_FONTS[x.target][k]);
         return keys.reduce((acc, v) => {

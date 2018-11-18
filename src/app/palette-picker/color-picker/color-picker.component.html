@@ -1,0 +1,6 @@
+<div class="backdrop" *ngIf="backdrop"></div>
+
+<input type="text" [disabled]="disabled" [colorPicker]="color" (colorPickerOpen)="setBackdrop(true)"
+  [cpPresetColors]="presets" (colorPickerClose)="setBackdrop(false)" [cpOutputFormat]="'hex'"
+  [cpAlphaChannel]="'disabled'" (colorPickerChange)="color = $event" [value]="color"
+  [style.background]="color" [style.color]="getTextColor(color)">

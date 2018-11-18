@@ -1,75 +1,55 @@
-<div class="backdrop" *ngIf="backdrop"></div>
-<div class="primary">
-  <h2>
-    <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
-      target="_blank" matBadge="?" matBadgeSize="small">
-      Primary
-    </a>
-    <input type="text" [colorPicker]="primaryColor" (colorPickerOpen)="addBackdrop()"
-      (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
-      (colorPickerChange)="setColor('primary',$event)" [value]="primaryColor" [style.background]="primaryColor"
-      [style.color]="primaryColorPalette['500'].isLight ? 'black' : 'white'">
-  </h2>
-  <ul>
-    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="primaryColorPalette[key].hex"
-      [style.color]="primaryColorPalette[key].isLight ? 'black' : 'white'">
-      {{key}}
-    </li>
-  </ul>
+<div class="palettes">
+  <div class="primary">
+    <h2>
+      <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
+        target="_blank" matBadge="?" matBadgeSize="small">
+        Primary
+      </a>
+    </h2>
+    <app-sub-palette-picker [form]="form.get('primary')"></app-sub-palette-picker>
+  </div>
+  <div class="accent">
+    <h2>
+      <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
+        target="_blank" matBadge="?" matBadgeSize="small">
+        Accent
+      </a>
+    </h2>
+    <app-sub-palette-picker [form]="form.get('accent')"></app-sub-palette-picker>
+  </div>
+  <div class="warn">
+    <h2>
+      <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
+        target="_blank" matBadge="?" matBadgeSize="small">
+        Warning
+      </a>
+    </h2>
+    <app-sub-palette-picker [form]="form.get('warn')"></app-sub-palette-picker>
+  </div>
 </div>
-<div class="accent">
-  <h2>
-    <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
-      target="_blank" matBadge="?" matBadgeSize="small">
-      Accent
-    </a>
-    <input type="text" [colorPicker]="accentColor" (colorPickerOpen)="addBackdrop()"
-      (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
-      (colorPickerChange)="setColor('accent',$event)" [value]="accentColor" [style.background]="accentColor"
-      [style.color]="accentColorPalette['500'].isLight ? 'black' : 'white'">
-  </h2>
-  <ul>
-    <li *ngFor="let key of paletteKeys" [style.backgroundColor]="accentColorPalette[key].hex"
-      [style.color]="accentColorPalette[key].isLight ? 'black' : 'white'">
-      {{key}}
-    </li>
-  </ul>
-</div>
+<mat-divider></mat-divider>
 <div class="colors">
+  <h2>Text</h2>
   <div class="light">
     <h2>
-      <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
-        target="_blank" matBadge="?" matBadgeSize="small">
-        Light Text
-      </a>
-      <input type="text" [colorPicker]="lightTextColor" (colorPickerOpen)="addBackdrop()"
-        (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
-        (colorPickerChange)="setColor('lightText',$event)" [value]="lightTextColor"
-        [style.background]="lightTextColor" [style.color]="lightTextColorPalette['500'].isLight ? 'black' : 'white'">
+      <span class="wrapper">
+        <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
+          target="_blank" matBadge="?" matBadgeSize="small">
+          Light
+        </a>
+      </span>
+      <app-color-picker [control]="form.get('textLight')"></app-color-picker>
     </h2>
   </div>
   <div class="dark">
     <h2>
-      <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
-        target="_blank" matBadge="?" matBadgeSize="small">
-        Dark Text
-      </a>
-      <input type="text" [colorPicker]="darkTextColor" (colorPickerOpen)="addBackdrop()"
-        (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
-        (colorPickerChange)="setColor('darkText',$event)" [value]="darkTextColor"
-        [style.background]="darkTextColor" [style.color]="darkTextColorPalette['500'].isLight ? 'black' : 'white'">
-    </h2>
-  </div>
-  <div class="warn">
-    <h2>
-      <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
-        target="_blank" matBadge="?" matBadgeSize="small">
-        Warning
-      </a>
-      <input type="text" [colorPicker]="warnColor" (colorPickerOpen)="addBackdrop()"
-        (colorPickerClose)="removeBackdrop()" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'"
-        (colorPickerChange)="setColor('warn',$event)" [value]="warnColor" [style.background]="warnColor"
-        [style.color]="warnColorPalette['500'].isLight ? 'black' : 'white'">
+      <span class="wrapper">
+        <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
+          target="_blank" matBadge="?" matBadgeSize="small">
+          Dark
+        </a>
+      </span>
+      <app-color-picker [control]="form.get('textDark')"></app-color-picker>
     </h2>
   </div>
 </div>
