@@ -4,46 +4,47 @@
 </h2>
 <div class="palettes">
   <div class="primary">
-    <h2>
+    <h3>
       Primary
-    </h2>
+    </h3>
     <app-sub-palette-picker [form]="form.get('primary')"></app-sub-palette-picker>
   </div>
   <div class="accent">
-    <h2>
+    <h3>
       Accent
-    </h2>
+    </h3>
     <app-sub-palette-picker [form]="form.get('accent')"></app-sub-palette-picker>
   </div>
   <div class="warn">
-    <h2>
+    <h3>
       Warning
-    </h2>
+    </h3>
     <app-sub-palette-picker [form]="form.get('warn')"></app-sub-palette-picker>
   </div>
 </div>
 <mat-divider></mat-divider>
-<h2>
-  <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
-    target="_blank" matBadge="?" matBadgeSize="small">
-    Text
-  </a>
-</h2>
 <div class="text">
-  <div class="light">
-    <h2>
-      <span class="wrapper">
-        Light
-      </span>
-      <app-color-picker [control]="form.get('textLight')"></app-color-picker>
-    </h2>
-  </div>
-  <div class="dark">
-    <h2>
-      <span class="wrapper">
-        Dark
-      </span>
-      <app-color-picker [control]="form.get('textDark')"></app-color-picker>
-    </h2>
-  </div>
+  <h3>
+    <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
+      target="_blank" matBadge="?" matBadgeSize="small">
+      Themes
+    </a>
+  </h3>
+  <span class="txt">
+    Text
+  </span>
+  <span class="bg">
+    Background
+  </span>
+  <span class="dk">
+    Dark
+  </span>
+  <span class="lt">
+    Light
+  </span>
+
+  <app-color-picker class="lt-txt" [control]="form.get('lightText')"></app-color-picker>
+  <app-color-picker class="lt-bg" [control]="form.get('lightBackground')"></app-color-picker>
+  <app-color-picker class="dk-txt" [control]="form.get('darkText')"></app-color-picker>
+  <app-color-picker class="dk-bg" [control]="form.get('darkBackground')"></app-color-picker>
 </div>

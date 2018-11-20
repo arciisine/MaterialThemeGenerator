@@ -79,7 +79,7 @@ export class ThemeService {
       .pipe(
         map(x => {
           return x
-            .replace(/\n/gmis, '??')
+            .replace(/\n/gm, '??')
             .replace(/\$mat-([^:?]+)\s*:\s*\([? ]*50:[^()]*contrast\s*:\s*\([^)]+\)[ ?]*\);\s*?/g,
               (all, name) => name === 'grey' ? all : '')
             .replace(/\/\*.*?\*\//g, '')
@@ -217,21 +217,18 @@ $theme-${name}: mat-palette($mat-${name}, main, lighter, darker);`;
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
+// Fonts
 ${Array.from(new Set((theme.fonts || []).map(x => x.family.replace(/ /g, '+'))))
         .map(x => `@import url('https://fonts.googleapis.com/css?family=${x}:300,400,500');`).join('\n')}
-
+     
 $fontConfig: (
   ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x)}`).join(',\n  ')}
 );
 
-$light-text: ${theme.palette.textLight};
-$light-primary-text: $light-text;
-$light-accent-text: rgba($light-primary-text, 0.7);
-$light-disabled-text: rgba($light-primary-text, 0.5);
-$light-dividers: rgba($light-primary-text, 0.12);
-$light-focused: rgba($light-primary-text, 0.12);
+// Foreground Elements
 
-$dark-text: ${theme.palette.textDark};
+// Light Theme Text
+$dark-text: ${theme.palette.lightText};
 $dark-primary-text: rgba($dark-text, 0.87);
 $dark-accent-text: rgba($dark-primary-text, 0.54);
 $dark-disabled-text: rgba($dark-primary-text, 0.38);
@@ -257,6 +254,14 @@ $mat-light-theme-foreground: (
   slider-off-active: $dark-disabled-text,
 );
 
+// Dark Theme text
+$light-text: ${theme.palette.darkText};
+$light-primary-text: $light-text;
+$light-accent-text: rgba($light-primary-text, 0.7);
+$light-disabled-text: rgba($light-primary-text, 0.5);
+$light-dividers: rgba($light-primary-text, 0.12);
+$light-focused: rgba($light-primary-text, 0.12);
+
 $mat-dark-theme-foreground: (
   base:              $light-text,
   divider:           $light-dividers,
@@ -276,17 +281,71 @@ $mat-dark-theme-foreground: (
   slider-off-active: rgba($light-text, 0.3),
 );
 
+// Background config
+// Light bg
+$light-background:    ${theme.palette.lightBackground};
+$light-bg-darker-5:   darken($light-background, 5%);
+$light-bg-darker-10:  darken($light-background, 10%);
+$light-bg-darker-20:  darken($light-background, 20%);
+$light-bg-darker-30:  darken($light-background, 30%);
+$light-bg-lighter-5:  lighten($light-background, 5%);
+$dark-bg-alpha-4:     rgba(${theme.palette.darkBackground}, 0.04);
+$dark-bg-alpha-12:    rgba(${theme.palette.darkBackground}, 0.12);
+
+$mat-light-theme-background: (
+  background:               $light-background,
+  status-bar:               $light-bg-darker-20,
+  app-bar:                  $light-bg-darker-5,
+  hover:                    $dark-bg-alpha-4,
+  card:                     $light-bg-lighter-5,
+  dialog:                   $light-bg-lighter-5,
+  disabled-button:          $dark-bg-alpha-12,
+  raised-button:            $light-bg-lighter-5,
+  focused-button:           $dark-focused,
+  selected-button:          $light-bg-darker-20,
+  selected-disabled-button: $light-bg-darker-30,
+  disabled-button-toggle:   $light-bg-darker-10,
+  unselected-chip:          $light-bg-darker-10,
+  disabled-list-option:     $light-bg-darker-10,
+);
+
+// Dark bg
+$dark-background:     ${theme.palette.darkBackground};
+$dark-bg-lighter-5:   lighten($dark-background, 5%);
+$dark-bg-lighter-10:  lighten($dark-background, 10%);
+$dark-bg-lighter-20:  lighten($dark-background, 20%);
+$dark-bg-lighter-30:  lighten($dark-background, 30%);
+$light-bg-alpha-4:    rgba(${theme.palette.lightBackground}, 0.04);
+$light-bg-alpha-12:   rgba(${theme.palette.lightBackground}, 0.12);
+
+// Background palette for dark themes.
+$mat-dark-theme-background: (
+  background:               $dark-background,
+  status-bar:               $dark-bg-lighter-20,
+  app-bar:                  $dark-bg-lighter-5,
+  hover:                    $light-bg-alpha-4,
+  card:                     $dark-bg-lighter-5,
+  dialog:                   $dark-bg-lighter-5,
+  disabled-button:          $light-bg-alpha-12,
+  raised-button:            $dark-bg-lighter-5,
+  focused-button:           $light-focused,
+  selected-button:          $dark-bg-lighter-20,
+  selected-disabled-button: $dark-bg-lighter-30,
+  disabled-button-toggle:   $dark-bg-lighter-10,
+  unselected-chip:          $dark-bg-lighter-20,
+  disabled-list-option:     $dark-bg-lighter-10,
+);
+
+// Compute font config
 @include mat-core($fontConfig);
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
+// Theme Config
 ${['primary', 'accent', 'warn'].map(x => this.getScssPalette(x, theme.palette[x])).join('\n')};
 
-// Create the theme object (a Sass map containing all of the palettes).
 $theme: ${!theme.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($theme-primary, $theme-accent, $theme-warn);
 $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-primary, $theme-accent, $theme-warn);
 
+// Theme Init
 @include angular-material-theme($theme);
 
 .theme-alternate {

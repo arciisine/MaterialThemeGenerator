@@ -6,8 +6,10 @@ export interface Palette {
   primary: SubPalette;
   accent: SubPalette;
   warn: SubPalette;
-  textLight: string;
-  textDark: string;
+  darkText: string;
+  darkBackground: string;
+  lightText: string;
+  lightBackground: string;
 }
 
 @Component({
@@ -36,8 +38,10 @@ export class PalettePickerComponent implements OnInit {
         lighter: new FormControl(''),
         darker: new FormControl('')
       }),
-      textLight: new FormControl(''),
-      textDark: new FormControl(''),
+      darkText: new FormControl(''),
+      darkBackground: new FormControl(''),
+      lightText: new FormControl(''),
+      lightBackground: new FormControl(''),
     });
   }
 
@@ -47,8 +51,10 @@ export class PalettePickerComponent implements OnInit {
       primary: { main: '#cc33ca' },
       accent: { main: '#797979' },
       warn: { main: '#ff0000' },
-      textLight: '#ffffff',
-      textDark: '#000000'
+      darkText: '#ffffff',
+      lightText: '#000000',
+      lightBackground: '#fafafa',
+      darkBackground: '#333333'
     });
 
     this.form.valueChanges.subscribe(x => {
