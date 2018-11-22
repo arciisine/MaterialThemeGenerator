@@ -29,12 +29,12 @@
         </mat-toolbar-row>
       </mat-toolbar>
       <div class="body">
-        <mat-tab-group>
+        <mat-tab-group #tabGroup (selectedTabChange)="handleTabChange($event)">
           <mat-tab label="Controls">
             <app-preview-controls></app-preview-controls>
           </mat-tab>
           <mat-tab label="Containers">
-            <app-preview-containers></app-preview-containers>
+            <app-preview-containers *ngIf="activeTab === 'Containers'"></app-preview-containers>
           </mat-tab>
           <mat-tab label="Typography">
             <app-preview-typography></app-preview-typography>

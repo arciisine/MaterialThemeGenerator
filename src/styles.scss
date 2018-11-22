@@ -242,3 +242,11 @@ mat-divider {
   margin-top: 1em !important;
   margin-bottom: 1em !important;
 }
+
+.preview {
+  app-icon-notify {
+    a {
+      color: inherit;
+    }
+  }
+}

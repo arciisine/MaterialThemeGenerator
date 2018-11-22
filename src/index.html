@@ -25,6 +25,9 @@
 
       gtag('config', 'UA-10064803-4');
     }
+    if (window.parent !== window) {
+      document.body.classList.add('preview');
+    }
   </script>
   `
 

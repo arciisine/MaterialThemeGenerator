@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material';
 
 @Component({
   selector: 'app-theme-preview',
@@ -8,6 +9,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 export class ThemePreviewComponent implements OnInit {
 
   loadingIcons = false;
+  activeTab: string;
 
   constructor(private zone: NgZone) { }
 
@@ -21,6 +23,10 @@ export class ThemePreviewComponent implements OnInit {
         });
       }
     });
+  }
+
+  handleTabChange(tab: MatTabChangeEvent) {
+    this.activeTab = tab.tab.textLabel;
   }
 
 }
