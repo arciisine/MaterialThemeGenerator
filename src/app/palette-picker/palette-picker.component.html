@@ -1,6 +1,6 @@
 <h2>
   <a class="help" href="https://material.io/design/color/the-color-system.html#color-theme-creation"
-    target="_blank" matBadge="?" matBadgeSize="small">Palette</a>
+    target="_blank" matBadge="?" matBadgeSize="small" rel="noopener">Palette</a>
 </h2>
 <div class="palettes">
   <div class="primary">
@@ -26,10 +26,17 @@
 <div class="text">
   <h3>
     <a class="help" href="https://material.io/design/color/text-legibility.html#legibility-standards"
-      target="_blank" matBadge="?" matBadgeSize="small">
+      target="_blank" matBadge="?" matBadgeSize="small" rel="noopener">
       Themes
     </a>
   </h3>
+  <div class="lt-illegible" *ngIf="form.hasError('illegible-light')">
+
+  </div>
+  <div class="dk-illegible" *ngIf="form.hasError('illegible-dark')">
+
+  </div>
+
   <span class="txt">
     Text
   </span>
@@ -42,12 +49,6 @@
   <span class="lt" [class.illegible]="form.hasError('illegible-light')">
     Light
   </span>
-  <div class="lt-illegible" *ngIf="form.hasError('illegible-light')">
-
-  </div>
-  <div class="dk-illegible" *ngIf="form.hasError('illegible-dark')">
-
-  </div>
 
   <app-color-picker class="lt-txt" [control]="form.get('lightText')"></app-color-picker>
   <app-color-picker class="lt-bg" [control]="form.get('lightBackground')"></app-color-picker>

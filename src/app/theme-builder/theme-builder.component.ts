@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-import { debounceTime, take, switchMap } from 'rxjs/operators';
+import { debounceTime, take, switchMap, throttleTime } from 'rxjs/operators';
 
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { CreditsComponent } from '../credits/credits.component';
@@ -35,9 +35,8 @@ export class ThemeBuilderComponent implements OnInit {
   ) {
     if (window.location.search) {
       setTimeout(() => {
-        this.service.fromExternal(
-          atob(decodeURIComponent(window.location.search.replace(/^[?]c=/, '')))
-        );
+        const theme = atob(decodeURIComponent(window.location.search.replace(/^[?]c=/, '')));
+        this.service.fromExternal(theme);
       }, 100);
     }
   }
@@ -86,7 +85,7 @@ export class ThemeBuilderComponent implements OnInit {
     this.ready
       .pipe(
         take(1),
-        switchMap(x => this.service.theme),
+        switchMap(x => this.service.$theme),
         debounceTime(100)
       )
       .subscribe(x => {
@@ -101,23 +100,7 @@ export class ThemeBuilderComponent implements OnInit {
     });
   }
 
-  checkContrast(theme: Theme) {
-    const p = theme.palette;
-
-    if (theme.lightness) {
-      this.service.isLegible(p.lightText, p.primary.main);
-      this.service.isLegible(p.lightText, p.accent.main);
-      this.service.isLegible(p.warn.main, p.lightBackground);
-    } else {
-      this.service.isLegible(p.darkText, p.primary.main);
-      this.service.isLegible(p.darkText, p.accent.main);
-      this.service.isLegible(p.warn.main, p.darkBackground);
-    }
-  }
-
   updateTheme(theme: Theme) {
-
-    console.log('Refreshing preview', theme.palette, theme.fonts);
 
     if (!theme.palette || !theme.fonts) {
       return;

@@ -3,6 +3,7 @@ import { ThemeService, SubPalette } from '../theme.service';
 import { FormGroup, FormControl, Form } from '@angular/forms';
 
 import * as tinycolor from 'tinycolor2';
+import { throttleTime } from 'rxjs/operators';
 
 export interface Palette {
   primary: SubPalette;
@@ -24,9 +25,6 @@ export class PalettePickerComponent implements OnInit {
   form: FormGroup;
 
   constructor(private service: ThemeService) {
-    const ltLegVal = this.validateLegibility('light');
-    const dkLegVal = this.validateLegibility('dark');
-
     this.form = new FormGroup({
       primary: new FormGroup({
         main: new FormControl(''),
@@ -49,36 +47,70 @@ export class PalettePickerComponent implements OnInit {
       darkBackground: new FormControl('', []),
     });
 
-    this.form.setValidators([
-      ltLegVal,
-      dkLegVal
-    ]);
+    // this.form.valueChanges
+    //   .pipe(
+    //     throttleTime(200)
+    //   ).subscribe(x => {
+    //     const errs = this.validateLegibility(this.form);
+    //     this.form.setErrors(errs);
+    //   });
   }
 
-  validateLegibility(prefix: string) {
-    return (form: FormGroup) => {
-      const txt = form.get(`${prefix}Text`);
-      const bg = form.get(`${prefix}Background`);
-      let legible = this.service.isLegible(txt.value, bg.value);
-      const tcol = tinycolor(txt.value);
-      const bcol = tinycolor(bg.value);
+  isLegible(l1: string | tinycolor.Instance, l2: string | tinycolor.Instance, threshold = 4.5) {
+    const rl1 = tinycolor(l1).getLuminance();
+    const rl2 = tinycolor(l2).getLuminance();
+    if (rl1 > rl2) {
+      return (rl1 + .05) / (rl2 + .05) > threshold;
+    } else {
+      return (rl2 + .05) / (rl1 + .05) > threshold;
+    }
+  }
 
-      if (tcol.getLuminance() > bcol.getLuminance()) {
-        legible = legible
-          && this.service.isLegible(tcol.darken(10), bcol)
-          && this.service.isLegible(tcol.darken(20), bcol);
-      } else {
-        legible = legible
-          && this.service.isLegible(tcol.lighten(10), bcol)
-          && this.service.isLegible(tcol.lighten(20), bcol);
-      }
+  validateLegibility(form: FormGroup) {
+    const f = form.value;
 
-      return legible ? null : {
-        [`illegible-${prefix}`]: {
-          valid: false
-        }
-      };
-    };
+    const lightText = f.lightText;
+    const lightBackground = tinycolor(f.lightBackground);
+    const darkText = f.darkText;
+    const darkBackground = tinycolor(f.darkBackground);
+
+    const pcol = tinycolor(f.primary.main);
+    const acol = tinycolor(f.accent.main);
+    const wcol = tinycolor(f.warn.main);
+
+    let lightLegible = this.isLegible(lightText, lightBackground)
+      && this.isLegible(lightText, lightBackground.darken(10))
+      && this.isLegible(lightText, lightBackground.darken(20));
+    // && this.isLegible(wcol, lightBackground)
+    // && this.isLegible(wcol, lightBackground.darken(10));
+
+
+    let darkLegible = this.isLegible(darkText, darkBackground)
+      && this.isLegible(darkText, darkBackground.lighten(10))
+      && this.isLegible(darkText, darkBackground.lighten(20));
+    // && this.isLegible(wcol, darkBackground)
+    // && this.isLegible(wcol, darkBackground.lighten(10));
+
+    if (tinycolor(pcol).isDark()) {
+      darkLegible = darkLegible && this.isLegible(darkText, pcol);
+    } else {
+      lightLegible = lightLegible && this.isLegible(lightText, pcol);
+    }
+
+    if (tinycolor(acol).isDark()) {
+      darkLegible = darkLegible && this.isLegible(darkText, acol);
+    } else {
+      lightLegible = lightLegible && this.isLegible(lightText, acol);
+    }
+
+    const errors = {};
+    if (!lightLegible) {
+      errors['illegible-light'] = { valid: false };
+    }
+    if (!darkLegible) {
+      errors['illegible-dark'] = { valid: false };
+    }
+    return Object.keys(errors) ? errors : null;
   }
 
   ngOnInit() {

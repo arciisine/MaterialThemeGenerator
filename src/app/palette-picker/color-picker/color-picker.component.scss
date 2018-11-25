@@ -19,3 +19,7 @@ input {
   text-align: center;
   cursor: pointer;
 }
+
+:host {
+  display: block;
+}
