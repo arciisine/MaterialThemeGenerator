@@ -35,11 +35,6 @@ export class FontService {
       .filter(x => filter ? x.family.toLowerCase().startsWith(filter.toLowerCase()) : true)
       .filter(x => x.category === category);
 
-    if (!this.loaded) {
-      for (const item of out) {
-        this.loadFont(item.family);
-      }
-    }
     return out;
   }
 

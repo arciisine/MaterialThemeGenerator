@@ -33,6 +33,8 @@ import { CreditsComponent } from './credits/credits.component';
 import { IconNotifyComponent } from './icon-picker/icon-notify/icon-notify.component';
 import { SubPalettePickerComponent } from './palette-picker/sub-palette-picker/sub-palette-picker.component';
 import { ColorPickerComponent } from './palette-picker/color-picker/color-picker.component';
+import { CdkVirtualForOf, CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { GoogleFontItemComponent } from './google-font-selector/google-font-item/google-font-item.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { ColorPickerComponent } from './palette-picker/color-picker/color-picker
     CreditsComponent,
     IconNotifyComponent,
     SubPalettePickerComponent,
-    ColorPickerComponent
+    ColorPickerComponent,
+    GoogleFontItemComponent
   ],
   imports: [
     HttpClientModule,
@@ -58,6 +61,7 @@ import { ColorPickerComponent } from './palette-picker/color-picker/color-picker
     ColorPickerModule,
     AppRoutingModule,
     FormsModule,
+    ScrollingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatMenuModule,

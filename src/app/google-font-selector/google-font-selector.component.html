@@ -14,24 +14,18 @@
     <input type="text" [formControl]="search" matInput name="filter" placeholder="Search..."
       (input)="filter = $event.target.value" />
   </mat-form-field>
-  <mat-tab-group>
-    <mat-tab label="Sans-Serif">
-      <ul>
-        <li *ngFor="let f of getFonts('sans-serif')" (click)="pickFont(f)">
-          <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
-          <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
-          <span class="variants">{{f.variants.join(', ')}}</span>
-        </li>
-      </ul>
+  <mat-tab-group #tabGroup>
+    <mat-tab label="Sans-Serif" #ssTab>
+      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="ssTab.isActive">
+        <app-google-font-item *cdkVirtualFor="let f of getFonts('sans-serif')" (click)="pickFont(f)"
+          [f]="f" [sample]="sample"></app-google-font-item>
+      </cdk-virtual-scroll-viewport>
     </mat-tab>
-    <mat-tab label="Serif">
-      <ul>
-        <li *ngFor="let f of getFonts('serif')" (click)="pickFont(f)">
-          <span class="family" [style.fontFamily]="f.family">{{f.family}}</span>
-          <span class="sample" [style.fontFamily]="f.family">{{sample}}</span>
-          <span class="variants">{{f.variants.join(', ')}}</span>
-        </li>
-      </ul>
+    <mat-tab label="Serif" #sTab>
+      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="sTab.isActive">
+        <app-google-font-item *cdkVirtualFor="let f of getFonts('serif')" (click)="pickFont(f)" [f]="f"
+          [sample]="sample"></app-google-font-item>
+      </cdk-virtual-scroll-viewport>
     </mat-tab>
   </mat-tab-group>
 </div>

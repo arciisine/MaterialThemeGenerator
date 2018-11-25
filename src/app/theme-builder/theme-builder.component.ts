@@ -101,6 +101,20 @@ export class ThemeBuilderComponent implements OnInit {
     });
   }
 
+  checkContrast(theme: Theme) {
+    const p = theme.palette;
+
+    if (theme.lightness) {
+      this.service.isLegible(p.lightText, p.primary.main);
+      this.service.isLegible(p.lightText, p.accent.main);
+      this.service.isLegible(p.warn.main, p.lightBackground);
+    } else {
+      this.service.isLegible(p.darkText, p.primary.main);
+      this.service.isLegible(p.darkText, p.accent.main);
+      this.service.isLegible(p.warn.main, p.darkBackground);
+    }
+  }
+
   updateTheme(theme: Theme) {
 
     console.log('Refreshing preview', theme.palette, theme.fonts);
@@ -115,6 +129,7 @@ export class ThemeBuilderComponent implements OnInit {
     const body = iframe.contentDocument.body;
 
     this.sourcePretty = highlight(this.source);
+
 
     this.zone.runOutsideAngular(() => {
       window.postMessage({ icons: theme.icons }, window.location.toString());

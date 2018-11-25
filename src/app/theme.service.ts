@@ -189,6 +189,17 @@ export class ThemeService {
     return `$${tinycolor(col).isLight() ? 'dark' : 'light'}-primary-text`;
   }
 
+
+  isLegible(l1: string | tinycolor.Instance, l2: string | tinycolor.Instance, threshold = 4.5) {
+    const rl1 = tinycolor(l1).getLuminance();
+    const rl2 = tinycolor(l2).getLuminance();
+    if (rl1 > rl2) {
+      return (rl1 + .05) / (rl2 + .05) > threshold;
+    } else {
+      return (rl2 + .05) / (rl1 + .05) > threshold;
+    }
+  }
+
   getScssPalette(name: string, p: SubPalette) {
     return `
 $mat-${name}: (

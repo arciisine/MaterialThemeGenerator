@@ -24,9 +24,6 @@ export class GoogleFontSelectorComponent implements OnInit {
   constructor(private fontService: FontService, @Inject(MAT_DIALOG_DATA) public form: FormGroup, private ref: MatDialogRef<any, any>) { }
 
   ngOnInit() {
-    this.form.get('family').valueChanges.subscribe(v => {
-      this.fontService.loadFont(v);
-    });
     if (this.form.value.family) {
       this.fontService.loadFont(this.form.value.family);
     }

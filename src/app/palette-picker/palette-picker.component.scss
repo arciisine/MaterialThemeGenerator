@@ -10,21 +10,48 @@
 
 .text {
   grid-template-columns: 60px 1fr 1fr;
-  grid-template-rows: 25px 1fr 1fr;
+  grid-template-rows: 25px 35px 35px;
+  align-items: center;
   display: grid;
-  grid-column-gap: 15px;
   grid-row-gap: 5px;
   grid-template-areas:
     "title txt bg"
     "lt lt-txt lt-bg"
     "dk dk-txt dk-bg";
 
-  .bg, .txt, .lt, .dk {
+  .bg, .txt, .lt, .dk {   
     font-size: .8rem;
+    z-index: 2;
   }
 
+  .lt-illegible {
+    background-color: darken(red, 10%);
+    z-index: 0;
+    height: 100%;
+    grid-column: 1/ span 3 ;
+    grid-row: 2 ;
+  }
+
+  .dk-illegible {
+    background-color: darken(red, 10%);
+    z-index: 0;
+    height: 100%;
+    grid-column: 1/ span 3 ;
+    grid-row: 3;
+  }
+
+
+
   .lt, .dk {
-    text-align: right;
+    text-align: center  ;
+    line-height: 35px;
+    margin: 0;
+    padding: 0;
+    margin-right: 7.5px;
+    &.illegible {
+      color: white;
+      font-weight: bold;
+    }
   }
   .bg, .txt {
     text-align: center;
@@ -41,10 +68,15 @@
   .dk-txt { grid-area: dk-txt; }
 
   app-color-picker {
-    height: 30px;
-    border: 1px solid #ddd;
+    z-index: 1;
+    height: 27px;
+    box-sizing: border-box;
+    padding: 0;
+    padding-right: 7.5px;
 
-    input {
+    & /deep/ input {
+      display: block;
+      border: 1px solid #ddd;    
     }
   }
 }
