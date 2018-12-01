@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-import { debounceTime, take, switchMap, throttleTime } from 'rxjs/operators';
+import { debounceTime, take, switchMap } from 'rxjs/operators';
 
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { CreditsComponent } from '../credits/credits.component';

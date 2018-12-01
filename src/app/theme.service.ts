@@ -356,6 +356,22 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-pri
 .theme-alternate {
   @include angular-material-theme($altTheme);
 }
+
+
+// Specific component overrides, pieces that are not in line with the general theming
+
+// Handle buttons appropriately, with respect to line-height
+.mat-raised-button, .mat-stroked-button, .mat-flat-button {
+  padding: 0 1.15em;
+  margin: 0 .65em;
+  min-width: 3em;
+  line-height: ${theme.fonts.find(x => x.target === 'button').lineHeight * 2.6}px
+}
+
+.mat-standard-chip {
+  padding: .5em .85em;
+  min-height: 2.5em;
+}
 `;
     // tslint:enable:no-trailing-whitespace
     // tslint:enable:max-line-length
