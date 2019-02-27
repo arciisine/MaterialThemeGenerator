@@ -26,6 +26,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/CNAME",
+              "src/.nojekyll",
               {
                 "glob": "**/*",
                 "input": "node_modules/sass.js/dist",
