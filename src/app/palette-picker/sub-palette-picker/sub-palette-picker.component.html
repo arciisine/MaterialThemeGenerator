@@ -1,6 +1,0 @@
-<mat-slide-toggle class="toggle" [formControl]="unlocked">Independent?</mat-slide-toggle>
-<app-color-picker class="main" [control]="form.get('main')"></app-color-picker>
-<app-color-picker class="lighter" [disabled]="!unlocked.value" [control]="form.get('lighter')"
-  [presets]="presets"></app-color-picker>
-<app-color-picker class="darker" [disabled]="!unlocked.value" [control]="form.get('darker')"
-  [presets]="presets"></app-color-picker>
