@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "gh-pages": "/bin/bash -c 'ng build --prod --base-href=https://materialtheme.arcsine.org; angular-cli-ghpages -b master'"
+    "gh-pages": "/bin/bash -c 'ng build --prod --base-href=https://materialtheme.arcsine.pro; angular-cli-ghpages -b master'"
   },
   "private": true,
   "dependencies": {
