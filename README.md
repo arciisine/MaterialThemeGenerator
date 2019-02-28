@@ -1,6 +1,6 @@
 # MaterialThemeGenerator
 
-View Demo at http://materialtheme.arcsine.org
+View Demo at https://materialtheme.arcsine.dev
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
 
