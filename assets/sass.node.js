@@ -1,6 +1,6 @@
-/*! sass.js - v0.11.0-beta.1 (ff51bc1) - built 2018-02-06
-  providing libsass 3.4.9 (6de5050d)
-  via emscripten 1.37.33 ()
+/*! sass.js - v0.11.0 (cee0666) - built 2019-05-19
+  providing libsass 3.6.0 (8d220b74)
+  via emscripten 1.38.31 (040e49a)
  */
 var Sass = require('./sass.sync.js');
 var fs = require('fs');
