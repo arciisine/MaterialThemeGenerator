@@ -27,7 +27,7 @@
     "highlight.js": "^9.15.6",
     "ngx-color-picker": "^8.1.0",
     "rxjs": "~6.5.2",
-    "sass.js": "^0.11.0-beta.1",
+    "sass.js": "^0.11.0",
     "tinycolor2": "^1.4.1",
     "webfontloader": "^1.6.28",
     "zone.js": "~0.9.1"

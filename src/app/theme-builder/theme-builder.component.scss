@@ -104,7 +104,7 @@ mat-toolbar {
   }
 }
 
-/deep/ a.help {
+::ng-deep a.help {
   margin-right: .5em;  
   color: inherit;
   text-decoration: none;
@@ -116,7 +116,7 @@ mat-toolbar {
   }
 }
 
-.theme-alternate /deep/ a.help {
+.theme-alternate ::ng-deep a.help {
   .mat-badge-content {
     opacity: .8;
     color: white;

@@ -4,7 +4,7 @@
   position: relative;
 }
 
-/deep/ .mat-dialog-content {
+::ng-deep .mat-dialog-content {
   max-height: 85vh;
   max-width: 80vw;
 }
@@ -29,7 +29,7 @@ mat-toolbar-row {
   }
 }
 
-[mat-dialog-content] /deep/ .mat-tab-body-wrapper {
+[mat-dialog-content] ::ng-deep .mat-tab-body-wrapper {
   width: 80vw;
   height: calc(85vh - 84px - 48px - 10px);
   overflow-y: auto;

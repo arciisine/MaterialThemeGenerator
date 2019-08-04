@@ -2,7 +2,7 @@
   display: block;
 }
 
-/deep/ .mat-drawer-backdrop.mat-drawer-shown {
+::ng-deep .mat-drawer-backdrop.mat-drawer-shown {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
