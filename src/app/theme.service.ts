@@ -196,6 +196,15 @@ export class ThemeService {
 
   getScssPalette(name: string, p: SubPalette) {
     return `
+body {
+  --${name}: ${p.main};
+  --${name}-lighter: ${p.lighter};
+  --${name}-darker: ${p.darker};
+  --text-${name}: ${this.getTextColor(p.main)};
+  --text-${name}-lighter: ${this.getTextColor(p.lighter)};
+  --text-${name}-darker: ${this.getTextColor(p.darker)};
+}
+
 $mat-${name}: (
   main: ${p.main},
   lighter: ${p.lighter},
