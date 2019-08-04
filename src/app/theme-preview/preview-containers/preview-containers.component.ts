@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChildren, ViewChild, AfterViewChecked, AfterViewInit, OnDestroy } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource, MatDialogConfig, MatDialogContainer, MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialogConfig, MatDialogContainer, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { IconNotifyComponent } from 'src/app/icon-picker/icon-notify/icon-notify.component';
 
 export interface PeriodicElement {

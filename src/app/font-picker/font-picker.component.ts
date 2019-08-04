@@ -3,7 +3,7 @@ import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ThemeService } from '../theme.service';
 import { FontService, FontMeta } from '../font.service';
 import { DEFAULT_FONTS, AllFontSelection, FontSelection } from './types';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { GoogleFontSelectorComponent } from '../google-font-selector/google-font-selector.component';
 import { Observable } from 'rxjs';
 import { tap, switchMap, map } from 'rxjs/operators';

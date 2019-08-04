@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { filter, tap, distinct } from 'rxjs/operators';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { IconNotifyComponent } from './icon-notify/icon-notify.component';
 import { ThemeService } from '../theme.service';
 

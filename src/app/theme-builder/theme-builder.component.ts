@@ -4,7 +4,8 @@ import { Subject } from 'rxjs';
 
 import { debounceTime, take, switchMap } from 'rxjs/operators';
 
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreditsComponent } from '../credits/credits.component';
 import { ThemeService, Theme } from '../theme.service';
 
