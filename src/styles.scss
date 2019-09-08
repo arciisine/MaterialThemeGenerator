@@ -23,7 +23,7 @@ $fontConfig: (
   body-1: mat-typography-level(14px, 20px, 400, 'Raleway', 0.0179em),
   button: mat-typography-level(14px, 14px, 500, 'Raleway', 0.0893em),
   caption: mat-typography-level(12px, 20px, 400, 'Raleway', 0.0333em),
-  input: mat-typography-level(inherits, 1.125, 400, 'Raleway', 1.5px)
+  input: mat-typography-level(inherit, 1.125, 400, 'Raleway', 1.5px)
 );
 
 $light-text: #ffffff;
