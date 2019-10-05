@@ -200,9 +200,9 @@ body {
   --${name}-color: ${p.main};
   --${name}-lighter-color: ${p.lighter};
   --${name}-darker-color: ${p.darker};
-  --text-${name}-color: ${this.getTextColor(p.main)};
-  --text-${name}-lighter-color: ${this.getTextColor(p.lighter)};
-  --text-${name}-darker-color: ${this.getTextColor(p.darker)};
+  --text-${name}-color: #{${this.getTextColor(p.main)}};
+  --text-${name}-lighter-color: #{${this.getTextColor(p.lighter)}};
+  --text-${name}-darker-color: #{${this.getTextColor(p.darker)}};
 }
 
 $mat-${name}: (
