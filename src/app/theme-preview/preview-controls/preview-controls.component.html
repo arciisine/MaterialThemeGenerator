@@ -5,7 +5,8 @@
     </mat-card-header>
     <mat-card-content>
       <h3>Quantity</h3>
-      <label>Amount <mat-slider formControlName="quantity" [min]="1" [max]="20"></mat-slider></label>
+      <label>Amount <mat-slider formControlName="quantity" [min]="1" [max]="20"></mat-slider>
+      </label>
       <label>Large? <mat-checkbox formControlName="large"></mat-checkbox></label>
       <label>Options:
         <mat-chip-list>
@@ -18,39 +19,43 @@
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 
       <h3>Ship To</h3>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
         <input matInput placeholder="Name" formControlName="name">
         <mat-error *ngIf="addressForm.get('name').hasError('required')">
           Name is <strong>required</strong>
         </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Address" formControlName="address"></textarea>
-        <mat-error *ngIf="addressForm.get('address').hasError('required')">
-          Address is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="City" formControlName="city">
-        <mat-error *ngIf="addressForm.get('city').hasError('required')">
-          City is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="State" formControlName="state">
-          <mat-option *ngFor="let state of states" [value]="state.abbreviation">
-            {{ state.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="addressForm.get('state').hasError('required')">
-          State is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput #postalCode maxlength="5" placeholder="Postal Code" type="number"
-          formControlName="postalCode">
-        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-      </mat-form-field>
+      <fieldset>
+        <legend>Shipping Address</legend>
+        <mat-form-field>
+          <textarea matInput placeholder="Street" formControlName="street"></textarea>
+          <mat-error *ngIf="addressForm.get('street').hasError('required')">
+            Street is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="City" formControlName="city">
+          <mat-error *ngIf="addressForm.get('city').hasError('required')">
+            City is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="State" formControlName="state">
+            <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+              {{ state.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="addressForm.get('state').hasError('required')">
+            State is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput #postalCode maxlength="5" placeholder="Postal Code" type="number"
+            formControlName="postalCode">
+          <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+        </mat-form-field>
+      </fieldset>
       <h3>Shipping Method
         <mat-radio-group formControlName="shipping">
           <mat-radio-button value="free">Free Shipping</mat-radio-button>
@@ -61,7 +66,8 @@
       <h3>Tracking? <mat-slide-toggle formControlName="tracking"></mat-slide-toggle>
       </h3>
       <mat-form-field>
-        <input matInput formControlName="arrival" [matDatepicker]="picker" placeholder="Desired Arrival Date">
+        <input matInput formControlName="arrival" [matDatepicker]="picker"
+          placeholder="Desired Arrival Date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
