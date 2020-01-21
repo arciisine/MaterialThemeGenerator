@@ -11,7 +11,7 @@ export class PreviewControlsComponent implements OnInit {
     large: new FormControl(false),
     quantity: new FormControl(10),
     name: new FormControl(null, Validators.required),
-    address: new FormControl(null, Validators.required),
+    street: new FormControl(null, Validators.required),
     city: new FormControl(null, Validators.required),
     state: new FormControl(null, Validators.required),
     postalCode: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
