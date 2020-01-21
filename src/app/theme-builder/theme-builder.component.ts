@@ -10,6 +10,7 @@ import { CreditsComponent } from '../credits/credits.component';
 import { ThemeService, Theme } from '../theme.service';
 
 import { highlight } from './highlight';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
 @Component({
@@ -27,11 +28,12 @@ export class ThemeBuilderComponent implements OnInit {
   showingSource = false;
   source = '';
   css = '';
-  sourcePretty = '';
+  sourcePretty: SafeHtml = '';
   first = true;
 
   constructor(private el: ElementRef, private zone: NgZone,
     private snackbar: MatSnackBar, private dialog: MatDialog,
+    private sanitizer: DomSanitizer,
     public service: ThemeService
   ) {
     if (window.location.search) {
@@ -112,7 +114,7 @@ export class ThemeBuilderComponent implements OnInit {
     const iframe = (this.el.nativeElement as HTMLElement).querySelector('iframe');
     const body = iframe.contentDocument.body;
 
-    this.sourcePretty = highlight(this.source);
+    this.sourcePretty = this.sanitizer.bypassSecurityTrustHtml(highlight(this.source));
 
 
     this.zone.runOutsideAngular(() => {
