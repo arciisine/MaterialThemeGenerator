@@ -224,7 +224,7 @@ $theme-${name}: mat-palette($mat-${name}, main, lighter, darker);`;
     // tslint:disable:max-line-length
     const tpl = `/**
 * Generated theme by Material Theme Generator
-* https://material-theme-generator.travetto.io
+* https://materialtheme.arcsine.dev
 */
 
 @import '~@angular/material/theming';
