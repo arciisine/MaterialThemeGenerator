@@ -1567,19 +1567,21 @@ $mat-ripple-color-opacity: 0.1;
     color: $disabled-color;
   }
 
+  .mat-primary .mat-pseudo-checkbox-checked,
+  .mat-primary .mat-pseudo-checkbox-indeterminate {
+    background: mat-color(map-get($theme, primary));
+  }
+
   // Default to the accent color. Note that the pseudo checkboxes are meant to inherit the
   // theme from their parent, rather than implementing their own theming, which is why we
-  // don't attach to the `mat-*` classes.
+  // don't attach to the `mat-*` classes. Also note that this needs to be below `.mat-primary`
+  // in order to allow for the color to be overwritten if the checkbox is inside a parent that
+  // has `mat-accent` and is placed inside another parent that has `mat-primary`.
   .mat-pseudo-checkbox-checked,
   .mat-pseudo-checkbox-indeterminate,
   .mat-accent .mat-pseudo-checkbox-checked,
   .mat-accent .mat-pseudo-checkbox-indeterminate {
     background: mat-color(map-get($theme, accent));
-  }
-
-  .mat-primary .mat-pseudo-checkbox-checked,
-  .mat-primary .mat-pseudo-checkbox-indeterminate {
-    background: mat-color(map-get($theme, primary));
   }
 
   .mat-warn .mat-pseudo-checkbox-checked,
@@ -2778,11 +2780,11 @@ $mat-calendar-weekday-table-font-size: 11px !default;
     border-top-color: mat-color($foreground, divider);
   }
 
-  .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header {
-    &:not([aria-disabled='true']) {
-      &.cdk-keyboard-focused,
-      &.cdk-program-focused,
-      &:hover {
+  .mat-expansion-panel {
+    & .mat-expansion-panel-header.cdk-keyboard-focused,
+    & .mat-expansion-panel-header.cdk-program-focused,
+    &:not(.mat-expanded) .mat-expansion-panel-header:hover {
+      &:not([aria-disabled='true']) {
         background: mat-color($background, hover);
       }
     }
