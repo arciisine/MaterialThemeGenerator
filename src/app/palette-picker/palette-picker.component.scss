@@ -54,7 +54,12 @@
     text-align: center;
   }
 
-  h3 { grid-area: title; }
+  h3 { 
+    a {
+      display: inline-block;
+    }
+    grid-area: title; 
+  }
   .lt { grid-area: lt; }
   .dk { grid-area: dk; }
   .bg { grid-area: bg; }
