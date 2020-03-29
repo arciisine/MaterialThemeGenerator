@@ -1,6 +1,7 @@
 <div>
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="'navigation'" [mode]="'side'">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="'navigation'"
+      [mode]="'side'">
       <mat-toolbar color="primary">Menu</mat-toolbar>
       <mat-nav-list>
         <a mat-list-item>Home</a>
@@ -11,8 +12,10 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-            <mat-icon *ngIf="!loadingIcons" aria-label="Side nav toggle icon" svgIcon="menu">menu</mat-icon>
+          <button type="button" aria-label="Toggle sidenav" mat-icon-button
+            (click)="drawer.toggle()">
+            <mat-icon *ngIf="!loadingIcons" aria-label="Side nav toggle icon" svgIcon="menu">menu
+            </mat-icon>
           </button>
           <span>Sample Application</span>
           <span class="spacer"></span>
@@ -25,18 +28,34 @@
           <span>Status</span>
           <span class="spacer"></span>
           <mat-icon *ngIf="!loadingIcons" svgIcon="home">home</mat-icon>
-          <mat-icon *ngIf="!loadingIcons" svgIcon="email" matBadge="22" matBadgePosition="above after">email</mat-icon>
+          <mat-icon *ngIf="!loadingIcons" svgIcon="email" matBadge="22"
+            matBadgePosition="above after">email</mat-icon>
         </mat-toolbar-row>
       </mat-toolbar>
       <div class="body">
         <mat-tab-group #tabGroup (selectedTabChange)="handleTabChange($event)">
-          <mat-tab label="Controls">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span matTooltip="Example of controls in use">
+                Controls
+              </span>
+            </ng-template>
             <app-preview-controls></app-preview-controls>
           </mat-tab>
-          <mat-tab label="Containers">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span matTooltip="General containers, like tables/dialogs">
+                Containers
+              </span>
+            </ng-template>
             <app-preview-containers *ngIf="activeTab === 'Containers'"></app-preview-containers>
           </mat-tab>
-          <mat-tab label="Typography">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span matTooltip="Preview of typography">
+                Typography
+              </span>
+            </ng-template>
             <app-preview-typography></app-preview-typography>
           </mat-tab>
         </mat-tab-group>

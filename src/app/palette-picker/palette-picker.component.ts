@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService, SubPalette } from '../theme.service';
-import { FormGroup, FormControl, Form } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import * as tinycolor from 'tinycolor2';
-import { throttleTime } from 'rxjs/operators';
 
 export interface Palette {
   primary: SubPalette;

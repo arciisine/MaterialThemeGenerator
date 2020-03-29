@@ -303,6 +303,7 @@ $light-bg-darker-10:  darken($light-background, 10%);
 $light-bg-darker-20:  darken($light-background, 20%);
 $light-bg-darker-30:  darken($light-background, 30%);
 $light-bg-lighter-5:  lighten($light-background, 5%);
+$dark-bg-tooltip:     lighten(${theme.palette.darkBackground}, 20%);
 $dark-bg-alpha-4:     rgba(${theme.palette.darkBackground}, 0.04);
 $dark-bg-alpha-12:    rgba(${theme.palette.darkBackground}, 0.12);
 
@@ -313,6 +314,7 @@ $mat-light-theme-background: (
   hover:                    $dark-bg-alpha-4,
   card:                     $light-bg-lighter-5,
   dialog:                   $light-bg-lighter-5,
+  tooltip:                  $dark-bg-tooltip,
   disabled-button:          $dark-bg-alpha-12,
   raised-button:            $light-bg-lighter-5,
   focused-button:           $dark-focused,
@@ -340,6 +342,7 @@ $mat-dark-theme-background: (
   hover:                    $light-bg-alpha-4,
   card:                     $dark-bg-lighter-5,
   dialog:                   $dark-bg-lighter-5,
+  tooltip:                  $dark-bg-lighter-20,
   disabled-button:          $light-bg-alpha-12,
   raised-button:            $dark-bg-lighter-5,
   focused-button:           $light-focused,
@@ -365,7 +368,6 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-pri
 .theme-alternate {
   @include angular-material-theme($altTheme);
 }
-
 
 // Specific component overrides, pieces that are not in line with the general theming
 
