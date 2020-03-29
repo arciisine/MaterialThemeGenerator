@@ -42,13 +42,12 @@
             </ng-template>
             <app-preview-controls></app-preview-controls>
           </mat-tab>
-          <mat-tab>
+          <mat-tab aria-label="Containers">
             <ng-template mat-tab-label>
-              <span matTooltip="General containers, like tables/dialogs">
-                Containers
-              </span>
+              <span matTooltip="General containers, like tables/dialogs">Containers</span>
             </ng-template>
-            <app-preview-containers *ngIf="activeTab === 'Containers'"></app-preview-containers>
+            <app-preview-containers *ngIf="activeTab === 'Containers'">
+            </app-preview-containers>
           </mat-tab>
           <mat-tab>
             <ng-template mat-tab-label>

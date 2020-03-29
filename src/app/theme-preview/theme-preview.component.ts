@@ -26,7 +26,7 @@ export class ThemePreviewComponent implements OnInit {
   }
 
   handleTabChange(tab: MatTabChangeEvent) {
-    this.activeTab = tab.tab.textLabel;
+    this.activeTab = tab.tab.ariaLabel;
   }
 
 }
