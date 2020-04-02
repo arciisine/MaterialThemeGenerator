@@ -118,7 +118,6 @@ export class ThemeBuilderComponent implements OnInit {
 
 
     this.zone.runOutsideAngular(() => {
-      window.postMessage({ icons: theme.icons }, window.location.toString());
       this.service.compileScssTheme(this.source).then(text => {
         this.css = text;
         if (body.childNodes && body.childNodes.item(0) &&

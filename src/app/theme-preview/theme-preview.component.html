@@ -12,20 +12,20 @@
       <mat-toolbar color="primary">
         <mat-toolbar-row>
           <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-            <mat-icon *ngIf="!loadingIcons" aria-label="Side nav toggle icon" svgIcon="menu">menu</mat-icon>
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
           </button>
           <span>Sample Application</span>
           <span class="spacer"></span>
-          <mat-icon *ngIf="!loadingIcons" svgIcon="favorite">favorite</mat-icon>
-          <mat-icon *ngIf="!loadingIcons" svgIcon="delete">delete</mat-icon>
+          <mat-icon>favorite</mat-icon>
+          <mat-icon>delete</mat-icon>
         </mat-toolbar-row>
       </mat-toolbar>
       <mat-toolbar color="accent">
         <mat-toolbar-row>
           <span>Status</span>
           <span class="spacer"></span>
-          <mat-icon *ngIf="!loadingIcons" svgIcon="home">home</mat-icon>
-          <mat-icon *ngIf="!loadingIcons" svgIcon="email" matBadge="22" matBadgePosition="above after">email</mat-icon>
+          <mat-icon>home</mat-icon>
+          <mat-icon matBadge="22" matBadgePosition="above after">email</mat-icon>
         </mat-toolbar-row>
       </mat-toolbar>
       <div class="body">

@@ -36,8 +36,6 @@ mat-sidenav-container {
       display: grid;
       grid-template-columns: 1fr 30px;
       mat-icon {
-        align-self: center;
-        padding: .5em;
         cursor: pointer;
       }
     }

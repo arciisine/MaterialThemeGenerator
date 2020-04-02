@@ -3,33 +3,19 @@
     Icon Caveats
     <span class="spacer"></span>
     <button mat-icon-button mat-dialog-close>
-      <mat-icon svgIcon="close"></mat-icon>
+      <mat-icon data-close>close</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
 <div mat-dialog-content>
   <p>
-    The icon treatment is not supported yet via icon fonts. Currently the Material icon font only
-    supports the filled treatment. This project has produced
-    <a href="https://github.com/arciisine/MaterialThemeGenerator/tree/master/src/assets" target="_blank">SVG
-      Icon sets</a>
-    that can be used with the <a href="https://material.angular.io/components/icon/api" target="_blank">MatIconRegistry</a>.
-
-    These fonts were derived from the <a href="https://github.com/mui-org/material-ui/tree/master/packages/material-ui-icons/src"
-      target="_blank">Material UI</a> project.
+    Previously the theme builder used SVG sets to produce the various icon treatments afforded by the material design
+    language.
+    This has all been moved over to using the icon fonts. This means any previous use of
   </p>
-  <pre>
-      <code>
-constructor(
-  matIconRegistry: MatIconRegistry,
-  domSanitizer: DomSanitizer
-) &#123;
-  matIconRegistry.addSvgIconSet(
-    domSanitizer.bypassSecurityTrustResourceUrl(
-      `/assets/material-icons-Outlined.svg`
-    )
-  );
-&#125;
-      </code>
-    </pre>
+  <pre>&lt;mat svgIcon="name"&gt;name&lt;/mat&gt;</pre>
+  <p>
+    Should be replaced with:
+  </p>
+  <pre>&lt;mat&gt;name&lt;/mat&gt;</pre>
 </div>

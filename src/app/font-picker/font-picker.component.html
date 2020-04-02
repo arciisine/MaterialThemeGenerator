@@ -1,6 +1,6 @@
 <h2>
   <a class="help" href="https://material.angular.io/guide/typography" target="_blank" matBadge="?"
-    matBadgeSize="small" rel="noopener">
+     matBadgeSize="small" rel="noopener">
     Fonts
   </a>
 </h2>
@@ -12,7 +12,7 @@
         Edit Font - <span>{{editing ? editing.get('target').value || 'All' : ''}}</span>
         <span class="spacer"></span>
         <a mat-icon-button color="primary" (click)="sidenav.close()">
-          <mat-icon svgIcon="close"></mat-icon>
+          <mat-icon data-close>close</mat-icon>
         </a>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -21,12 +21,12 @@
         <div class="font-family">
           <mat-form-field>
             <input matInput type="text" [formControl]="search" [matAutocomplete]="auto" placeholder="Family"
-              #familyInput [style.fontFamily]="editing.value.family" [style.fontWeight]="editing.value.variant">
+                   #familyInput [style.fontFamily]="editing.value.family" [style.fontWeight]="editing.value.variant">
           </mat-form-field>
-          <mat-icon svgIcon="search" (click)="selectFont()"></mat-icon>
+          <mat-icon (click)="selectFont()">search</mat-icon>
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option (onSelectionChange)="pickFont(option)" *ngFor="let option of (searchItems | async)"
-              [value]="option.family">{{option.family}}</mat-option>
+                        [value]="option.family">{{option.family}}</mat-option>
           </mat-autocomplete>
         </div>
 
@@ -67,7 +67,8 @@
       <li *ngFor="let k of keys; let i = index" (click)="edit(i); sidenav.toggle()">
         <span class="name">{{fonts[k].target}}</span>
         <span class="family" [style.fontFamily]="fonts[k].family">{{fonts[k].family}}</span>
-        <span class="variant" [style.fontWeight]="fonts[k].variant === 'light' ? 300 : (fonts[k].variant === 'medium' ? 500 : 400)">{{fonts[k].variant}}</span>
+        <span class="variant"
+              [style.fontWeight]="fonts[k].variant === 'light' ? 300 : (fonts[k].variant === 'medium' ? 500 : 400)">{{fonts[k].variant}}</span>
         <span class="size">{{fonts[k].size}}{{fonts[k].size ? 'px'
           :'auto'}}/{{fonts[k].lineHeight}}{{fonts[k].lineHeight &lt; 2 ? 'em': 'px'}}
         </span>
