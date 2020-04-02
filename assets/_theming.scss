@@ -1,4 +1,6 @@
 // Import all the theming functionality.
+// We can use relative imports for imports from the cdk because we bundle everything
+// up into a single flat scss file for material.
 // We want overlays to always appear over user content, so set a baseline
 // very high z-index for the overlay container, which is where we create the new
 // stacking context for all overlays.
@@ -161,62 +163,15 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
   }
 }
 
-/// Emits the mixin's content nested under `$selector-context` if `$selector-context`
-/// is non-empty.
-/// @param selector-context The selector under which to nest the mixin's content.
-@mixin _cdk-optionally-nest-content($selector-context) {
-  @if ($selector-context == '') {
+// Applies styles for users in high contrast mode. Note that this only applies
+// to Microsoft browsers. Chrome can be included by checking for the `html[hc]`
+// attribute, however Chrome handles high contrast differently.
+//
+// @param target Which kind of high contrast setting to target. Defaults to `active`, can be
+//    `white-on-black` or `black-on-white`.
+@mixin cdk-high-contrast($target: active) {
+  @media (-ms-high-contrast: $target) {
     @content;
-  }
-  @else {
-    #{$selector-context} {
-      @content;
-    }
-  }
-}
-
-/// Applies styles for users in high contrast mode. Note that this only applies
-/// to Microsoft browsers. Chrome can be included by checking for the `html[hc]`
-/// attribute, however Chrome handles high contrast differently.
-///
-/// @param target Which kind of high contrast setting to target. Defaults to `active`, can be
-///    `white-on-black` or `black-on-white`.
-/// @param encapsulation Whether to emit styles for view encapsulation. Values are:
-///     * `on` - works for `Emulated`, `Native`, and `ShadowDom`
-///     * `off` - works for `None`
-///     * `any` - works for all encapsulation modes by emitting the CSS twice (default).
-@mixin cdk-high-contrast($target: active, $encapsulation: 'any') {
-  @if ($target != 'active' and $target != 'black-on-white' and $target != 'white-on-black') {
-    @error 'Unknown cdk-high-contrast value "#{$target}" provided. ' +
-           'Allowed values are "active", "black-on-white", and "white-on-black"';
-  }
-
-  @if ($encapsulation != 'on' and $encapsulation != 'off' and $encapsulation != 'any') {
-    @error 'Unknown cdk-high-contrast encapsulation "#{$encapsulation}" provided. ' +
-           'Allowed values are "on", "off", and "any"';
-  }
-
-  // If the selector context has multiple parts, such as `.section, .region`, just doing
-  // `.cdk-high-contrast-xxx #{&}` will only apply the parent selector to the first part of the
-  // context. We address this by nesting the selector context under .cdk-high-contrast.
-  @at-root {
-    $selector-context: #{&};
-
-    @if ($encapsulation != 'on') {
-      .cdk-high-contrast-#{$target} {
-        @include _cdk-optionally-nest-content($selector-context) {
-          @content;
-        }
-      }
-    }
-
-    @if ($encapsulation != 'off') {
-      .cdk-high-contrast-#{$target} :host {
-        @include _cdk-optionally-nest-content($selector-context) {
-          @content;
-        }
-      }
-    }
   }
 }
 
@@ -230,13 +185,11 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
   @keyframes cdk-text-field-autofill-end {/*!*/}
 
   .cdk-text-field-autofill-monitored:-webkit-autofill {
-    // Since Chrome 80 we need a 1ms delay, or the animationstart event won't fire.
-    animation: cdk-text-field-autofill-start 0s 1ms;
+    animation-name: cdk-text-field-autofill-start;
   }
 
   .cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
-    // Since Chrome 80 we need a 1ms delay, or the animationstart event won't fire.
-    animation: cdk-text-field-autofill-end 0s 1ms;
+    animation-name: cdk-text-field-autofill-end;
   }
 
   // Remove the resize handle on autosizing textareas, because whatever height
@@ -273,14 +226,13 @@ $cdk-text-field-autofill-color-frame-count: 0;
   }
 
   &:-webkit-autofill {
-    animation: cdk-text-field-autofill-color-#{$cdk-text-field-autofill-color-frame-count} both;
+    animation-name: cdk-text-field-autofill-color-#{$cdk-text-field-autofill-color-frame-count};
+    animation-fill-mode: both;
   }
 
   &.cdk-text-field-autofill-monitored:-webkit-autofill {
-    // Since Chrome 80 we need a 1ms delay for cdk-text-field-autofill-start, or the animationstart
-    // event won't fire.
-    animation: cdk-text-field-autofill-start 0s 1ms,
-               cdk-text-field-autofill-color-#{$cdk-text-field-autofill-color-frame-count} both;
+    animation-name: cdk-text-field-autofill-start,
+                    cdk-text-field-autofill-color-#{$cdk-text-field-autofill-color-frame-count};
   }
 
   $cdk-text-field-autofill-color-frame-count:
@@ -1232,7 +1184,6 @@ $mat-light-theme-background: (
   disabled-button-toggle: map_get($mat-grey, 200),
   unselected-chip: map_get($mat-grey, 300),
   disabled-list-option: map_get($mat-grey, 200),
-  tooltip: map_get($mat-grey, 700),
 );
 
 // Background palette for dark themes.
@@ -1251,7 +1202,6 @@ $mat-dark-theme-background: (
   disabled-button-toggle: black,
   unselected-chip: map_get($mat-grey, 700),
   disabled-list-option: black,
-  tooltip: map_get($mat-grey, 700),
 );
 
 // Foreground palette for light themes.
@@ -1397,15 +1347,6 @@ $mat-ripple-color-opacity: 0.1;
     // By default, every ripple container should have position: relative in favor of creating an
     // easy API for developers using the MatRipple directive.
     position: relative;
-
-    // Promote containers that have ripples to a new layer. We want to target `:not(:empty)`,
-    // because we don't want all ripple containers to have their own layer since they're used in a
-    // lot of places and the layer is only relevant while animating. Note that ideally we'd use
-    // the `contain` property here (see #13175), because `:empty` can be broken by having extra
-    // text inside the element, but it isn't very well supported yet.
-    &:not(:empty) {
-      transform: translateZ(0);
-    }
   }
 
   .mat-ripple.mat-ripple-unbounded {
@@ -1421,7 +1362,7 @@ $mat-ripple-color-opacity: 0.1;
     transform: scale(0);
 
     // In high contrast mode the ripple is opaque, causing it to obstruct the content.
-    @include cdk-high-contrast(active, off) {
+    @include cdk-high-contrast {
       display: none;
     }
   }
@@ -1664,7 +1605,7 @@ $mat-ripple-color-opacity: 0.1;
   $line-height: $font-size,
   $font-weight: 400,
   $font-family: null,
-  $letter-spacing: normal) {
+  $letter-spacing: null) {
 
   @return (
     font-size: $font-size,
@@ -1943,7 +1884,7 @@ $mat-badge-large-size: $mat-badge-default-size + 6;
     color: mat-color($primary, default-contrast);
     background: mat-color($primary);
 
-    @include cdk-high-contrast(active, off) {
+    @include cdk-high-contrast {
       outline: solid 1px;
       border-radius: 0;
     }
@@ -2380,6 +2321,7 @@ $_mat-button-ripple-opacity: 0.1;
 
 
 
+
 @mixin mat-checkbox-theme($theme) {
   $is-dark-theme: map-get($theme, is-dark);
   $primary: map-get($theme, primary);
@@ -2411,6 +2353,12 @@ $_mat-button-ripple-opacity: 0.1;
     // !important is needed here because a stroke must be set as an
     // attribute on the SVG in order for line animation to work properly.
     stroke: $checkbox-mark-color !important;
+
+    @include cdk-high-contrast(black-on-white) {
+      // Having the one above be !important ends up overriding the browser's automatic
+      // color inversion so we need to re-invert it ourselves for black-on-white.
+      stroke: #000 !important;
+    }
   }
 
   .mat-checkbox-mixedmark {
@@ -2447,6 +2395,19 @@ $_mat-button-ripple-opacity: 0.1;
 
     .mat-checkbox-label {
       color: mat-color($foreground, secondary-text);
+    }
+
+    @include cdk-high-contrast {
+      opacity: 0.5;
+    }
+  }
+
+  // This one is moved down here so it can target both
+  // the theme colors and the disabled state.
+  @include cdk-high-contrast {
+    .mat-checkbox-background {
+      // Needs to be removed because it hides the checkbox outline.
+      background: none;
     }
   }
 
@@ -2500,25 +2461,11 @@ $mat-chip-remove-font-size: 18px;
   }
 }
 
-
-// Applies the background color for a ripple element.
-// If the color value provided is not a Sass color,
-// we assume that we've been given a CSS variable.
-// Since we can't perform alpha-blending on a CSS variable,
-// we instead add the opacity directly to the ripple element.
-@mixin _mat-chips-ripple-background($palette, $default-contrast, $opacity) {
-  $background-color: mat-color($palette, $default-contrast, $opacity);
-  background-color: $background-color;
-  @if (type-of($background-color) != color) {
-    opacity: $opacity;
-  }
-}
-
 @mixin mat-chips-theme-color($palette) {
   @include mat-chips-color(mat-color($palette, default-contrast), mat-color($palette));
 
   .mat-ripple-element {
-   @include _mat-chips-ripple-background($palette, default-contrast, 0.1);
+    background: mat-color($palette, default-contrast, 0.1);
   }
 }
 
@@ -3148,12 +3095,6 @@ $mat-calendar-weekday-table-font-size: 11px !default;
       background: mat-color($background, 'hover');
     }
   }
-
-  .mat-list-single-selected-option {
-    &, &:hover, &:focus {
-      background: mat-color($background, hover, 0.12);
-    }
-  }
 }
 
 @mixin mat-list-typography($config) {
@@ -3720,8 +3661,9 @@ $mat-calendar-weekday-table-font-size: 11px !default;
   $mat-slider-disabled-color: mat-color($foreground, slider-off);
   $mat-slider-labeled-min-value-thumb-color: mat-color($foreground, slider-min);
   $mat-slider-labeled-min-value-thumb-label-color: mat-color($foreground, slider-off);
-  $mat-slider-tick-opacity: 0.7;
-  $mat-slider-tick-color: mat-color($foreground, base, $mat-slider-tick-opacity);
+  $mat-slider-focus-ring-color: mat-color($accent, default, 0.2);
+  $mat-slider-focus-ring-min-value-color: mat-color($foreground, base, 0.12);
+  $mat-slider-tick-color: mat-color($foreground, base, 0.7);
   $mat-slider-tick-size: 2px;
 
   .mat-slider-track-background {
@@ -3741,15 +3683,7 @@ $mat-calendar-weekday-table-font-size: 11px !default;
   }
 
   .mat-slider-focus-ring {
-    $opacity: 0.2;
-    $color: mat-color($accent, default, $opacity);
-    background-color: $color;
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (type-of($color) != color) {
-      opacity: $opacity;
-    }
+    background-color: $mat-slider-focus-ring-color;
   }
 
   .mat-slider:hover,
@@ -3775,15 +3709,7 @@ $mat-calendar-weekday-table-font-size: 11px !default;
 
   .mat-slider-min-value {
     .mat-slider-focus-ring {
-      $opacity: 0.12;
-      $color: mat-color($foreground, base, $opacity);
-      background-color: $color;
-
-      // `mat-color` uses `rgba` for the opacity which won't work with
-      // CSS variables so we need to use `opacity` as a fallback.
-      @if (type-of($color) != color) {
-        opacity: $opacity;
-      }
+      background-color: $mat-slider-focus-ring-min-value-color;
     }
 
     &.mat-slider-thumb-label-showing {
@@ -3821,12 +3747,6 @@ $mat-calendar-weekday-table-font-size: 11px !default;
 
   .mat-slider-has-ticks .mat-slider-wrapper::after {
     border-color: $mat-slider-tick-color;
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (type-of($mat-slider-tick-color) != color) {
-      opacity: $mat-slider-tick-opacity;
-    }
   }
 
   .mat-slider-horizontal .mat-slider-ticks {
@@ -3836,23 +3756,11 @@ $mat-calendar-weekday-table-font-size: 11px !default;
     // (see https://bugzilla.mozilla.org/show_bug.cgi?id=1314319).
     background-image: -moz-repeating-linear-gradient(0.0001deg, $mat-slider-tick-color,
         $mat-slider-tick-color $mat-slider-tick-size, transparent 0, transparent);
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (type-of($mat-slider-tick-color) != color) {
-      opacity: $mat-slider-tick-opacity;
-    }
   }
 
   .mat-slider-vertical .mat-slider-ticks {
     background-image: repeating-linear-gradient(to bottom, $mat-slider-tick-color,
         $mat-slider-tick-color $mat-slider-tick-size, transparent 0, transparent);
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (type-of($mat-slider-tick-color) != color) {
-      opacity: $mat-slider-tick-opacity;
-    }
   }
 }
 
@@ -4221,10 +4129,8 @@ $mat-tooltip-handset-vertical-padding:
     ($mat-tooltip-handset-target-height - $mat-tooltip-handset-font-size) / 2;
 
 @mixin mat-tooltip-theme($theme) {
-  $background: map-get($theme, background);
-
   .mat-tooltip {
-    background: mat-color($background, tooltip, 0.9);
+    background: mat-color($mat-grey, 700, 0.9);
   }
 }
 
