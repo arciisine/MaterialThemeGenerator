@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
@@ -6,24 +6,11 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   templateUrl: './theme-preview.component.html',
   styleUrls: ['./theme-preview.component.scss']
 })
-export class ThemePreviewComponent implements OnInit {
+export class ThemePreviewComponent {
 
-  loadingIcons = false;
   activeTab: string;
 
-  constructor(private zone: NgZone) { }
-
-  ngOnInit() {
-
-    window.parent.addEventListener('message', (ev: MessageEvent) => {
-      if (ev.data.icons) {
-        this.zone.run(() => {
-          this.loadingIcons = true;
-          setTimeout(() => this.loadingIcons = false, 10);
-        });
-      }
-    });
-  }
+  constructor() { }
 
   handleTabChange(tab: MatTabChangeEvent) {
     this.activeTab = tab.tab.ariaLabel;

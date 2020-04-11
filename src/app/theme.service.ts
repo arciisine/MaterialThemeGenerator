@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Palette } from './palette-picker/palette-picker.component';
 import { IconSelection } from './icon-picker/icon-picker.component';
-import { Subject, ReplaySubject, Observable } from 'rxjs';
+import { Subject, ReplaySubject } from 'rxjs';
 import { FontSelection, DEFAULT_FONTS } from './font-picker/types';
 import * as tinycolor from 'tinycolor2';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 type RGBA = tinycolor.ColorFormats.RGBA;
 export interface MaterialPalette {
@@ -35,6 +35,14 @@ export interface Theme {
   providedIn: 'root'
 })
 export class ThemeService {
+
+  static FONT_FAMILY_MAPPING = {
+    Rounded: 'Material Icons Round',
+    TwoTone: 'Material Icons Two Tone',
+    Filled: 'Material Icons',
+    Outlined: 'Material Icons Outlined',
+    Sharp: 'Material Icons Sharp'
+  };
 
   static MIX_AMOUNTS_PRIMARY = {
     50: [true, 12],
@@ -232,6 +240,7 @@ $theme-${name}: mat-palette($mat-${name}, main, lighter, darker);`;
 // have to load a single css file for Angular Material in your app.
 
 // Fonts
+@import 'https://fonts.googleapis.com/css?family=${ThemeService.FONT_FAMILY_MAPPING[theme.icons].replace(/ /g, '+')}';
 ${Array.from(new Set((theme.fonts || []).map(x => x.family.replace(/ /g, '+'))))
         .map(x => `@import url('https://fonts.googleapis.com/css?family=${x}:300,400,500');`).join('\n')}
      
@@ -382,6 +391,14 @@ $altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-pri
 .mat-standard-chip {
   padding: .5em .85em;
   min-height: 2.5em;
+}
+
+.material-icons {
+  font-size: 24px;
+  font-family: '${ThemeService.FONT_FAMILY_MAPPING[theme.icons]}', 'Material Icons';  
+  .mat-badge-content {
+    font-family: '${theme.fonts.find(x => x.target === 'caption').family}';
+  }
 }
 `;
     // tslint:enable:no-trailing-whitespace

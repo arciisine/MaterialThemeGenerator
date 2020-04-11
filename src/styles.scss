@@ -9,6 +9,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,400,500');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Material+Icons');
 
 $fontConfig: (
   display-4: mat-typography-level(112px, 112px, 300, 'Raleway', -0.0134em),
@@ -211,6 +212,7 @@ h2,h3,h4 {
     span.mat-badge-content {
       background:black;
       opacity: .7;
+      z-index:100;
       color: white;
       transition: all .15s ease-in-out;
     }
@@ -222,7 +224,7 @@ h2,h3,h4 {
   }  
 }
 
-mat-icon[svgicon="close"], mat-icon[svgicon="github"] {
+mat-icon[data-close], mat-icon[svgicon="github"] {
   color: white;
 }
 

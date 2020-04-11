@@ -14,7 +14,7 @@
           Demo</button>
         <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
         <a href="https://github.com/arciisine/MaterialThemeGenerator" mat-icon-button color="primary"
-          title="GitHub" target="_blank" rel="noopener">
+           title="GitHub" target="_blank" rel="noopener">
           <mat-icon svgIcon="github"></mat-icon>
         </a>
 
@@ -30,7 +30,8 @@
   </div>
   <div class="preview" [class.ready]="isReady">
     <iframe src="/preview" (load)="onReady()" [hidden]="showingSource" title="Material Preview"></iframe>
-    <pre [style.display]="showingSource ? 'block': 'none'" class="hljs"><code class="scss" [innerHTML]="sourcePretty"></code></pre>
+    <pre [style.display]="showingSource ? 'block': 'none'"
+         class="hljs"><code class="scss" [innerHTML]="sourcePretty"></code></pre>
   </div>
   <div class="preview loading ready" *ngIf="!isReady">
     <span class="message">Loading...</span>

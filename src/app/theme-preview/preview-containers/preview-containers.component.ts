@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChildren, ViewChild, AfterViewChecked, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatDialogConfig, MatDialogContainer, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { IconNotifyComponent } from 'src/app/icon-picker/icon-notify/icon-notify.component';
 
