@@ -35,7 +35,7 @@ export class ThemeService {
   }
 
   loadThemingScss() {
-    return this.http.get('https://unpkg.com/@angular/material@11.2.12/_theming.scss', { responseType: 'text' })
+    return this.http.get('/assets/angular_11_theming.scss', { responseType: 'text' })
       .pipe(
         map(x => {
           return x
@@ -125,8 +125,7 @@ export class ThemeService {
   async compileScssTheme(src: string) {
     await this.$themeScss;
     return new Promise<string>((res, rej) =>
-      Sass.compile(`@import 'https://unpkg.com/browse/@angular/material@11.2.12/core/theming/_theming.scss'; 
-${src.replace('@include angular-material-theme($altTheme);', '')}`, v => {
+      Sass.compile(src.replace('@include angular-material-theme($altTheme);', ''), v => {
         if (v.status === 0) {
           res(v.text);
         } else {

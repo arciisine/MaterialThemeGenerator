@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ThemeService, SubPalette } from '../theme.service';
+import { ThemeService } from '../theme.service';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import * as tinycolor from 'tinycolor2';
+import { SubPalette } from '../render.service';
 
 export interface Palette {
   primary: SubPalette;
