@@ -41,7 +41,7 @@ $dark-disabled-text: rgba(rgba(black, 0.87), 0.38);
 $dark-dividers: rgba(rgba(black, 0.87), 0.12);
 $dark-focused: rgba(rgba(black, 0.87), 0.12);
 
-mat.$light-theme-foreground-palette: (
+$light-theme-foreground-palette: (
   base:              black,
   divider:           rgba(black, 0.12),
   dividers:          rgba(black, 0.12),
@@ -60,7 +60,7 @@ mat.$light-theme-foreground-palette: (
   slider-off-active: rgba(black, 0.38),
 );
 
-mat.$dark-theme-foreground-palette: (
+$dark-theme-foreground-palette: (
   base:              $light-text,
   divider:           rgba(white, 0.12),
   dividers:          rgba(white, 0.12),
@@ -212,7 +212,7 @@ h2,h3,h4 {
     span.mat-badge-content {
       background:black;
       opacity: .7;
-      z-index:100;
+      z-index:1;
       color: white;
       transition: all .15s ease-in-out;
     }

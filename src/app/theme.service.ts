@@ -202,8 +202,9 @@ export class ThemeService {
   }
 
 
-  getScssPalette(name: string, p: SubPalette) {
-    return `
+  getScssPalette(name: string, p: SubPalette, withUse: boolean) {
+    const out = [];
+    out.push(`
 body {
   --${name}-color: ${p.main};
   --${name}-lighter-color: ${p.lighter};
@@ -211,8 +212,9 @@ body {
   --text-${name}-color: #{${this.getTextColor(p.main)}};
   --text-${name}-lighter-color: #{${this.getTextColor(p.lighter)}};
   --text-${name}-darker-color: #{${this.getTextColor(p.darker)}};
-}
+}`);
 
+    `
 $mat-${name}: (
   main: ${p.main},
   lighter: ${p.lighter},
@@ -224,18 +226,27 @@ $mat-${name}: (
     darker: ${this.getTextColor(p.darker)},
   )
 );
-$theme-${name}: mat-palette($mat-${name}, main, lighter, darker);`;
+$theme-${name}: ${withUse ? `mat.define-palette` : 'mat-palette'}($mat-${name}, main, lighter, darker);`;
+
+    return out.join('\n');
   }
 
-  getTemplate(theme: Theme) {
+  getTemplate(theme: Theme, withUse: boolean) {
     // tslint:disable:no-trailing-whitespace
     // tslint:disable:max-line-length
+    const primary = withUse ? `@use '~@angular/material' as mat;` : `@import '~@angular/material/theming';`;
+    const coreImport = withUse ? `mat.core` : `mat-core`;
+    const themeImport = withUse ? `mat.all-component-themes` : `angular-material-theme`;
+    const darkTheme = withUse ? 'mat.define-dark-theme' : 'mat-dark-theme';
+    const lightTheme = withUse ? 'mat.define-light-theme' : 'mat-light-theme';
+
     const tpl = `/**
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
 */
 
-@import '~@angular/material/theming';
+${primary}
+
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
@@ -363,19 +374,19 @@ $mat-dark-theme-background: (
 );
 
 // Compute font config
-@include mat-core($fontConfig);
+@include ${coreImport}($fontConfig);
 
 // Theme Config
-${['primary', 'accent', 'warn'].map(x => this.getScssPalette(x, theme.palette[x])).join('\n')};
+${['primary', 'accent', 'warn'].map(x => this.getScssPalette(x, theme.palette[x], withUse)).join('\n')};
 
-$theme: ${!theme.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($theme-primary, $theme-accent, $theme-warn);
-$altTheme: ${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-primary, $theme-accent, $theme-warn);
+$theme: ${!theme.lightness ? darkTheme : lightTheme}($theme-primary, $theme-accent, $theme-warn);
+$altTheme: ${!theme.lightness ? lightTheme : darkTheme}($theme-primary, $theme-accent, $theme-warn);
 
 // Theme Init
-@include angular-material-theme($theme);
+@include ${themeImport}($theme);
 
 .theme-alternate {
-  @include angular-material-theme($altTheme);
+  @include ${themeImport}($altTheme);
 }
 
 // Specific component overrides, pieces that are not in line with the general theming

@@ -30,6 +30,7 @@ export class ThemeBuilderComponent implements OnInit {
   css = '';
   sourcePretty: SafeHtml = '';
   first = true;
+  withUse = true;
 
   constructor(private el: ElementRef, private zone: NgZone,
     private snackbar: MatSnackBar, private dialog: MatDialog,
@@ -109,16 +110,15 @@ export class ThemeBuilderComponent implements OnInit {
       return;
     }
 
-    this.source = this.service.getTemplate(theme);
+    this.source = this.service.getTemplate(theme, this.withUse);
 
     const iframe = (this.el.nativeElement as HTMLElement).querySelector('iframe');
     const body = iframe.contentDocument.body;
 
     this.sourcePretty = this.sanitizer.bypassSecurityTrustHtml(highlight(this.source));
 
-
     this.zone.runOutsideAngular(() => {
-      this.service.compileScssTheme(this.source).then(text => {
+      this.service.compileScssTheme(this.service.getTemplate(theme, true)).then(text => {
         this.css = text;
         if (body.childNodes && body.childNodes.item(0) &&
           (body.childNodes.item(0) as HTMLElement).tagName &&
