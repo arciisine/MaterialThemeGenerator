@@ -26,6 +26,30 @@ mat-toolbar {
       margin-left: 1em;
     }
   }
+
+  .view, .source, .version {
+    margin-left: 1em;
+    font-size: 1rem;
+    display: inline-block;
+    line-height: 1rem;
+
+    mat-button-toggle-group {
+      margin-left: .25rem;
+       
+      mat-button-toggle ::ng-deep .mat-button-toggle-label-content {
+        line-height: 2em;
+      }
+    
+      mat-button-toggle:first-child {
+        background-color: white;
+        color: #111;
+      }
+    
+      mat-button-toggle.mat-button-toggle-checked {
+        border-bottom: 2px solid hotpink;
+      }
+    }
+  }
 }
 
 .inner {

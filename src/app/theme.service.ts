@@ -117,11 +117,6 @@ export class ThemeService {
     return this._version;
   }
 
-  get withUse() {
-    return this._version >= 12;
-  }
-
-
   async compileScssTheme(src: string) {
     await this.$themeScss;
     return new Promise<string>((res, rej) =>
@@ -137,12 +132,13 @@ export class ThemeService {
 
   fromExternal(val: string) {
     try {
-      const json = JSON.parse(val);
+      const json = JSON.parse(val) as Theme;
 
       this.$lightness.next(json.lightness);
       this.$icons.next(json.icons);
       this.$palette.next(json.palette);
       this.$fonts.next(json.fonts);
+      this.$version.next(json.version);
     } catch (e) {
       console.error('Unable to read', val, e);
     }
@@ -159,7 +155,8 @@ export class ThemeService {
         }, {});
       }),
       icons: this.icons,
-      lightness: this.lightness
+      lightness: this.lightness,
+      version: this.version
     };
     return JSON.stringify(data);
   }

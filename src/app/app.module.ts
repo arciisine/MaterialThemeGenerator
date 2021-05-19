@@ -52,9 +52,8 @@ import { CreditsComponent } from './credits/credits.component';
 import { IconNotifyComponent } from './icon-picker/icon-notify/icon-notify.component';
 import { SubPalettePickerComponent } from './palette-picker/sub-palette-picker/sub-palette-picker.component';
 import { ColorPickerComponent } from './palette-picker/color-picker/color-picker.component';
-import { CdkVirtualForOf, CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { GoogleFontItemComponent } from './google-font-selector/google-font-item/google-font-item.component';
-import { VersionPickerComponent } from './version-picker/version-picker.component';
 
 @NgModule({
   declarations: [
@@ -73,8 +72,7 @@ import { VersionPickerComponent } from './version-picker/version-picker.componen
     IconNotifyComponent,
     SubPalettePickerComponent,
     ColorPickerComponent,
-    GoogleFontItemComponent,
-    VersionPickerComponent
+    GoogleFontItemComponent
   ],
   imports: [
     HttpClientModule,

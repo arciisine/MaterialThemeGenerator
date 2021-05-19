@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 import { debounceTime, take, switchMap } from 'rxjs/operators';
@@ -25,13 +25,14 @@ export class ThemeBuilderComponent implements OnInit {
 
   refresh: Subject<number> = new Subject();
   ready: Subject<boolean> = new Subject();
-  isReady: boolean;
+  showSource = new FormControl(false);
   showingSource = false;
+  isReady: boolean;
   source = '';
   css = '';
   sourcePretty: SafeHtml = '';
   first = true;
-  withUse = true;
+  version = new FormControl(11);
 
   constructor(private el: ElementRef, private zone: NgZone,
     private snackbar: MatSnackBar, private dialog: MatDialog,
@@ -48,10 +49,6 @@ export class ThemeBuilderComponent implements OnInit {
 
   onReady() {
     this.ready.next(true);
-  }
-
-  showSource(yes: boolean) {
-    this.showingSource = yes;
   }
 
   showCredits() {
@@ -97,6 +94,20 @@ export class ThemeBuilderComponent implements OnInit {
         this.updateTheme(x);
         setTimeout(() => this.isReady = true, 1000);
       });
+
+    this.version.valueChanges
+      .subscribe(x => this.service.version = x);
+
+    this.service.$version.subscribe(x => {
+      this.version.setValue(x);
+      this.version.updateValueAndValidity();
+    });
+
+    this.version.updateValueAndValidity();
+
+    this.showSource.valueChanges.subscribe(v => {
+      this.showingSource = v;
+    });
 
     window.addEventListener('message', (ev) => {
       if (ev.data && ev.data.iconsDone) {
