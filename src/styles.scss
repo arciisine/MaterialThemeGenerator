@@ -3,72 +3,72 @@
 * https://material-theme-generator.travetto.io
 */
 
-@import '~@angular/material/theming';
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
+@use '~@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,400,500');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 @import url('https://fonts.googleapis.com/css?family=Material+Icons');
 
 $fontConfig: (
-  display-4: mat-typography-level(112px, 112px, 300, 'Raleway', -0.0134em),
-  display-3: mat-typography-level(56px, 56px, 400, 'Raleway', -0.0089em),
-  display-2: mat-typography-level(45px, 48px, 400, 'Raleway', 0.0000em),
-  display-1: mat-typography-level(34px, 40px, 400, 'Raleway', 0.0074em),
-  headline: mat-typography-level(24px, 32px, 400, 'Raleway', 0.0000em),
-  title: mat-typography-level(20px, 32px, 500, 'Raleway', 0.0075em),
-  subheading-2: mat-typography-level(16px, 28px, 400, 'Raleway', 0.0094em),
-  subheading-1: mat-typography-level(15px, 24px, 500, 'Raleway', 0.0067em),
-  body-2: mat-typography-level(14px, 24px, 500, 'Raleway', 0.0179em),
-  body-1: mat-typography-level(14px, 20px, 400, 'Raleway', 0.0179em),
-  button: mat-typography-level(14px, 14px, 500, 'Raleway', 0.0893em),
-  caption: mat-typography-level(12px, 20px, 400, 'Raleway', 0.0333em),
-  input: mat-typography-level(inherit, 1.125, 400, 'Raleway', 1.5px)
+  display-4: mat.define-typography-level(112px, 112px, 300, 'Raleway', -0.0134em),
+  display-3: mat.define-typography-level(56px, 56px, 400, 'Raleway', -0.0089em),
+  display-2: mat.define-typography-level(45px, 48px, 400, 'Raleway', 0.0000em),
+  display-1: mat.define-typography-level(34px, 40px, 400, 'Raleway', 0.0074em),
+  headline: mat.define-typography-level(24px, 32px, 400, 'Raleway', 0.0000em),
+  title: mat.define-typography-level(20px, 32px, 500, 'Raleway', 0.0075em),
+  subheading-2: mat.define-typography-level(16px, 28px, 400, 'Raleway', 0.0094em),
+  subheading-1: mat.define-typography-level(15px, 24px, 500, 'Raleway', 0.0067em),
+  body-2: mat.define-typography-level(14px, 24px, 500, 'Raleway', 0.0179em),
+  body-1: mat.define-typography-level(14px, 20px, 400, 'Raleway', 0.0179em),
+  button: mat.define-typography-level(14px, 14px, 500, 'Raleway', 0.0893em),
+  caption: mat.define-typography-level(12px, 20px, 400, 'Raleway', 0.0333em),
+  input: mat.define-typography-level(inherit, 1.125, 400, 'Raleway', 1.5px)
 );
 
 $light-text: #ffffff;
 $light-primary-text: $light-text;
-$light-accent-text: rgba($light-primary-text, 0.7);
-$light-disabled-text: rgba($light-primary-text, 0.5);
-$light-dividers: rgba($light-primary-text, 0.12);
-$light-focused: rgba($light-primary-text, 0.12);
+$light-accent-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
 
 $dark-text: #111111;
 $dark-primary-text: rgba($dark-text, 0.87);
-$dark-accent-text: rgba($dark-primary-text, 0.54);
-$dark-disabled-text: rgba($dark-primary-text, 0.38);
-$dark-dividers: rgba($dark-primary-text, 0.12);
-$dark-focused: rgba($dark-primary-text, 0.12);
+$dark-accent-text: rgba(rgba(black, 0.87), 0.54);
+$dark-disabled-text: rgba(rgba(black, 0.87), 0.38);
+$dark-dividers: rgba(rgba(black, 0.87), 0.12);
+$dark-focused: rgba(rgba(black, 0.87), 0.12);
 
-$mat-light-theme-foreground: (
+mat.$light-theme-foreground-palette: (
   base:              black,
-  divider:           $dark-dividers,
-  dividers:          $dark-dividers,
-  disabled:          $dark-disabled-text,
+  divider:           rgba(black, 0.12),
+  dividers:          rgba(black, 0.12),
+  disabled:          rgba(black, 0.38),
   disabled-button:   rgba($dark-text, 0.26),
-  disabled-text:     $dark-disabled-text,
+  disabled-text:     rgba(black, 0.38),
   elevation:         black,
   secondary-text:    $dark-accent-text,
-  hint-text:         $dark-disabled-text,
+  hint-text:         rgba(black, 0.38),
   accent-text:       $dark-accent-text,
   icon:              $dark-accent-text,
   icons:             $dark-accent-text,
-  text:              $dark-primary-text,
-  slider-min:        $dark-primary-text,
+  text:              rgba(black, 0.87),
+  slider-min:        rgba(black, 0.87),
   slider-off:        rgba($dark-text, 0.26),
-  slider-off-active: $dark-disabled-text,
+  slider-off-active: rgba(black, 0.38),
 );
 
-$mat-dark-theme-foreground: (
+mat.$dark-theme-foreground-palette: (
   base:              $light-text,
-  divider:           $light-dividers,
-  dividers:          $light-dividers,
-  disabled:          $light-disabled-text,
+  divider:           rgba(white, 0.12),
+  dividers:          rgba(white, 0.12),
+  disabled:          rgba(white, 0.5),
   disabled-button:   rgba($light-text, 0.3),
-  disabled-text:     $light-disabled-text,
+  disabled-text:     rgba(white, 0.5),
   elevation:         black,
-  hint-text:         $light-disabled-text,
+  hint-text:         rgba(white, 0.5),
   secondary-text:    $light-accent-text,
   accent-text:       $light-accent-text,
   icon:              $light-text,
@@ -79,7 +79,7 @@ $mat-dark-theme-foreground: (
   slider-off-active: rgba($light-text, 0.3),
 );
 
-@include mat-core($fontConfig);
+@include mat.core($fontConfig);
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -100,20 +100,20 @@ $mat-primary: (
   A400: #7fff67,
   A700: #6aff4e,
   contrast : (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $dark-primary-text,
-    A400: $dark-primary-text,
-    A700: $dark-primary-text
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87)
   )
 );
 $mat-accent: (
@@ -132,20 +132,20 @@ $mat-accent: (
   A400: #00ef92,
   A700: #00d682,
   contrast : (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $light-primary-text,
-    400: $light-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $dark-primary-text,
-    A400: $dark-primary-text,
-    A700: $dark-primary-text
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87)
   )
 );
 $mat-warn: (
@@ -164,38 +164,38 @@ $mat-warn: (
   A400: #ffd2da,
   A700: #ffb9c4,
   contrast : (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $light-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $dark-primary-text,
-    A400: $dark-primary-text,
-    A700: $dark-primary-text
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87)
   )
 );
 
-$themePrimary: mat-palette($mat-primary);
-$themeAccent: mat-palette($mat-accent);
-$themeWarn: mat-palette($mat-warn);
+$themePrimary: mat.define-palette($mat-primary);
+$themeAccent: mat.define-palette($mat-accent);
+$themeWarn: mat.define-palette($mat-warn);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$theme: mat-light-theme($themePrimary, $themeAccent, $themeWarn);
-$altTheme: mat-dark-theme($themePrimary, $themeAccent, $themeWarn);
+$theme: mat.define-light-theme($themePrimary, $themeAccent, $themeWarn);
+$altTheme: mat.define-dark-theme($themePrimary, $themeAccent, $themeWarn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($theme);
+@include mat.all-component-themes($theme);
 
 .theme-alternate {
-  @include angular-material-theme($altTheme);
+  @include mat.all-component-themes($altTheme);
 }
 
 html,

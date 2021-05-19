@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SubPalettePickerComponent } from './sub-palette-picker.component';
 
@@ -6,7 +6,7 @@ describe('SubPalettePickerComponent', () => {
   let component: SubPalettePickerComponent;
   let fixture: ComponentFixture<SubPalettePickerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SubPalettePickerComponent ]
     })
