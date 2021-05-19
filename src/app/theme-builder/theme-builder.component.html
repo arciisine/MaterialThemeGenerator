@@ -3,6 +3,7 @@
     <mat-toolbar-row>
       <img src="/assets/logo.png" height="48" alt="logo"> Material Theme Generator
       <app-lightness-picker></app-lightness-picker>
+      <app-version-picker></app-version-picker>
       <span class="spacer"></span>
       <div class="button-group">
         <button mat-raised-button color="accent" (click)="makeLink()">Share via Link</button>
@@ -13,8 +14,8 @@
         <button *ngIf="showingSource" mat-raised-button color="accent" (click)="showSource(false)">View
           Demo</button>
         <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
-        <a href="https://github.com/arciisine/MaterialThemeGenerator" mat-icon-button color="primary"
-           title="GitHub" target="_blank" rel="noopener">
+        <a href="https://github.com/arciisine/MaterialThemeGenerator" mat-icon-button color="primary" title="GitHub"
+          target="_blank" rel="noopener">
           <mat-icon svgIcon="github"></mat-icon>
         </a>
 
@@ -31,7 +32,7 @@
   <div class="preview" [class.ready]="isReady">
     <iframe src="/preview" (load)="onReady()" [hidden]="showingSource" title="Material Preview"></iframe>
     <pre [style.display]="showingSource ? 'block': 'none'"
-         class="hljs"><code class="scss" [innerHTML]="sourcePretty"></code></pre>
+      class="hljs"><code class="scss" [innerHTML]="sourcePretty"></code></pre>
   </div>
   <div class="preview loading ready" *ngIf="!isReady">
     <span class="message">Loading...</span>

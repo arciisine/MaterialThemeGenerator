@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MaterialPalette, ThemeService } from 'src/app/theme.service';
+import { ThemeService } from 'src/app/theme.service';
 import { filter } from 'rxjs/operators';
+import { MaterialPalette, RenderService } from 'src/app/render.service';
 
 @Component({
   selector: 'app-sub-palette-picker',
@@ -19,7 +20,7 @@ export class SubPalettePickerComponent implements OnInit {
 
   unlocked = new FormControl(false);
 
-  materialKeys = [...Object.keys(ThemeService.MIX_AMOUNTS_PRIMARY), ...Object.keys(ThemeService.MIX_AMOUNTS_SECONDARY)];
+  materialKeys = [...Object.keys(RenderService.MIX_AMOUNTS_PRIMARY), ...Object.keys(RenderService.MIX_AMOUNTS_SECONDARY)];
 
   constructor(private service: ThemeService) {
   }
@@ -47,7 +48,7 @@ export class SubPalettePickerComponent implements OnInit {
   }
 
   onMainChange(c: string) {
-    this.material = this.service.getPalette(c);
+    this.material = RenderService.getPalette(c);
 
     if (!this.unlocked.value) {
       this.form.patchValue({ lighter: this.material['100'] });
@@ -56,7 +57,7 @@ export class SubPalettePickerComponent implements OnInit {
   }
 
   getTextColor(col: string) {
-    return this.service.getTextColor(col).startsWith('light') ? '#fff' : '#000';
+    return RenderService.getTextColor(col).startsWith('light') ? '#fff' : '#000';
   }
 
   setBackdrop(on: boolean) {

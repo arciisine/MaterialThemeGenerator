@@ -54,6 +54,7 @@ import { SubPalettePickerComponent } from './palette-picker/sub-palette-picker/s
 import { ColorPickerComponent } from './palette-picker/color-picker/color-picker.component';
 import { CdkVirtualForOf, CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { GoogleFontItemComponent } from './google-font-selector/google-font-item/google-font-item.component';
+import { VersionPickerComponent } from './version-picker/version-picker.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { GoogleFontItemComponent } from './google-font-selector/google-font-item
     IconNotifyComponent,
     SubPalettePickerComponent,
     ColorPickerComponent,
-    GoogleFontItemComponent
+    GoogleFontItemComponent,
+    VersionPickerComponent
   ],
   imports: [
     HttpClientModule,

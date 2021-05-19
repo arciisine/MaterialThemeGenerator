@@ -7,10 +7,11 @@ import { debounceTime, take, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreditsComponent } from '../credits/credits.component';
-import { ThemeService, Theme } from '../theme.service';
+import { ThemeService } from '../theme.service';
 
 import { highlight } from './highlight';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { RenderService, Theme } from '../render.service';
 
 
 @Component({
@@ -110,7 +111,7 @@ export class ThemeBuilderComponent implements OnInit {
       return;
     }
 
-    this.source = this.service.getTemplate(theme, this.withUse);
+    this.source = RenderService.getTemplate(theme);
 
     const iframe = (this.el.nativeElement as HTMLElement).querySelector('iframe');
     const body = iframe.contentDocument.body;
@@ -118,7 +119,7 @@ export class ThemeBuilderComponent implements OnInit {
     this.sourcePretty = this.sanitizer.bypassSecurityTrustHtml(highlight(this.source));
 
     this.zone.runOutsideAngular(() => {
-      this.service.compileScssTheme(this.service.getTemplate(theme, true)).then(text => {
+      this.service.compileScssTheme(RenderService.getTemplate({ ...theme, version: 11 })).then(text => {
         this.css = text;
         if (body.childNodes && body.childNodes.item(0) &&
           (body.childNodes.item(0) as HTMLElement).tagName &&
