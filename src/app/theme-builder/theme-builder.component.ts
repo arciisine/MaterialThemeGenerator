@@ -33,6 +33,7 @@ export class ThemeBuilderComponent implements OnInit {
   sourcePretty: SafeHtml = '';
   first = true;
   version = new FormControl(11);
+  exporter = new FormControl(0);
 
   constructor(private el: ElementRef, private zone: NgZone,
     private snackbar: MatSnackBar, private dialog: MatDialog,
@@ -107,6 +108,12 @@ export class ThemeBuilderComponent implements OnInit {
 
     this.showSource.valueChanges.subscribe(v => {
       this.showingSource = v;
+    });
+
+    this.exporter.valueChanges.subscribe(v => {
+      if (v !== 0) {
+        this.exporter.setValue(0);
+      }
     });
 
     window.addEventListener('message', (ev) => {

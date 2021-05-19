@@ -4,29 +4,30 @@
       <img src="/assets/logo.png" height="48" alt="logo"> Material Theme Generator
       <app-lightness-picker></app-lightness-picker>
       <span class="spacer"></span>
+      <div class="view">
+        <label>View</label>
+        <mat-button-toggle-group class="theme-alternate" [formControl]="showSource">
+          <mat-button-toggle [value]="false">Demo</mat-button-toggle>
+          <mat-button-toggle [value]="true">SCSS</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
       <div class="version">
         <label>Version</label>
-        <mat-button-toggle-group [formControl]="version" class="angular-version">
+        <mat-button-toggle-group class="theme-alternate" [formControl]="version">
           <mat-button-toggle [value]="11">&lt;= 11</mat-button-toggle>
           <mat-button-toggle [value]="12">12+</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
-      <div class="source">
-        <label>Source</label>
-        <mat-button-toggle-group>
-          <mat-button-toggle color="accent" (click)="exportSCSS()">Copy SCSS</mat-button-toggle>
-          <mat-button-toggle color="accent" (click)="exportCSS()">Copy CSS</mat-button-toggle>
+      <div class="export">
+        <label>Export</label>
+        <mat-button-toggle-group class="theme-alternate" [formControl]="exporter">
+          <mat-button-toggle [value]="1" color="accent" (click)="exportSCSS()">SCSS</mat-button-toggle>
+          <mat-button-toggle [value]="2" color="accent" (click)="exportCSS()">CSS</mat-button-toggle>
+          <mat-button-toggle [value]="3" color="accent" (click)="makeLink()">Shareable Link</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
-      <div class="view">
-        <label>View</label>
-        <mat-button-toggle-group [formControl]="showSource">
-          <mat-button-toggle [value]="false">Demo</mat-button-toggle>
-          <mat-button-toggle [value]="true">Source</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
+
       <div class="button-group">
-        <button mat-raised-button color="accent" (click)="makeLink()">Share via Link</button>
         <button mat-flat-button color="primary" (click)="showCredits()">Credits</button>
         <a href="https://github.com/arciisine/MaterialThemeGenerator" mat-icon-button color="primary" title="GitHub"
           target="_blank" rel="noopener">

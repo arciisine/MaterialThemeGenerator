@@ -27,7 +27,7 @@ mat-toolbar {
     }
   }
 
-  .view, .source, .version {
+  .view, .export, .version {
     margin-left: 1em;
     font-size: 1rem;
     display: inline-block;
@@ -38,11 +38,6 @@ mat-toolbar {
        
       mat-button-toggle ::ng-deep .mat-button-toggle-label-content {
         line-height: 2em;
-      }
-    
-      mat-button-toggle:first-child {
-        background-color: white;
-        color: #111;
       }
     
       mat-button-toggle.mat-button-toggle-checked {
