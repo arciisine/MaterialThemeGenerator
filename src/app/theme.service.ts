@@ -189,12 +189,14 @@ export class ThemeService {
     }, {});
   }
 
-  fontRule(x: FontSelection) {
+  fontRule(x: FontSelection, withUse: boolean) {
     const weight = x.variant === 'light' ? '300' : (x.variant === 'medium' ? '500' : '400');
 
+    const fn = withUse ? `mat.define-typography-level` : `mat-typography-level`;
+
     return !!x.size ?
-      `mat-typography-level(${x.size}px, ${x.lineHeight}px, ${weight}, '${x.family}', ${(x.spacing / x.size).toFixed(4)}em)` :
-      `mat-typography-level(inherit, ${x.lineHeight}, ${weight}, '${x.family}', 1.5px)`;
+      `${fn}(${x.size}px, ${x.lineHeight}px, ${weight}, '${x.family}', ${(x.spacing / x.size).toFixed(4)}em)` :
+      `${fn}(inherit, ${x.lineHeight}, ${weight}, '${x.family}', 1.5px)`;
   }
 
   getTextColor(col: string) {
@@ -203,8 +205,7 @@ export class ThemeService {
 
 
   getScssPalette(name: string, p: SubPalette, withUse: boolean) {
-    const out = [];
-    out.push(`
+    return `
 body {
   --${name}-color: ${p.main};
   --${name}-lighter-color: ${p.lighter};
@@ -212,9 +213,7 @@ body {
   --text-${name}-color: #{${this.getTextColor(p.main)}};
   --text-${name}-lighter-color: #{${this.getTextColor(p.lighter)}};
   --text-${name}-darker-color: #{${this.getTextColor(p.darker)}};
-}`);
-
-    `
+}   
 $mat-${name}: (
   main: ${p.main},
   lighter: ${p.lighter},
@@ -226,9 +225,7 @@ $mat-${name}: (
     darker: ${this.getTextColor(p.darker)},
   )
 );
-$theme-${name}: ${withUse ? `mat.define-palette` : 'mat-palette'}($mat-${name}, main, lighter, darker);`;
-
-    return out.join('\n');
+$theme-${name}: ${withUse ? `mat.define-palette` : 'mat-palette'}($mat-${name}, main, lighter, darker);`
   }
 
   getTemplate(theme: Theme, withUse: boolean) {
@@ -256,7 +253,7 @@ ${Array.from(new Set((theme.fonts || []).map(x => x.family.replace(/ /g, '+'))))
         .map(x => `@import url('https://fonts.googleapis.com/css?family=${x}:300,400,500');`).join('\n')}
      
 $fontConfig: (
-  ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x)}`).join(',\n  ')}
+  ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x, withUse)}`).join(',\n  ')}
 );
 
 // Foreground Elements
