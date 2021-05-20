@@ -149,7 +149,6 @@ $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($m
   }
 
   static toExternal(theme: Theme) {
-    console.log(this.toJSON(theme));
     const context = this.toJSON(theme)
       .replace(/target/g, '@')
       .replace(/main/g, '^')
@@ -163,17 +162,17 @@ $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($m
       .replace(/":/g, '>')
       .replace(/[{]"/g, '`')
       .replace(/"[}]/g, '~')
-      .replace(/[#]([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})\b/ig, (a, r: string, g: string, b: string) => {
-        return `&${[r, g, b].map(x => String.fromCharCode(parseInt(x.padEnd(2, x), 16))).join('')}`;
-      });
+    // .replace(/[#]([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})\b/ig, (a, r: string, g: string, b: string) => {
+    //   return `&${[r, g, b].map(x => String.fromCharCode(parseInt(x.padEnd(2, x), 16))).join('')}`;
+    // })      
     return btoa(context).replace(/[+]/g, '$').replace(/[/]/g, '~');
   }
 
   static fromExternal(context: string): Theme {
     const text = atob(context.replace(/$/g, '+').replace(/~/g, '\/'))
-      .replace(/&(.)(.)(.)/g, (a, r: string, g: string, b: string) => {
-        return `#${[r, g, b].map(x => x.charCodeAt(0).toString(16).padStart(2, '0')).join('')}`;
-      })
+      // .replace(/&(.)(.)(.)/g, (a, r: string, g: string, b: string) => {
+      //   return `#${[r, g, b].map(x => x.charCodeAt(0).toString(16).padStart(2, '0')).join('')}`;
+      // })
       .replace(/@/g, 'target')
       .replace(/[\^]/g, 'main')
       .replace(/%/g, 'accent')
@@ -186,7 +185,6 @@ $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($m
       .replace(/>/g, '":')
       .replace(/`/g, '{"')
       .replace(/~/g, '"}');
-    console.log(text);
 
     return JSON.parse(text);
   }
