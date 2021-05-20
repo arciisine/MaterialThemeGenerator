@@ -1,7 +1,6 @@
 <div>
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="'navigation'"
-      [mode]="'side'">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="'navigation'" [mode]="'side'">
       <mat-toolbar color="primary">Menu</mat-toolbar>
       <mat-nav-list>
         <a mat-list-item>Home</a>
@@ -12,8 +11,7 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-          <button type="button" aria-label="Toggle sidenav" mat-icon-button
-            (click)="drawer.toggle()">
+          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
           </button>
           <span>Sample Application</span>
@@ -54,6 +52,12 @@
               </span>
             </ng-template>
             <app-preview-typography></app-preview-typography>
+          </mat-tab>
+          <mat-tab aria-label="General Layout">
+            <ng-template mat-tab-label>
+              <span matTooltip="General Layout">General Layout</span>
+            </ng-template>
+            <app-preview-general *ngIf="activeTab === 'General Layout'"></app-preview-general>
           </mat-tab>
         </mat-tab-group>
       </div>

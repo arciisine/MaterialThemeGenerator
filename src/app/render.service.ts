@@ -128,7 +128,8 @@ $mat-${name}: (
     darker: ${this.getTextColor(p.darker)},
   )
 );
-$theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($mat-${name}, main, lighter, darker);`
+$theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($mat-${name}, main, lighter, darker);
+`;
   }
 
   static toJSON(theme: Theme) {
@@ -162,9 +163,9 @@ $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($m
       .replace(/":/g, '>')
       .replace(/[{]"/g, '`')
       .replace(/"[}]/g, '~')
-      .replace(/[#]([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})\b/ig, (a, r: string, g: string, b: string) => {
-        return `&${[r, g, b].map(x => String.fromCharCode(parseInt(x.padEnd(2, x), 16))).join('')}`;
-      })
+    // .replace(/[#]([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})\b/ig, (a, r: string, g: string, b: string) => {
+    //   return `&${[r, g, b].map(x => String.fromCharCode(parseInt(x.padEnd(2, x), 16))).join('')}`;
+    // })
     return btoa(context).replace(/[+]/g, '$').replace(/[/]/g, '~');
   }
 
@@ -200,8 +201,24 @@ $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($m
     const primary = theme.version >= 12 ? `@use '~@angular/material' as mat;` : `@import '~@angular/material/theming';`;
     const coreImport = theme.version >= 12 ? `mat.core` : `mat-core`;
     const themeImport = theme.version >= 12 ? `mat.all-component-themes` : `angular-material-theme`;
-    const darkTheme = theme.version >= 12 ? 'mat.define-dark-theme' : 'mat-dark-theme';
-    const lightTheme = theme.version >= 12 ? 'mat.define-light-theme' : 'mat-light-theme';
+
+    const primaryTheme = theme.version >= 12 ? `(
+  primary: $theme-primary,
+  accent: $theme-accent,
+  warn: $theme-warn,
+  is-dark: ${!theme.lightness},
+  foreground: $mat-${theme.lightness ? 'light' : 'dark'}-theme-foreground,
+  background: $mat-${theme.lightness ? 'light' : 'dark'}-theme-background,
+)` : `${!theme.lightness ? 'mat-dark-theme' : 'mat-light-theme'}($theme-primary, $theme-accent, $theme-warn)`;
+
+    const altTheme = theme.version >= 12 ? `(
+  primary: $theme-primary,
+  accent: $theme-accent,
+  warn: $theme-warn,
+  is-dark: ${theme.lightness},
+  foreground: $mat-${!theme.lightness ? 'light' : 'dark'}-theme-foreground,
+  background: $mat-${!theme.lightness ? 'light' : 'dark'}-theme-background,
+)` : `${!theme.lightness ? 'mat-light-theme' : 'mat-dark-theme'}($theme-primary, $theme-accent, $theme-warn)`;
 
     const tpl = `/**
 * Generated theme by Material Theme Generator
@@ -343,8 +360,8 @@ $mat-dark-theme-background: (
 // Theme Config
 ${['primary', 'accent', 'warn'].map(x => this.getScssPalette(x, theme.palette[x], theme)).join('\n')};
 
-$theme: ${!theme.lightness ? darkTheme : lightTheme}($theme-primary, $theme-accent, $theme-warn);
-$altTheme: ${!theme.lightness ? lightTheme : darkTheme}($theme-primary, $theme-accent, $theme-warn);
+$theme: ${primaryTheme};
+$altTheme: ${altTheme};
 
 // Theme Init
 @include ${themeImport}($theme);
