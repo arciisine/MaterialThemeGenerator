@@ -42,8 +42,8 @@ export class ThemeBuilderComponent implements OnInit {
   ) {
     if (window.location.search) {
       setTimeout(() => {
-        const theme = atob(decodeURIComponent(window.location.search.replace(/^[?]c=/, '')));
-        this.service.fromExternal(theme);
+        const context = decodeURIComponent(window.location.search.replace(/^[?]c=/, ''));
+        this.service.load(RenderService.fromExternal(context));
       }, 100);
     }
   }
@@ -75,13 +75,11 @@ export class ThemeBuilderComponent implements OnInit {
   }
 
   exportSCSS() {
-    this.copy('Angular scss', this.source);
+    this.copy('scss', this.source);
   }
 
   makeLink() {
-    let link = window.location.toString().replace(/[#?].*$/g, '');
-    link = `${link}?c=${btoa(this.service.toExternal())}`;
-    this.copy('link', link);
+    this.copy('link', RenderService.toExternalLink(this.service.theme));
   }
 
   ngOnInit() {

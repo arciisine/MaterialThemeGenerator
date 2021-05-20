@@ -5,7 +5,7 @@ import { Subject, ReplaySubject } from 'rxjs';
 import { FontSelection, DEFAULT_FONTS } from './font-picker/types';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Theme } from './render.service';
+import { RenderService, Theme } from './render.service';
 
 
 declare var Sass;
@@ -130,34 +130,11 @@ export class ThemeService {
     );
   }
 
-  fromExternal(val: string) {
-    try {
-      const json = JSON.parse(val) as Theme;
-
-      this.$lightness.next(json.lightness);
-      this.$icons.next(json.icons);
-      this.$palette.next(json.palette);
-      this.$fonts.next(json.fonts);
-      this.$version.next(json.version);
-    } catch (e) {
-      console.error('Unable to read', val, e);
-    }
-  }
-
-  toExternal() {
-    const data = {
-      palette: this.palette,
-      fonts: this.fonts.map(x => {
-        const keys = Object.keys(x).filter(k => k === 'target' || x[k] !== DEFAULT_FONTS[x.target][k]);
-        return keys.reduce((acc, v) => {
-          acc[v] = x[v];
-          return acc;
-        }, {});
-      }),
-      icons: this.icons,
-      lightness: this.lightness,
-      version: this.version
-    };
-    return JSON.stringify(data);
+  load(theme: Theme) {
+    this.$lightness.next(theme.lightness);
+    this.$icons.next(theme.icons);
+    this.$palette.next(theme.palette);
+    this.$fonts.next(theme.fonts);
+    this.$version.next(theme.version);
   }
 }

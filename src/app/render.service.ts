@@ -131,6 +131,71 @@ $mat-${name}: (
 $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($mat-${name}, main, lighter, darker);`
   }
 
+  static toJSON(theme: Theme) {
+    const data = {
+      palette: theme.palette,
+      fonts: theme.fonts.map(x => {
+        const keys = Object.keys(x).filter(k => k === 'target' || x[k] !== DEFAULT_FONTS[x.target][k]);
+        return keys.reduce((acc, v) => {
+          acc[v] = x[v];
+          return acc;
+        }, {});
+      }),
+      icons: theme.icons,
+      lightness: theme.lightness,
+      version: theme.version
+    };
+    return JSON.stringify(data);
+  }
+
+  static toExternal(theme: Theme) {
+    console.log(this.toJSON(theme));
+    const context = this.toJSON(theme)
+      .replace(/target/g, '@')
+      .replace(/main/g, '^')
+      .replace(/accent/g, '%')
+      .replace(/display/g, '(')
+      .replace(/heading/g, ')')
+      .replace(/dark/g, ';')
+      .replace(/light/g, '?')
+      .replace(/Background/g, '=')
+      .replace(/":"/g, '<')
+      .replace(/":/g, '>')
+      .replace(/[{]"/g, '`')
+      .replace(/"[}]/g, '~')
+      .replace(/[#]([0-9a-f]{1,2})([0-9a-f]{1,2})([0-9a-f]{1,2})\b/ig, (a, r: string, g: string, b: string) => {
+        return `&${[r, g, b].map(x => String.fromCharCode(parseInt(x.padEnd(2, x), 16))).join('')}`;
+      });
+    return btoa(context).replace(/[+]/g, '$').replace(/[/]/g, '~');
+  }
+
+  static fromExternal(context: string): Theme {
+    const text = atob(context.replace(/$/g, '+').replace(/~/g, '\/'))
+      .replace(/&(.)(.)(.)/g, (a, r: string, g: string, b: string) => {
+        return `#${[r, g, b].map(x => x.charCodeAt(0).toString(16).padStart(2, '0')).join('')}`;
+      })
+      .replace(/@/g, 'target')
+      .replace(/[\^]/g, 'main')
+      .replace(/%/g, 'accent')
+      .replace(/[(]/g, 'display')
+      .replace(/[)]/g, 'heading')
+      .replace(/;/g, 'dark')
+      .replace(/[?]/g, 'light')
+      .replace(/=/g, 'Background')
+      .replace(/</g, '":"')
+      .replace(/>/g, '":')
+      .replace(/`/g, '{"')
+      .replace(/~/g, '"}');
+    console.log(text);
+
+    return JSON.parse(text);
+  }
+
+  static toExternalLink(theme: Theme) {
+    const link = window.location.toString().replace(/[#?].*$/g, '');
+    return `${link}?c=${this.toExternal(theme)}`;
+  }
+
   static getTemplate(theme: Theme) {
     // tslint:disable:no-trailing-whitespace
     // tslint:disable:max-line-length
@@ -143,6 +208,7 @@ $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($m
     const tpl = `/**
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
+* Fork at: ${this.toExternalLink(theme)}
 */
 
 ${primary}
