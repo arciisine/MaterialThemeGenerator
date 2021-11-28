@@ -59,6 +59,8 @@ $mat-light-theme-foreground: (
   slider-off-active: $dark-disabled-text,
 );
 
+;
+
 // Dark Theme text
 $light-text: #ffffff;
 $light-primary-text: $light-text;
@@ -210,7 +212,7 @@ $mat-warn: (
     darker: $light-primary-text,
   )
 );
-$theme-warn: mat.define-palette($mat-warn, main, lighter, darker);;
+$theme-warn: mat.define-palette($mat-warn, main, lighter, darker);
 
 $theme: (
   primary: $theme-primary,
