@@ -4,7 +4,7 @@
 * Fork at: http://localhost:4200/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48JhKuLyIsIj9lcjwmuOfBIiwiO2VyPCYKlB1$LCIlPmBePCYWGRkiLCI~ZXI8Jrm6uiIsIjtlcjwmDA4Ofiwid2Fybj5gXjwm~wAAIiwiP2VyPCb~s7MiLCI7ZXI8Jv8AAH4sIj9UZXh0PCYAAAAiLCI~PTwm$vr6IiwiO1RleHQ8Jv~~~yIsIjs9PCYsLCx$LCJmb250cz5bYEA8KC00IiwiZmFtaWx5PFJhbGV3YXl$LGBAPCgtMyIsImZhbWlseTxSYWxld2F5fixgQDwoLTIiLCJmYW1pbHk8UmFsZXdheX4sYEA8KC0xIiwiZmFtaWx5PFJhbGV3YXl$LGBAPGhlYWRsaW5lIiwiZmFtaWx5PFJhbGV3YXl$LGBAPHRpdGxlIiwiZmFtaWx5PFJhbGV3YXl$LGBAPHN1YiktMiIsImZhbWlseTxSYWxld2F5fixgQDxzdWIpLTEiLCJmYW1pbHk8UmFsZXdheX4sYEA8Ym9keS0yIiwiZmFtaWx5PFJhbGV3YXl$LGBAPGJvZHktMSIsImZhbWlseTxSYWxld2F5fixgQDxidXR0b24iLCJmYW1pbHk8UmFsZXdheX4sYEA8Y2FwdGlvbiIsImZhbWlseTxSYWxld2F5fixgQDxpbnB1dCIsImZhbWlseTxSYWxld2F5Iiwic2l6ZT5udWxsfV0sImljb25zPEZpbGxlZCIsIj9uZXNzPnRydWUsInZlcnNpb24$MTJ9
 */
 
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.

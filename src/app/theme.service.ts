@@ -1,12 +1,12 @@
+import { Subject, ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { Palette } from './palette-picker/palette-picker.component';
 import { IconSelection } from './icon-picker/icon-picker.component';
-import { Subject, ReplaySubject } from 'rxjs';
-import { FontSelection, DEFAULT_FONTS } from './font-picker/types';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { RenderService, Theme } from './render.service';
-
+import { FontSelection } from './font-picker/types';
+import { Theme } from './render.service';
 
 declare var Sass;
 

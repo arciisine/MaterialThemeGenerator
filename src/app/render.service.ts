@@ -198,7 +198,11 @@ $theme-${name}: ${theme.version >= 12 ? `mat.define-palette` : 'mat-palette'}($m
   static getTemplate(theme: Theme) {
     // tslint:disable:no-trailing-whitespace
     // tslint:disable:max-line-length
-    const primary = theme.version >= 12 ? `@use '~@angular/material' as mat;` : `@import '~@angular/material/theming';`;
+    const primary = theme.version >= 13 ?
+      `@use '@angular/material' as mat;` :
+      theme.version >= 12 ?
+        `@use '~@angular/material' as mat;` :
+        `@import '~@angular/material/theming';`;
     const coreImport = theme.version >= 12 ? `mat.core` : `mat-core`;
     const themeImport = theme.version >= 12 ? `mat.all-component-themes` : `angular-material-theme`;
 
