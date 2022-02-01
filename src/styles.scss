@@ -11,8 +11,8 @@
 
 // Fonts
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300,400,500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300,400,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
      
 $fontConfig: (
   display-4: mat.define-typography-level(112px, 112px, 300, 'Raleway', -0.0134em),

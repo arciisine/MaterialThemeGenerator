@@ -238,7 +238,7 @@ ${primary}
 // Fonts
 @import 'https://fonts.googleapis.com/icon?family=${RenderService.FONT_FAMILY_MAPPING[theme.icons].replace(/ /g, '+')}';
 ${Array.from(new Set((theme.fonts || []).map(x => x.family.replace(/ /g, '+'))))
-        .map(x => `@import url('https://fonts.googleapis.com/css2?family=${x}:wght@300,400,500&display=swap');`).join('\n')}
+        .map(x => `@import url('https://fonts.googleapis.com/css2?family=${x}:wght@300;400;500&display=swap');`).join('\n')}
      
 $fontConfig: (
   ${(theme.fonts || []).map(x => `${x.target}: ${this.fontRule(x, theme)}`).join(',\n  ')}
