@@ -10,9 +10,9 @@
 // have to load a single css file for Angular Material in your app.
 
 // Fonts
-@import 'https://fonts.googleapis.com/css?family=Material+Icons';
-@import url('https://fonts.googleapis.com/css?family=Raleway:300,400,500');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300,400,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300,400,500&display=swap');
      
 $fontConfig: (
   display-4: mat.define-typography-level(112px, 112px, 300, 'Raleway', -0.0134em),
