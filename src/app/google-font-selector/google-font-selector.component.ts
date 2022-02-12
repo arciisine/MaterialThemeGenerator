@@ -29,8 +29,8 @@ export class GoogleFontSelectorComponent implements OnInit {
     }
   }
 
-  getFonts(category: string) {
-    return this.fontService.getFonts(category, this.filter);
+  getFonts(categories: string | string[]) {
+    return this.fontService.getFonts(categories, this.filter);
   }
 
   pickFont(f: FontMeta) {

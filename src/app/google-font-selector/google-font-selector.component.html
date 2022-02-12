@@ -12,19 +12,31 @@
 <div class="content" mat-dialog-content>
   <mat-form-field>
     <input type="text" [formControl]="search" matInput name="filter" placeholder="Search..."
-           (input)="filter = $event.target.value" />
+      (input)="filter = $event.target.value" />
   </mat-form-field>
   <mat-tab-group #tabGroup>
     <mat-tab label="Sans-Serif" #ssTab>
       <cdk-virtual-scroll-viewport itemSize="50" *ngIf="ssTab.isActive">
-        <app-google-font-item *cdkVirtualFor="let f of getFonts('sans-serif')" (click)="pickFont(f)"
-                              [f]="f" [sample]="sample"></app-google-font-item>
+        <app-google-font-item *cdkVirtualFor="let f of getFonts('sans-serif')" (click)="pickFont(f)" [f]="f"
+          [sample]="sample"></app-google-font-item>
       </cdk-virtual-scroll-viewport>
     </mat-tab>
     <mat-tab label="Serif" #sTab>
       <cdk-virtual-scroll-viewport itemSize="50" *ngIf="sTab.isActive">
         <app-google-font-item *cdkVirtualFor="let f of getFonts('serif')" (click)="pickFont(f)" [f]="f"
-                              [sample]="sample"></app-google-font-item>
+          [sample]="sample"></app-google-font-item>
+      </cdk-virtual-scroll-viewport>
+    </mat-tab>
+    <mat-tab label="Display" #sTab>
+      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="sTab.isActive">
+        <app-google-font-item *cdkVirtualFor="let f of getFonts(['display', 'handwriting'])" (click)="pickFont(f)"
+          [f]="f" [sample]="sample"></app-google-font-item>
+      </cdk-virtual-scroll-viewport>
+    </mat-tab>
+    <mat-tab label="Monospace" #sTab>
+      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="sTab.isActive">
+        <app-google-font-item *cdkVirtualFor="let f of getFonts('monospace')" (click)="pickFont(f)" [f]="f"
+          [sample]="sample"></app-google-font-item>
       </cdk-virtual-scroll-viewport>
     </mat-tab>
   </mat-tab-group>

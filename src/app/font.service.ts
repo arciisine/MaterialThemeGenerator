@@ -30,10 +30,11 @@ export class FontService {
     });
   }
 
-  getFonts(category: string, filter?: string) {
+  getFonts(categories: string | string[], filter?: string) {
+    const cats = Array.isArray(categories) ? categories : [categories];
     const out = (this._fonts || [])
       .filter(x => filter ? x.family.toLowerCase().startsWith(filter.toLowerCase()) : true)
-      .filter(x => x.category === category);
+      .filter(x => cats.includes(x.category));
 
     return out;
   }
