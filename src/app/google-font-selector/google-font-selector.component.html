@@ -27,14 +27,14 @@
           [sample]="sample"></app-google-font-item>
       </cdk-virtual-scroll-viewport>
     </mat-tab>
-    <mat-tab label="Display" #sTab>
-      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="sTab.isActive">
-        <app-google-font-item *cdkVirtualFor="let f of getFonts(['display', 'handwriting'])" (click)="pickFont(f)"
-          [f]="f" [sample]="sample"></app-google-font-item>
+    <mat-tab label="Display" #dTab>
+      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="dTab.isActive">
+        <app-google-font-item *cdkVirtualFor="let f of getFonts('display', 'handwriting')" (click)="pickFont(f)" [f]="f"
+          [sample]="sample"></app-google-font-item>
       </cdk-virtual-scroll-viewport>
     </mat-tab>
-    <mat-tab label="Monospace" #sTab>
-      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="sTab.isActive">
+    <mat-tab label="Monospace" #mTab>
+      <cdk-virtual-scroll-viewport itemSize="50" *ngIf="mTab.isActive">
         <app-google-font-item *cdkVirtualFor="let f of getFonts('monospace')" (click)="pickFont(f)" [f]="f"
           [sample]="sample"></app-google-font-item>
       </cdk-virtual-scroll-viewport>

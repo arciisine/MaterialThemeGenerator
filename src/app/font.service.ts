@@ -58,7 +58,7 @@ export class FontService {
     try {
       const link = document.createElement('link');
       link.onerror = x => console.log('Unable to load font:', family);
-      link.href = `https://fonts.googleapis.com/css?family=${family.replace(/ /g, '+')}:400`;
+      link.href = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, '+')}:wght@400`;
       link.rel = 'stylesheet';
 
       document.head.appendChild(link);

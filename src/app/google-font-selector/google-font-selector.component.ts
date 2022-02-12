@@ -29,7 +29,7 @@ export class GoogleFontSelectorComponent implements OnInit {
     }
   }
 
-  getFonts(categories: string | string[]) {
+  getFonts(...categories: string[]) {
     return this.fontService.getFonts(categories, this.filter);
   }
 
