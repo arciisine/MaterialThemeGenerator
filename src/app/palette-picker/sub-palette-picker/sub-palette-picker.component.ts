@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ThemeService } from 'src/app/theme.service';
 import { filter } from 'rxjs/operators';
 import { MaterialPalette, RenderService } from 'src/app/render.service';
@@ -14,11 +14,11 @@ export class SubPalettePickerComponent implements OnInit {
   material: MaterialPalette;
 
   @Input()
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   backdrop: boolean;
 
-  unlocked = new FormControl(false);
+  unlocked = new UntypedFormControl(false);
 
   materialKeys = [...Object.keys(RenderService.MIX_AMOUNTS_PRIMARY), ...Object.keys(RenderService.MIX_AMOUNTS_SECONDARY)];
 

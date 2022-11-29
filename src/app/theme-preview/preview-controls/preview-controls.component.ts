@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-preview-controls',
@@ -7,17 +7,17 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./preview-controls.component.scss']
 })
 export class PreviewControlsComponent implements OnInit {
-  addressForm = new FormGroup({
-    large: new FormControl(false),
-    quantity: new FormControl(10),
-    name: new FormControl(null, Validators.required),
-    street: new FormControl(null, Validators.required),
-    city: new FormControl(null, Validators.required),
-    state: new FormControl(null, Validators.required),
-    postalCode: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
-    shipping: new FormControl('free', Validators.required),
-    tracking: new FormControl(true),
-    arrival: new FormControl(new Date())
+  addressForm = new UntypedFormGroup({
+    large: new UntypedFormControl(false),
+    quantity: new UntypedFormControl(10),
+    name: new UntypedFormControl(null, Validators.required),
+    street: new UntypedFormControl(null, Validators.required),
+    city: new UntypedFormControl(null, Validators.required),
+    state: new UntypedFormControl(null, Validators.required),
+    postalCode: new UntypedFormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
+    shipping: new UntypedFormControl('free', Validators.required),
+    tracking: new UntypedFormControl(true),
+    arrival: new UntypedFormControl(new Date())
   });
 
   states = [

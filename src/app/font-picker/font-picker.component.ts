@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ThemeService } from '../theme.service';
 import { FontService, FontMeta } from '../font.service';
 import { DEFAULT_FONTS, AllFontSelection, FontSelection } from './types';
@@ -22,22 +22,22 @@ export class FontPickerComponent implements OnInit {
 
   variants = ['regular', 'medium', 'light'];
 
-  items: FormArray;
+  items: UntypedFormArray;
 
-  form: FormGroup = new FormGroup({
-    family: new FormControl()
+  form: UntypedFormGroup = new UntypedFormGroup({
+    family: new UntypedFormControl()
   });
 
   selectedIndex = -1;
 
   searchItems: Observable<FontMeta[]>;
 
-  search = new FormControl();
+  search = new UntypedFormControl();
 
-  all: FormGroup;
-  editing: FormGroup;
+  all: UntypedFormGroup;
+  editing: UntypedFormGroup;
 
-  constructor(fb: FormBuilder,
+  constructor(fb: UntypedFormBuilder,
     private service: ThemeService,
     private dialog: MatDialog,
     private fontService: FontService
@@ -46,21 +46,21 @@ export class FontPickerComponent implements OnInit {
       this.fonts[k] = { ...DEFAULT_FONTS[k] };
     }
 
-    this.all = new FormGroup({
-      target: new FormControl(null),
-      family: new FormControl(null),
-      variant: new FormControl(null),
-      lineHeight: new FormControl(null),
-      size: new FormControl(null),
-      spacing: new FormControl(null),
-      capitalized: new FormControl(null),
+    this.all = new UntypedFormGroup({
+      target: new UntypedFormControl(null),
+      family: new UntypedFormControl(null),
+      variant: new UntypedFormControl(null),
+      lineHeight: new UntypedFormControl(null),
+      size: new UntypedFormControl(null),
+      spacing: new UntypedFormControl(null),
+      capitalized: new UntypedFormControl(null),
     });
 
     this.all.valueChanges.subscribe((v) => {
       const keys = Object.keys(v).filter(k => v[k] !== null);
       for (const ctrl of this.items.controls) {
         for (const k of keys) {
-          (ctrl as FormGroup).get(k).setValue(v[k]);
+          (ctrl as UntypedFormGroup).get(k).setValue(v[k]);
         }
       }
       this.form.updateValueAndValidity();
@@ -69,7 +69,7 @@ export class FontPickerComponent implements OnInit {
     this.items = fb.array(this.keys.map(x =>
       fb.group({
         target: fb.control(this.fonts[x].target),
-        family: new FormControl(this.fonts[x].family),
+        family: new UntypedFormControl(this.fonts[x].family),
         variant: fb.control(this.fonts[x].variant),
         lineHeight: fb.control(this.fonts[x].lineHeight),
         size: fb.control(this.fonts[x].size),
@@ -125,7 +125,7 @@ export class FontPickerComponent implements OnInit {
     if (this.selectedIndex >= 0) {
       this.search.setValue(this.items.at(idx).value.family);
     }
-    this.editing = this.items.at(idx) as FormGroup;
+    this.editing = this.items.at(idx) as UntypedFormGroup;
   }
 
   editAll() {

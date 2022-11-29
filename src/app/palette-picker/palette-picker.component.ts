@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../theme.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 
 import * as tinycolor from 'tinycolor2';
 import { SubPalette } from '../render.service';
@@ -22,29 +22,29 @@ export interface Palette {
 })
 export class PalettePickerComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(private service: ThemeService) {
-    this.form = new FormGroup({
-      primary: new FormGroup({
-        main: new FormControl(''),
-        lighter: new FormControl(''),
-        darker: new FormControl('')
+    this.form = new UntypedFormGroup({
+      primary: new UntypedFormGroup({
+        main: new UntypedFormControl(''),
+        lighter: new UntypedFormControl(''),
+        darker: new UntypedFormControl('')
       }),
-      accent: new FormGroup({
-        main: new FormControl(''),
-        lighter: new FormControl(''),
-        darker: new FormControl('')
+      accent: new UntypedFormGroup({
+        main: new UntypedFormControl(''),
+        lighter: new UntypedFormControl(''),
+        darker: new UntypedFormControl('')
       }),
-      warn: new FormGroup({
-        main: new FormControl(''),
-        lighter: new FormControl(''),
-        darker: new FormControl('')
+      warn: new UntypedFormGroup({
+        main: new UntypedFormControl(''),
+        lighter: new UntypedFormControl(''),
+        darker: new UntypedFormControl('')
       }),
-      lightText: new FormControl('', []),
-      lightBackground: new FormControl('', []),
-      darkText: new FormControl('', []),
-      darkBackground: new FormControl('', []),
+      lightText: new UntypedFormControl('', []),
+      lightBackground: new UntypedFormControl('', []),
+      darkText: new UntypedFormControl('', []),
+      darkBackground: new UntypedFormControl('', []),
     });
 
     // this.form.valueChanges
@@ -66,7 +66,7 @@ export class PalettePickerComponent implements OnInit {
     }
   }
 
-  validateLegibility(form: FormGroup) {
+  validateLegibility(form: UntypedFormGroup) {
     const f = form.value;
 
     const lightText = f.lightText;

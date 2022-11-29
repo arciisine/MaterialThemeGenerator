@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, NgZone } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 import { debounceTime, take, switchMap } from 'rxjs/operators';
@@ -21,19 +21,19 @@ import { RenderService, Theme } from '../render.service';
 })
 export class ThemeBuilderComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   refresh: Subject<number> = new Subject();
   ready: Subject<boolean> = new Subject();
-  showSource = new FormControl(false);
+  showSource = new UntypedFormControl(false);
   showingSource = false;
   isReady: boolean;
   source = '';
   css = '';
   sourcePretty: SafeHtml = '';
   first = true;
-  version = new FormControl(11);
-  exporter = new FormControl(0);
+  version = new UntypedFormControl(11);
+  exporter = new UntypedFormControl(0);
 
   constructor(private el: ElementRef, private zone: NgZone,
     private snackbar: MatSnackBar, private dialog: MatDialog,

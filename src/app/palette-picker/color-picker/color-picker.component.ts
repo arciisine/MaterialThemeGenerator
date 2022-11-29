@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as tinycolor from 'tinycolor2';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-color-picker',
@@ -12,7 +12,7 @@ export class ColorPickerComponent implements OnInit {
   backdrop = false;
 
   @Input()
-  control: FormControl;
+  control: UntypedFormControl;
 
   @Input()
   disabled: boolean;

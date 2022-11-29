@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ThemeService } from '../theme.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ThemeService } from '../theme.service';
 })
 export class LightnessPickerComponent implements OnInit {
 
-  lightness = new FormControl(false);
+  lightness = new UntypedFormControl(false);
 
   constructor(private service: ThemeService) { }
 

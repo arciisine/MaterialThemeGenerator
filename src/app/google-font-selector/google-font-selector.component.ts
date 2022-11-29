@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FontService } from '../font.service';
 import { FontMeta } from '../font-picker/types';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -19,9 +19,9 @@ export class GoogleFontSelectorComponent implements OnInit {
 
   sample = 'The quick brown fox jumps over the lazy dog';
 
-  search = new FormControl();
+  search = new UntypedFormControl();
 
-  constructor(private fontService: FontService, @Inject(MAT_DIALOG_DATA) public form: FormGroup, private ref: MatDialogRef<any, any>) { }
+  constructor(private fontService: FontService, @Inject(MAT_DIALOG_DATA) public form: UntypedFormGroup, private ref: MatDialogRef<any, any>) { }
 
   ngOnInit() {
     if (this.form.value.family) {

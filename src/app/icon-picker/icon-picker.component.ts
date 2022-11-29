@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { filter, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { IconNotifyComponent } from './icon-notify/icon-notify.component';
@@ -14,7 +14,7 @@ export type IconSelection = 'Filled' | 'Outlined' | 'Rounded' | 'TwoTone' | 'Sha
 })
 export class IconPickerComponent implements OnInit {
 
-  iconSet = new FormControl('Filled');
+  iconSet = new UntypedFormControl('Filled');
   opts = ['Filled', 'Outlined', 'Rounded', 'TwoTone', 'Sharp'];
 
   notified = false;

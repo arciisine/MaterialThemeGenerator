@@ -119,11 +119,6 @@ import { PreviewGeneralComponent } from './theme-preview/preview-general/preview
     MatButtonToggleModule,
     MatExpansionModule
   ],
-  entryComponents: [
-    CreditsComponent,
-    GoogleFontSelectorComponent,
-    IconNotifyComponent
-  ],
   providers: [],
   bootstrap: [AppComponent]
 })
